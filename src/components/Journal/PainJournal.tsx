@@ -1,9 +1,9 @@
 import React, { useState, useMemo } from 'react';
 import { PainEntry, BodyZone, BODY_ZONE_LABELS } from '@/types/pain';
 import { PainEntryCard } from './PainEntryCard';
-import { Filter, Calendar, TrendingUp, ChevronDown } from 'lucide-react';
-import { format, subDays, isWithinInterval, startOfDay, endOfDay } from 'date-fns';
-import { fr } from 'date-fns/locale';
+import { ExportDialog } from './ExportDialog';
+import { Filter, Calendar, ChevronDown, Share2 } from 'lucide-react';
+import { subDays, isWithinInterval, startOfDay, endOfDay } from 'date-fns';
 
 interface PainJournalProps {
   entries: PainEntry[];
@@ -18,6 +18,7 @@ export function PainJournal({ entries, onDeleteEntry }: PainJournalProps) {
   const [intensityFilter, setIntensityFilter] = useState<IntensityFilter>('all');
   const [zoneFilter, setZoneFilter] = useState<BodyZone | 'all'>('all');
   const [showFilters, setShowFilters] = useState(false);
+  const [showExportDialog, setShowExportDialog] = useState(false);
 
   const allZones = useMemo(() => {
     const zones = new Set<BodyZone>();
@@ -175,10 +176,26 @@ export function PainJournal({ entries, onDeleteEntry }: PainJournalProps) {
         </div>
       )}
 
-      {/* Results Count */}
-      <div className="flex items-center justify-between text-sm text-muted-foreground">
-        <span>{filteredEntries.length} enregistrement{filteredEntries.length > 1 ? 's' : ''}</span>
+      {/* Results Count & Export Button */}
+      <div className="flex items-center justify-between text-sm">
+        <span className="text-muted-foreground">
+          {filteredEntries.length} enregistrement{filteredEntries.length > 1 ? 's' : ''}
+        </span>
+        <button
+          onClick={() => setShowExportDialog(true)}
+          className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-primary text-primary-foreground text-xs font-medium hover:bg-primary/90 transition-colors"
+        >
+          <Share2 className="w-3.5 h-3.5" />
+          Exporter
+        </button>
       </div>
+
+      {/* Export Dialog */}
+      <ExportDialog
+        open={showExportDialog}
+        onOpenChange={setShowExportDialog}
+        entries={filteredEntries}
+      />
 
       {/* Entries List */}
       <div className="space-y-3">

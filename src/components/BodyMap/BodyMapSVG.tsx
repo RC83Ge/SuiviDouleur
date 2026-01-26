@@ -37,6 +37,174 @@ export function BodyMapSVG({
     selectedZones.includes(zone) && 'selected'
   );
 
+  // Anatomical detail lines component
+  const AnatomicalDetails = ({ isFront }: { isFront: boolean }) => (
+    <g className="anatomical-details pointer-events-none" opacity="0.3">
+      {/* Face details */}
+      {isFront && (
+        <>
+          {/* Eyes line */}
+          <ellipse cx="88" cy="38" rx="5" ry="3" fill="none" stroke="hsl(var(--foreground))" strokeWidth="0.5" />
+          <ellipse cx="112" cy="38" rx="5" ry="3" fill="none" stroke="hsl(var(--foreground))" strokeWidth="0.5" />
+          {/* Nose */}
+          <path d="M 100 42 L 100 52 M 96 52 Q 100 56 104 52" fill="none" stroke="hsl(var(--foreground))" strokeWidth="0.5" />
+          {/* Mouth */}
+          <path d="M 92 60 Q 100 65 108 60" fill="none" stroke="hsl(var(--foreground))" strokeWidth="0.5" />
+        </>
+      )}
+
+      {/* Neck muscles - sternocleidomastoid */}
+      <path d="M 88 78 Q 85 88 85 95" fill="none" stroke="hsl(var(--foreground))" strokeWidth="0.5" />
+      <path d="M 112 78 Q 115 88 115 95" fill="none" stroke="hsl(var(--foreground))" strokeWidth="0.5" />
+
+      {/* Clavicle lines */}
+      <path d="M 70 100 Q 85 95 100 98 Q 115 95 130 100" fill="none" stroke="hsl(var(--foreground))" strokeWidth="0.6" />
+
+      {isFront ? (
+        <>
+          {/* Chest - pectoral muscles */}
+          <path d="M 72 110 Q 85 120 100 115 Q 115 120 128 110" fill="none" stroke="hsl(var(--foreground))" strokeWidth="0.5" />
+          <path d="M 75 125 Q 87 135 100 130" fill="none" stroke="hsl(var(--foreground))" strokeWidth="0.4" />
+          <path d="M 125 125 Q 113 135 100 130" fill="none" stroke="hsl(var(--foreground))" strokeWidth="0.4" />
+          
+          {/* Sternum line */}
+          <path d="M 100 100 L 100 155" fill="none" stroke="hsl(var(--foreground))" strokeWidth="0.5" />
+          
+          {/* Ribcage hints */}
+          <path d="M 75 140 Q 87 145 100 142" fill="none" stroke="hsl(var(--foreground))" strokeWidth="0.3" opacity="0.5" />
+          <path d="M 125 140 Q 113 145 100 142" fill="none" stroke="hsl(var(--foreground))" strokeWidth="0.3" opacity="0.5" />
+          <path d="M 78 150 Q 88 154 100 152" fill="none" stroke="hsl(var(--foreground))" strokeWidth="0.3" opacity="0.5" />
+          <path d="M 122 150 Q 112 154 100 152" fill="none" stroke="hsl(var(--foreground))" strokeWidth="0.3" opacity="0.5" />
+
+          {/* Abdomen - rectus abdominis */}
+          <path d="M 100 165 L 100 225" fill="none" stroke="hsl(var(--foreground))" strokeWidth="0.5" />
+          <path d="M 82 170 L 118 170" fill="none" stroke="hsl(var(--foreground))" strokeWidth="0.3" />
+          <path d="M 80 185 L 120 185" fill="none" stroke="hsl(var(--foreground))" strokeWidth="0.3" />
+          <path d="M 78 200 L 122 200" fill="none" stroke="hsl(var(--foreground))" strokeWidth="0.3" />
+          <path d="M 76 215 L 124 215" fill="none" stroke="hsl(var(--foreground))" strokeWidth="0.3" />
+          
+          {/* Navel */}
+          <circle cx="100" cy="195" r="3" fill="none" stroke="hsl(var(--foreground))" strokeWidth="0.5" />
+        </>
+      ) : (
+        <>
+          {/* Back - spine */}
+          <path d="M 100 80 L 100 235" fill="none" stroke="hsl(var(--foreground))" strokeWidth="0.6" />
+          
+          {/* Scapula */}
+          <path d="M 72 105 Q 80 120 85 135 Q 88 140 90 135" fill="none" stroke="hsl(var(--foreground))" strokeWidth="0.5" />
+          <path d="M 128 105 Q 120 120 115 135 Q 112 140 110 135" fill="none" stroke="hsl(var(--foreground))" strokeWidth="0.5" />
+          
+          {/* Trapezius muscle lines */}
+          <path d="M 100 85 Q 85 95 70 105" fill="none" stroke="hsl(var(--foreground))" strokeWidth="0.4" />
+          <path d="M 100 85 Q 115 95 130 105" fill="none" stroke="hsl(var(--foreground))" strokeWidth="0.4" />
+          
+          {/* Latissimus dorsi */}
+          <path d="M 68 130 Q 75 160 78 190" fill="none" stroke="hsl(var(--foreground))" strokeWidth="0.4" />
+          <path d="M 132 130 Q 125 160 122 190" fill="none" stroke="hsl(var(--foreground))" strokeWidth="0.4" />
+          
+          {/* Lower back - erector spinae */}
+          <path d="M 92 180 L 92 230" fill="none" stroke="hsl(var(--foreground))" strokeWidth="0.3" />
+          <path d="M 108 180 L 108 230" fill="none" stroke="hsl(var(--foreground))" strokeWidth="0.3" />
+        </>
+      )}
+
+      {/* Shoulder deltoid definition */}
+      <path d="M 50 108 Q 45 115 45 125" fill="none" stroke="hsl(var(--foreground))" strokeWidth="0.4" />
+      <path d="M 150 108 Q 155 115 155 125" fill="none" stroke="hsl(var(--foreground))" strokeWidth="0.4" />
+
+      {/* Arm - bicep/tricep line */}
+      <path d="M 45 130 L 48 175" fill="none" stroke="hsl(var(--foreground))" strokeWidth="0.4" />
+      <path d="M 155 130 L 152 175" fill="none" stroke="hsl(var(--foreground))" strokeWidth="0.4" />
+
+      {/* Elbow joint circles */}
+      <circle cx="39" cy="185" r="6" fill="none" stroke="hsl(var(--foreground))" strokeWidth="0.5" />
+      <circle cx="161" cy="185" r="6" fill="none" stroke="hsl(var(--foreground))" strokeWidth="0.5" />
+
+      {/* Forearm muscle lines */}
+      <path d="M 35 195 L 30 255" fill="none" stroke="hsl(var(--foreground))" strokeWidth="0.3" />
+      <path d="M 42 195 L 38 255" fill="none" stroke="hsl(var(--foreground))" strokeWidth="0.3" />
+      <path d="M 165 195 L 170 255" fill="none" stroke="hsl(var(--foreground))" strokeWidth="0.3" />
+      <path d="M 158 195 L 162 255" fill="none" stroke="hsl(var(--foreground))" strokeWidth="0.3" />
+
+      {/* Wrist lines */}
+      <path d="M 22 268 L 38 268" fill="none" stroke="hsl(var(--foreground))" strokeWidth="0.4" />
+      <path d="M 162 268 L 178 268" fill="none" stroke="hsl(var(--foreground))" strokeWidth="0.4" />
+
+      {/* Hand details - knuckles */}
+      <path d="M 18 290 Q 25 288 32 290" fill="none" stroke="hsl(var(--foreground))" strokeWidth="0.3" />
+      <path d="M 168 290 Q 175 288 182 290" fill="none" stroke="hsl(var(--foreground))" strokeWidth="0.3" />
+
+      {/* Hip bone lines - iliac crest */}
+      <path d="M 68 230 Q 60 240 55 260" fill="none" stroke="hsl(var(--foreground))" strokeWidth="0.4" />
+      <path d="M 132 230 Q 140 240 145 260" fill="none" stroke="hsl(var(--foreground))" strokeWidth="0.4" />
+
+      {/* Groin/hip crease */}
+      {isFront && (
+        <>
+          <path d="M 75 260 Q 85 275 95 280" fill="none" stroke="hsl(var(--foreground))" strokeWidth="0.4" />
+          <path d="M 125 260 Q 115 275 105 280" fill="none" stroke="hsl(var(--foreground))" strokeWidth="0.4" />
+        </>
+      )}
+
+      {/* Thigh muscle definition */}
+      <path d="M 60 290 L 58 370" fill="none" stroke="hsl(var(--foreground))" strokeWidth="0.4" />
+      <path d="M 75 290 L 77 370" fill="none" stroke="hsl(var(--foreground))" strokeWidth="0.4" />
+      <path d="M 140 290 L 142 370" fill="none" stroke="hsl(var(--foreground))" strokeWidth="0.4" />
+      <path d="M 125 290 L 123 370" fill="none" stroke="hsl(var(--foreground))" strokeWidth="0.4" />
+
+      {/* Knee cap - patella */}
+      {isFront && (
+        <>
+          <ellipse cx="68" cy="400" rx="8" ry="10" fill="none" stroke="hsl(var(--foreground))" strokeWidth="0.5" />
+          <ellipse cx="132" cy="400" rx="8" ry="10" fill="none" stroke="hsl(var(--foreground))" strokeWidth="0.5" />
+        </>
+      )}
+
+      {/* Knee joint definition */}
+      <path d="M 55 395 Q 68 390 80 395" fill="none" stroke="hsl(var(--foreground))" strokeWidth="0.4" />
+      <path d="M 120 395 Q 132 390 145 395" fill="none" stroke="hsl(var(--foreground))" strokeWidth="0.4" />
+      <path d="M 55 425 Q 68 430 80 425" fill="none" stroke="hsl(var(--foreground))" strokeWidth="0.4" />
+      <path d="M 120 425 Q 132 430 145 425" fill="none" stroke="hsl(var(--foreground))" strokeWidth="0.4" />
+
+      {/* Calf muscle - gastrocnemius */}
+      <path d="M 58 445 Q 55 480 55 520" fill="none" stroke="hsl(var(--foreground))" strokeWidth="0.4" />
+      <path d="M 72 445 Q 75 480 75 520" fill="none" stroke="hsl(var(--foreground))" strokeWidth="0.4" />
+      <path d="M 142 445 Q 145 480 145 520" fill="none" stroke="hsl(var(--foreground))" strokeWidth="0.4" />
+      <path d="M 128 445 Q 125 480 125 520" fill="none" stroke="hsl(var(--foreground))" strokeWidth="0.4" />
+
+      {/* Shin bone - tibia line */}
+      {isFront && (
+        <>
+          <path d="M 65 445 L 63 545" fill="none" stroke="hsl(var(--foreground))" strokeWidth="0.4" />
+          <path d="M 135 445 L 137 545" fill="none" stroke="hsl(var(--foreground))" strokeWidth="0.4" />
+        </>
+      )}
+
+      {/* Achilles tendon */}
+      {!isFront && (
+        <>
+          <path d="M 64 530 L 64 560" fill="none" stroke="hsl(var(--foreground))" strokeWidth="0.5" />
+          <path d="M 136 530 L 136 560" fill="none" stroke="hsl(var(--foreground))" strokeWidth="0.5" />
+        </>
+      )}
+
+      {/* Ankle bone - malleolus */}
+      <circle cx="55" cy="552" r="4" fill="none" stroke="hsl(var(--foreground))" strokeWidth="0.4" />
+      <circle cx="75" cy="552" r="4" fill="none" stroke="hsl(var(--foreground))" strokeWidth="0.4" />
+      <circle cx="145" cy="552" r="4" fill="none" stroke="hsl(var(--foreground))" strokeWidth="0.4" />
+      <circle cx="125" cy="552" r="4" fill="none" stroke="hsl(var(--foreground))" strokeWidth="0.4" />
+
+      {/* Foot arch */}
+      {isFront && (
+        <>
+          <path d="M 55 575 Q 65 585 75 575" fill="none" stroke="hsl(var(--foreground))" strokeWidth="0.3" />
+          <path d="M 125 575 Q 135 585 145 575" fill="none" stroke="hsl(var(--foreground))" strokeWidth="0.3" />
+        </>
+      )}
+    </g>
+  );
+
   // Front view zones with more human-like paths
   const frontZones = (
     <>
@@ -354,6 +522,9 @@ export function BodyMapSVG({
         onClick={handleClick('right-foot')}
         style={{ fill: getZoneColor('right-foot', selectedZones, zoneIntensities['right-foot']) }}
       />
+      
+      {/* Anatomical details overlay */}
+      <AnatomicalDetails isFront={true} />
     </>
   );
 
@@ -672,6 +843,9 @@ export function BodyMapSVG({
         onClick={handleClick('right-foot')}
         style={{ fill: getZoneColor('right-foot', selectedZones, zoneIntensities['right-foot']) }}
       />
+      
+      {/* Anatomical details overlay */}
+      <AnatomicalDetails isFront={false} />
     </>
   );
 

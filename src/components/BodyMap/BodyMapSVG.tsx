@@ -12,12 +12,12 @@ interface BodyMapSVGProps {
 
 const getZoneColor = (zone: BodyZone, selectedZones: BodyZone[], intensity?: number) => {
   if (!selectedZones.includes(zone)) {
-    return 'hsl(var(--zone-default))';
+    return 'transparent';
   }
   if (intensity !== undefined) {
-    return `hsl(var(--pain-${intensity}))`;
+    return `hsl(var(--pain-${intensity}) / 0.4)`;
   }
-  return 'hsl(var(--zone-selected))';
+  return 'hsl(var(--zone-selected) / 0.4)';
 };
 
 export function BodyMapSVG({ 
@@ -33,829 +33,752 @@ export function BodyMapSVG({
   };
 
   const zoneClass = (zone: BodyZone) => cn(
-    'body-zone cursor-pointer transition-all duration-200',
+    'body-zone cursor-pointer transition-all duration-200 hover:fill-primary/20',
     selectedZones.includes(zone) && 'selected'
   );
 
-  // Anatomical detail lines component
-  const AnatomicalDetails = ({ isFront }: { isFront: boolean }) => (
-    <g className="anatomical-details pointer-events-none" opacity="0.3">
-      {/* Face details */}
-      {isFront && (
-        <>
-          {/* Eyes line */}
-          <ellipse cx="88" cy="38" rx="5" ry="3" fill="none" stroke="hsl(var(--foreground))" strokeWidth="0.5" />
-          <ellipse cx="112" cy="38" rx="5" ry="3" fill="none" stroke="hsl(var(--foreground))" strokeWidth="0.5" />
-          {/* Nose */}
-          <path d="M 100 42 L 100 52 M 96 52 Q 100 56 104 52" fill="none" stroke="hsl(var(--foreground))" strokeWidth="0.5" />
-          {/* Mouth */}
-          <path d="M 92 60 Q 100 65 108 60" fill="none" stroke="hsl(var(--foreground))" strokeWidth="0.5" />
-        </>
-      )}
+  const strokeColor = 'hsl(var(--foreground) / 0.7)';
+  const strokeWidth = '1.2';
+  const detailStrokeWidth = '0.6';
 
-      {/* Neck muscles - sternocleidomastoid */}
-      <path d="M 88 78 Q 85 88 85 95" fill="none" stroke="hsl(var(--foreground))" strokeWidth="0.5" />
-      <path d="M 112 78 Q 115 88 115 95" fill="none" stroke="hsl(var(--foreground))" strokeWidth="0.5" />
-
-      {/* Clavicle lines */}
-      <path d="M 70 100 Q 85 95 100 98 Q 115 95 130 100" fill="none" stroke="hsl(var(--foreground))" strokeWidth="0.6" />
-
-      {isFront ? (
-        <>
-          {/* Chest - pectoral muscles */}
-          <path d="M 72 110 Q 85 120 100 115 Q 115 120 128 110" fill="none" stroke="hsl(var(--foreground))" strokeWidth="0.5" />
-          <path d="M 75 125 Q 87 135 100 130" fill="none" stroke="hsl(var(--foreground))" strokeWidth="0.4" />
-          <path d="M 125 125 Q 113 135 100 130" fill="none" stroke="hsl(var(--foreground))" strokeWidth="0.4" />
-          
-          {/* Sternum line */}
-          <path d="M 100 100 L 100 155" fill="none" stroke="hsl(var(--foreground))" strokeWidth="0.5" />
-          
-          {/* Ribcage hints */}
-          <path d="M 75 140 Q 87 145 100 142" fill="none" stroke="hsl(var(--foreground))" strokeWidth="0.3" opacity="0.5" />
-          <path d="M 125 140 Q 113 145 100 142" fill="none" stroke="hsl(var(--foreground))" strokeWidth="0.3" opacity="0.5" />
-          <path d="M 78 150 Q 88 154 100 152" fill="none" stroke="hsl(var(--foreground))" strokeWidth="0.3" opacity="0.5" />
-          <path d="M 122 150 Q 112 154 100 152" fill="none" stroke="hsl(var(--foreground))" strokeWidth="0.3" opacity="0.5" />
-
-          {/* Abdomen - rectus abdominis */}
-          <path d="M 100 165 L 100 225" fill="none" stroke="hsl(var(--foreground))" strokeWidth="0.5" />
-          <path d="M 82 170 L 118 170" fill="none" stroke="hsl(var(--foreground))" strokeWidth="0.3" />
-          <path d="M 80 185 L 120 185" fill="none" stroke="hsl(var(--foreground))" strokeWidth="0.3" />
-          <path d="M 78 200 L 122 200" fill="none" stroke="hsl(var(--foreground))" strokeWidth="0.3" />
-          <path d="M 76 215 L 124 215" fill="none" stroke="hsl(var(--foreground))" strokeWidth="0.3" />
-          
-          {/* Navel */}
-          <circle cx="100" cy="195" r="3" fill="none" stroke="hsl(var(--foreground))" strokeWidth="0.5" />
-        </>
-      ) : (
-        <>
-          {/* Back - spine */}
-          <path d="M 100 80 L 100 235" fill="none" stroke="hsl(var(--foreground))" strokeWidth="0.6" />
-          
-          {/* Scapula */}
-          <path d="M 72 105 Q 80 120 85 135 Q 88 140 90 135" fill="none" stroke="hsl(var(--foreground))" strokeWidth="0.5" />
-          <path d="M 128 105 Q 120 120 115 135 Q 112 140 110 135" fill="none" stroke="hsl(var(--foreground))" strokeWidth="0.5" />
-          
-          {/* Trapezius muscle lines */}
-          <path d="M 100 85 Q 85 95 70 105" fill="none" stroke="hsl(var(--foreground))" strokeWidth="0.4" />
-          <path d="M 100 85 Q 115 95 130 105" fill="none" stroke="hsl(var(--foreground))" strokeWidth="0.4" />
-          
-          {/* Latissimus dorsi */}
-          <path d="M 68 130 Q 75 160 78 190" fill="none" stroke="hsl(var(--foreground))" strokeWidth="0.4" />
-          <path d="M 132 130 Q 125 160 122 190" fill="none" stroke="hsl(var(--foreground))" strokeWidth="0.4" />
-          
-          {/* Lower back - erector spinae */}
-          <path d="M 92 180 L 92 230" fill="none" stroke="hsl(var(--foreground))" strokeWidth="0.3" />
-          <path d="M 108 180 L 108 230" fill="none" stroke="hsl(var(--foreground))" strokeWidth="0.3" />
-        </>
-      )}
-
-      {/* Shoulder deltoid definition */}
-      <path d="M 50 108 Q 45 115 45 125" fill="none" stroke="hsl(var(--foreground))" strokeWidth="0.4" />
-      <path d="M 150 108 Q 155 115 155 125" fill="none" stroke="hsl(var(--foreground))" strokeWidth="0.4" />
-
-      {/* Arm - bicep/tricep line */}
-      <path d="M 45 130 L 48 175" fill="none" stroke="hsl(var(--foreground))" strokeWidth="0.4" />
-      <path d="M 155 130 L 152 175" fill="none" stroke="hsl(var(--foreground))" strokeWidth="0.4" />
-
-      {/* Elbow joint circles */}
-      <circle cx="39" cy="185" r="6" fill="none" stroke="hsl(var(--foreground))" strokeWidth="0.5" />
-      <circle cx="161" cy="185" r="6" fill="none" stroke="hsl(var(--foreground))" strokeWidth="0.5" />
-
-      {/* Forearm muscle lines */}
-      <path d="M 35 195 L 30 255" fill="none" stroke="hsl(var(--foreground))" strokeWidth="0.3" />
-      <path d="M 42 195 L 38 255" fill="none" stroke="hsl(var(--foreground))" strokeWidth="0.3" />
-      <path d="M 165 195 L 170 255" fill="none" stroke="hsl(var(--foreground))" strokeWidth="0.3" />
-      <path d="M 158 195 L 162 255" fill="none" stroke="hsl(var(--foreground))" strokeWidth="0.3" />
-
-      {/* Wrist lines */}
-      <path d="M 22 268 L 38 268" fill="none" stroke="hsl(var(--foreground))" strokeWidth="0.4" />
-      <path d="M 162 268 L 178 268" fill="none" stroke="hsl(var(--foreground))" strokeWidth="0.4" />
-
-      {/* Hand details - knuckles */}
-      <path d="M 18 290 Q 25 288 32 290" fill="none" stroke="hsl(var(--foreground))" strokeWidth="0.3" />
-      <path d="M 168 290 Q 175 288 182 290" fill="none" stroke="hsl(var(--foreground))" strokeWidth="0.3" />
-
-      {/* Hip bone lines - iliac crest */}
-      <path d="M 68 230 Q 60 240 55 260" fill="none" stroke="hsl(var(--foreground))" strokeWidth="0.4" />
-      <path d="M 132 230 Q 140 240 145 260" fill="none" stroke="hsl(var(--foreground))" strokeWidth="0.4" />
-
-      {/* Groin/hip crease */}
-      {isFront && (
-        <>
-          <path d="M 75 260 Q 85 275 95 280" fill="none" stroke="hsl(var(--foreground))" strokeWidth="0.4" />
-          <path d="M 125 260 Q 115 275 105 280" fill="none" stroke="hsl(var(--foreground))" strokeWidth="0.4" />
-        </>
-      )}
-
-      {/* Thigh muscle definition */}
-      <path d="M 60 290 L 58 370" fill="none" stroke="hsl(var(--foreground))" strokeWidth="0.4" />
-      <path d="M 75 290 L 77 370" fill="none" stroke="hsl(var(--foreground))" strokeWidth="0.4" />
-      <path d="M 140 290 L 142 370" fill="none" stroke="hsl(var(--foreground))" strokeWidth="0.4" />
-      <path d="M 125 290 L 123 370" fill="none" stroke="hsl(var(--foreground))" strokeWidth="0.4" />
-
-      {/* Knee cap - patella */}
-      {isFront && (
-        <>
-          <ellipse cx="68" cy="400" rx="8" ry="10" fill="none" stroke="hsl(var(--foreground))" strokeWidth="0.5" />
-          <ellipse cx="132" cy="400" rx="8" ry="10" fill="none" stroke="hsl(var(--foreground))" strokeWidth="0.5" />
-        </>
-      )}
-
-      {/* Knee joint definition */}
-      <path d="M 55 395 Q 68 390 80 395" fill="none" stroke="hsl(var(--foreground))" strokeWidth="0.4" />
-      <path d="M 120 395 Q 132 390 145 395" fill="none" stroke="hsl(var(--foreground))" strokeWidth="0.4" />
-      <path d="M 55 425 Q 68 430 80 425" fill="none" stroke="hsl(var(--foreground))" strokeWidth="0.4" />
-      <path d="M 120 425 Q 132 430 145 425" fill="none" stroke="hsl(var(--foreground))" strokeWidth="0.4" />
-
-      {/* Calf muscle - gastrocnemius */}
-      <path d="M 58 445 Q 55 480 55 520" fill="none" stroke="hsl(var(--foreground))" strokeWidth="0.4" />
-      <path d="M 72 445 Q 75 480 75 520" fill="none" stroke="hsl(var(--foreground))" strokeWidth="0.4" />
-      <path d="M 142 445 Q 145 480 145 520" fill="none" stroke="hsl(var(--foreground))" strokeWidth="0.4" />
-      <path d="M 128 445 Q 125 480 125 520" fill="none" stroke="hsl(var(--foreground))" strokeWidth="0.4" />
-
-      {/* Shin bone - tibia line */}
-      {isFront && (
-        <>
-          <path d="M 65 445 L 63 545" fill="none" stroke="hsl(var(--foreground))" strokeWidth="0.4" />
-          <path d="M 135 445 L 137 545" fill="none" stroke="hsl(var(--foreground))" strokeWidth="0.4" />
-        </>
-      )}
-
-      {/* Achilles tendon */}
-      {!isFront && (
-        <>
-          <path d="M 64 530 L 64 560" fill="none" stroke="hsl(var(--foreground))" strokeWidth="0.5" />
-          <path d="M 136 530 L 136 560" fill="none" stroke="hsl(var(--foreground))" strokeWidth="0.5" />
-        </>
-      )}
-
-      {/* Ankle bone - malleolus */}
-      <circle cx="55" cy="552" r="4" fill="none" stroke="hsl(var(--foreground))" strokeWidth="0.4" />
-      <circle cx="75" cy="552" r="4" fill="none" stroke="hsl(var(--foreground))" strokeWidth="0.4" />
-      <circle cx="145" cy="552" r="4" fill="none" stroke="hsl(var(--foreground))" strokeWidth="0.4" />
-      <circle cx="125" cy="552" r="4" fill="none" stroke="hsl(var(--foreground))" strokeWidth="0.4" />
-
-      {/* Foot arch */}
-      {isFront && (
-        <>
-          <path d="M 55 575 Q 65 585 75 575" fill="none" stroke="hsl(var(--foreground))" strokeWidth="0.3" />
-          <path d="M 125 575 Q 135 585 145 575" fill="none" stroke="hsl(var(--foreground))" strokeWidth="0.3" />
-        </>
-      )}
-    </g>
-  );
-
-  // Front view zones with more human-like paths
-  const frontZones = (
+  // Front view - clean line art style
+  const FrontView = () => (
     <>
-      {/* Head - more oval with chin */}
+      {/* Body outline - single continuous path for realistic silhouette */}
+      <g className="body-outline pointer-events-none">
+        {/* Hair */}
+        <path
+          d="M 100 5 
+             C 75 5 62 15 60 35 
+             C 58 25 65 10 100 8 
+             C 135 10 142 25 140 35 
+             C 138 15 125 5 100 5 Z"
+          fill="hsl(var(--foreground) / 0.85)"
+          stroke={strokeColor}
+          strokeWidth="0.5"
+        />
+        
+        {/* Head outline */}
+        <ellipse
+          cx="100" cy="42"
+          rx="32" ry="38"
+          fill="none"
+          stroke={strokeColor}
+          strokeWidth={strokeWidth}
+        />
+        
+        {/* Ears */}
+        <ellipse cx="67" cy="45" rx="4" ry="8" fill="none" stroke={strokeColor} strokeWidth={detailStrokeWidth} />
+        <ellipse cx="133" cy="45" rx="4" ry="8" fill="none" stroke={strokeColor} strokeWidth={detailStrokeWidth} />
+        
+        {/* Face details */}
+        <g opacity="0.6">
+          {/* Eyebrows */}
+          <path d="M 82 32 Q 88 30 94 32" fill="none" stroke={strokeColor} strokeWidth={detailStrokeWidth} />
+          <path d="M 106 32 Q 112 30 118 32" fill="none" stroke={strokeColor} strokeWidth={detailStrokeWidth} />
+          {/* Eyes */}
+          <ellipse cx="88" cy="38" rx="4" ry="2.5" fill="none" stroke={strokeColor} strokeWidth={detailStrokeWidth} />
+          <ellipse cx="112" cy="38" rx="4" ry="2.5" fill="none" stroke={strokeColor} strokeWidth={detailStrokeWidth} />
+          <circle cx="88" cy="38" r="1.5" fill="hsl(var(--foreground) / 0.6)" />
+          <circle cx="112" cy="38" r="1.5" fill="hsl(var(--foreground) / 0.6)" />
+          {/* Nose */}
+          <path d="M 100 42 L 100 52 M 95 52 Q 100 55 105 52" fill="none" stroke={strokeColor} strokeWidth={detailStrokeWidth} />
+          {/* Mouth */}
+          <path d="M 92 60 Q 100 63 108 60" fill="none" stroke={strokeColor} strokeWidth={detailStrokeWidth} />
+        </g>
+        
+        {/* Neck */}
+        <path
+          d="M 90 78 L 90 95 M 110 78 L 110 95"
+          fill="none"
+          stroke={strokeColor}
+          strokeWidth={strokeWidth}
+        />
+        
+        {/* Shoulders and arms outline */}
+        <path
+          d="M 90 95 
+             Q 75 95 58 102 
+             Q 42 110 38 125 
+             L 35 160 
+             Q 32 180 28 200 
+             L 22 260 
+             Q 20 272 18 280 
+             L 12 305 
+             Q 10 318 25 320 
+             Q 35 322 40 315 
+             L 42 280 
+             Q 44 260 48 240"
+          fill="none"
+          stroke={strokeColor}
+          strokeWidth={strokeWidth}
+        />
+        <path
+          d="M 110 95 
+             Q 125 95 142 102 
+             Q 158 110 162 125 
+             L 165 160 
+             Q 168 180 172 200 
+             L 178 260 
+             Q 180 272 182 280 
+             L 188 305 
+             Q 190 318 175 320 
+             Q 165 322 160 315 
+             L 158 280 
+             Q 156 260 152 240"
+          fill="none"
+          stroke={strokeColor}
+          strokeWidth={strokeWidth}
+        />
+        
+        {/* Torso outline */}
+        <path
+          d="M 58 102 
+             Q 55 110 54 120 
+             L 52 160 
+             Q 52 180 55 200 
+             L 58 230 
+             Q 60 250 62 265 
+             L 50 290"
+          fill="none"
+          stroke={strokeColor}
+          strokeWidth={strokeWidth}
+        />
+        <path
+          d="M 142 102 
+             Q 145 110 146 120 
+             L 148 160 
+             Q 148 180 145 200 
+             L 142 230 
+             Q 140 250 138 265 
+             L 150 290"
+          fill="none"
+          stroke={strokeColor}
+          strokeWidth={strokeWidth}
+        />
+        
+        {/* Pelvis/groin area */}
+        <path
+          d="M 62 265 
+             Q 75 270 88 275 
+             L 88 290 
+             Q 88 300 82 310"
+          fill="none"
+          stroke={strokeColor}
+          strokeWidth={strokeWidth}
+        />
+        <path
+          d="M 138 265 
+             Q 125 270 112 275 
+             L 112 290 
+             Q 112 300 118 310"
+          fill="none"
+          stroke={strokeColor}
+          strokeWidth={strokeWidth}
+        />
+        <path
+          d="M 88 275 Q 100 280 112 275"
+          fill="none"
+          stroke={strokeColor}
+          strokeWidth={detailStrokeWidth}
+        />
+        
+        {/* Legs outline */}
+        <path
+          d="M 50 290 
+             L 48 340 
+             Q 46 380 48 420 
+             Q 48 460 50 500 
+             L 52 540 
+             Q 52 555 48 565 
+             L 40 580 
+             Q 35 588 45 590 
+             L 80 590 
+             Q 85 588 82 580 
+             L 78 570 
+             Q 76 560 78 545 
+             L 82 310"
+          fill="none"
+          stroke={strokeColor}
+          strokeWidth={strokeWidth}
+        />
+        <path
+          d="M 150 290 
+             L 152 340 
+             Q 154 380 152 420 
+             Q 152 460 150 500 
+             L 148 540 
+             Q 148 555 152 565 
+             L 160 580 
+             Q 165 588 155 590 
+             L 120 590 
+             Q 115 588 118 580 
+             L 122 570 
+             Q 124 560 122 545 
+             L 118 310"
+          fill="none"
+          stroke={strokeColor}
+          strokeWidth={strokeWidth}
+        />
+      </g>
+      
+      {/* Anatomical details */}
+      <g className="anatomical-details pointer-events-none" opacity="0.35">
+        {/* Clavicle */}
+        <path d="M 58 102 Q 80 98 100 100 Q 120 98 142 102" fill="none" stroke={strokeColor} strokeWidth={detailStrokeWidth} />
+        
+        {/* Pectoral muscles */}
+        <path d="M 60 115 Q 75 125 85 120" fill="none" stroke={strokeColor} strokeWidth={detailStrokeWidth} />
+        <path d="M 140 115 Q 125 125 115 120" fill="none" stroke={strokeColor} strokeWidth={detailStrokeWidth} />
+        
+        {/* Nipples */}
+        <circle cx="72" cy="130" r="2" fill="none" stroke={strokeColor} strokeWidth="0.5" />
+        <circle cx="128" cy="130" r="2" fill="none" stroke={strokeColor} strokeWidth="0.5" />
+        
+        {/* Sternum */}
+        <path d="M 100 105 L 100 155" fill="none" stroke={strokeColor} strokeWidth={detailStrokeWidth} />
+        
+        {/* Ribcage hints */}
+        <path d="M 62 145 Q 80 150 100 148" fill="none" stroke={strokeColor} strokeWidth="0.4" />
+        <path d="M 138 145 Q 120 150 100 148" fill="none" stroke={strokeColor} strokeWidth="0.4" />
+        
+        {/* Navel */}
+        <ellipse cx="100" cy="200" rx="3" ry="4" fill="none" stroke={strokeColor} strokeWidth={detailStrokeWidth} />
+        
+        {/* Abs definition */}
+        <path d="M 100 165 L 100 230" fill="none" stroke={strokeColor} strokeWidth={detailStrokeWidth} />
+        <path d="M 85 175 L 115 175" fill="none" stroke={strokeColor} strokeWidth="0.4" />
+        <path d="M 83 192 L 117 192" fill="none" stroke={strokeColor} strokeWidth="0.4" />
+        <path d="M 82 210 L 118 210" fill="none" stroke={strokeColor} strokeWidth="0.4" />
+        
+        {/* Hip crease */}
+        <path d="M 62 250 Q 75 270 85 280" fill="none" stroke={strokeColor} strokeWidth={detailStrokeWidth} />
+        <path d="M 138 250 Q 125 270 115 280" fill="none" stroke={strokeColor} strokeWidth={detailStrokeWidth} />
+        
+        {/* Elbow crease */}
+        <path d="M 30 195 Q 35 200 40 195" fill="none" stroke={strokeColor} strokeWidth={detailStrokeWidth} />
+        <path d="M 160 195 Q 165 200 170 195" fill="none" stroke={strokeColor} strokeWidth={detailStrokeWidth} />
+        
+        {/* Wrist lines */}
+        <path d="M 20 268 L 38 268" fill="none" stroke={strokeColor} strokeWidth={detailStrokeWidth} />
+        <path d="M 162 268 L 180 268" fill="none" stroke={strokeColor} strokeWidth={detailStrokeWidth} />
+        
+        {/* Knee caps */}
+        <ellipse cx="65" cy="410" rx="10" ry="12" fill="none" stroke={strokeColor} strokeWidth={detailStrokeWidth} />
+        <ellipse cx="135" cy="410" rx="10" ry="12" fill="none" stroke={strokeColor} strokeWidth={detailStrokeWidth} />
+        
+        {/* Shin muscle */}
+        <path d="M 58 430 L 55 520" fill="none" stroke={strokeColor} strokeWidth={detailStrokeWidth} />
+        <path d="M 142 430 L 145 520" fill="none" stroke={strokeColor} strokeWidth={detailStrokeWidth} />
+        
+        {/* Ankle bones */}
+        <circle cx="52" cy="555" r="5" fill="none" stroke={strokeColor} strokeWidth={detailStrokeWidth} />
+        <circle cx="78" cy="555" r="5" fill="none" stroke={strokeColor} strokeWidth={detailStrokeWidth} />
+        <circle cx="122" cy="555" r="5" fill="none" stroke={strokeColor} strokeWidth={detailStrokeWidth} />
+        <circle cx="148" cy="555" r="5" fill="none" stroke={strokeColor} strokeWidth={detailStrokeWidth} />
+      </g>
+      
+      {/* Clickable zones - transparent overlays */}
       <path
-        d="M 100 8 
-           C 125 8 138 25 138 45 
-           C 138 58 130 68 120 72 
-           C 115 74 105 76 100 76 
-           C 95 76 85 74 80 72 
-           C 70 68 62 58 62 45 
-           C 62 25 75 8 100 8 Z"
+        d="M 68 5 C 130 5 135 80 68 80 C 65 80 68 5 68 5 Z"
         className={zoneClass('head')}
         onClick={handleClick('head')}
         style={{ fill: getZoneColor('head', selectedZones, zoneIntensities['head']) }}
       />
-      
-      {/* Neck */}
-      <path
-        d="M 88 74 
-           C 88 74 85 80 85 85 
-           L 85 95 
-           C 90 97 95 98 100 98 
-           C 105 98 110 97 115 95 
-           L 115 85 
-           C 115 80 112 74 112 74 Z"
+      <rect x="85" y="78" width="30" height="20" rx="5"
         className={zoneClass('neck')}
         onClick={handleClick('neck')}
         style={{ fill: getZoneColor('neck', selectedZones, zoneIntensities['neck']) }}
       />
-      
-      {/* Left Shoulder */}
-      <path
-        d="M 85 95 
-           C 75 95 60 98 50 105 
-           C 45 108 42 115 42 120 
-           L 55 120 
-           C 60 115 70 108 85 105 Z"
+      <path d="M 58 98 Q 70 95 85 98 L 65 125 L 48 118 Z"
         className={zoneClass('left-shoulder')}
         onClick={handleClick('left-shoulder')}
         style={{ fill: getZoneColor('left-shoulder', selectedZones, zoneIntensities['left-shoulder']) }}
       />
-      
-      {/* Right Shoulder */}
-      <path
-        d="M 115 95 
-           C 125 95 140 98 150 105 
-           C 155 108 158 115 158 120 
-           L 145 120 
-           C 140 115 130 108 115 105 Z"
+      <path d="M 142 98 Q 130 95 115 98 L 135 125 L 152 118 Z"
         className={zoneClass('right-shoulder')}
         onClick={handleClick('right-shoulder')}
         style={{ fill: getZoneColor('right-shoulder', selectedZones, zoneIntensities['right-shoulder']) }}
       />
-      
-      {/* Chest */}
-      <path
-        d="M 70 100 
-           C 70 100 65 105 65 115 
-           L 65 150 
-           C 65 155 70 160 75 160 
-           L 125 160 
-           C 130 160 135 155 135 150 
-           L 135 115 
-           C 135 105 130 100 130 100 
-           C 120 98 110 97 100 97 
-           C 90 97 80 98 70 100 Z"
+      <path d="M 55 115 L 145 115 L 145 165 L 55 165 Z"
         className={zoneClass('chest')}
         onClick={handleClick('chest')}
         style={{ fill: getZoneColor('chest', selectedZones, zoneIntensities['chest']) }}
       />
-      
-      {/* Left Arm */}
-      <path
-        d="M 42 120 
-           C 38 125 35 135 33 145 
-           C 30 160 28 175 28 185 
-           L 50 185 
-           C 50 175 52 160 54 145 
-           C 55 138 56 130 55 120 Z"
+      <path d="M 38 120 L 55 120 L 50 195 L 28 195 Z"
         className={zoneClass('left-arm')}
         onClick={handleClick('left-arm')}
         style={{ fill: getZoneColor('left-arm', selectedZones, zoneIntensities['left-arm']) }}
       />
-      
-      {/* Right Arm */}
-      <path
-        d="M 158 120 
-           C 162 125 165 135 167 145 
-           C 170 160 172 175 172 185 
-           L 150 185 
-           C 150 175 148 160 146 145 
-           C 145 138 144 130 145 120 Z"
+      <path d="M 162 120 L 145 120 L 150 195 L 172 195 Z"
         className={zoneClass('right-arm')}
         onClick={handleClick('right-arm')}
         style={{ fill: getZoneColor('right-arm', selectedZones, zoneIntensities['right-arm']) }}
       />
-      
-      {/* Left Forearm */}
-      <path
-        d="M 28 185 
-           C 26 200 24 220 22 235 
-           C 20 250 18 260 18 270 
-           L 40 270 
-           C 42 260 44 248 46 235 
-           C 48 220 50 200 50 185 Z"
+      <path d="M 28 195 L 50 195 L 42 270 L 18 270 Z"
         className={zoneClass('left-forearm')}
         onClick={handleClick('left-forearm')}
         style={{ fill: getZoneColor('left-forearm', selectedZones, zoneIntensities['left-forearm']) }}
       />
-      
-      {/* Right Forearm */}
-      <path
-        d="M 172 185 
-           C 174 200 176 220 178 235 
-           C 180 250 182 260 182 270 
-           L 160 270 
-           C 158 260 156 248 154 235 
-           C 152 220 150 200 150 185 Z"
+      <path d="M 172 195 L 150 195 L 158 270 L 182 270 Z"
         className={zoneClass('right-forearm')}
         onClick={handleClick('right-forearm')}
         style={{ fill: getZoneColor('right-forearm', selectedZones, zoneIntensities['right-forearm']) }}
       />
-      
-      {/* Left Hand */}
-      <path
-        d="M 18 270 
-           C 15 275 12 282 10 290 
-           C 8 300 8 310 12 318 
-           C 16 326 24 330 32 328 
-           C 38 326 42 320 44 312 
-           C 46 302 44 290 42 280 
-           C 41 275 40 272 40 270 Z"
+      <path d="M 18 270 L 42 270 L 35 320 L 10 320 Z"
         className={zoneClass('left-hand')}
         onClick={handleClick('left-hand')}
         style={{ fill: getZoneColor('left-hand', selectedZones, zoneIntensities['left-hand']) }}
       />
-      
-      {/* Right Hand */}
-      <path
-        d="M 182 270 
-           C 185 275 188 282 190 290 
-           C 192 300 192 310 188 318 
-           C 184 326 176 330 168 328 
-           C 162 326 158 320 156 312 
-           C 154 302 156 290 158 280 
-           C 159 275 160 272 160 270 Z"
+      <path d="M 182 270 L 158 270 L 165 320 L 190 320 Z"
         className={zoneClass('right-hand')}
         onClick={handleClick('right-hand')}
         style={{ fill: getZoneColor('right-hand', selectedZones, zoneIntensities['right-hand']) }}
       />
-      
-      {/* Abdomen */}
-      <path
-        d="M 65 160 
-           L 65 210 
-           C 65 218 70 225 78 228 
-           C 85 230 92 230 100 230 
-           C 108 230 115 230 122 228 
-           C 130 225 135 218 135 210 
-           L 135 160 
-           C 130 162 120 163 100 163 
-           C 80 163 70 162 65 160 Z"
+      <path d="M 55 165 L 145 165 L 142 235 L 58 235 Z"
         className={zoneClass('abdomen')}
         onClick={handleClick('abdomen')}
         style={{ fill: getZoneColor('abdomen', selectedZones, zoneIntensities['abdomen']) }}
       />
-      
-      {/* Pelvis */}
-      <path
-        d="M 68 228 
-           C 68 240 72 252 80 258 
-           C 88 264 95 265 100 265 
-           C 105 265 112 264 120 258 
-           C 128 252 132 240 132 228 
-           C 125 232 112 235 100 235 
-           C 88 235 75 232 68 228 Z"
+      <path d="M 58 235 L 142 235 L 138 275 L 62 275 Z"
         className={zoneClass('pelvis')}
         onClick={handleClick('pelvis')}
         style={{ fill: getZoneColor('pelvis', selectedZones, zoneIntensities['pelvis']) }}
       />
-      
-      {/* Left Hip */}
-      <path
-        d="M 65 215 
-           C 58 220 52 230 50 242 
-           C 48 255 50 265 55 275 
-           L 72 275 
-           C 70 265 68 255 70 245 
-           C 72 235 75 225 78 220 
-           C 73 218 68 216 65 215 Z"
+      <path d="M 50 240 L 62 240 L 58 295 L 45 295 Z"
         className={zoneClass('left-hip')}
         onClick={handleClick('left-hip')}
         style={{ fill: getZoneColor('left-hip', selectedZones, zoneIntensities['left-hip']) }}
       />
-      
-      {/* Right Hip */}
-      <path
-        d="M 135 215 
-           C 142 220 148 230 150 242 
-           C 152 255 150 265 145 275 
-           L 128 275 
-           C 130 265 132 255 130 245 
-           C 128 235 125 225 122 220 
-           C 127 218 132 216 135 215 Z"
+      <path d="M 150 240 L 138 240 L 142 295 L 155 295 Z"
         className={zoneClass('right-hip')}
         onClick={handleClick('right-hip')}
         style={{ fill: getZoneColor('right-hip', selectedZones, zoneIntensities['right-hip']) }}
       />
-      
-      {/* Left Thigh */}
-      <path
-        d="M 55 275 
-           C 52 290 50 310 50 330 
-           C 50 350 52 370 55 385 
-           L 85 385 
-           C 82 370 80 350 80 330 
-           C 80 310 82 290 85 275 
-           L 72 275 Z"
+      <path d="M 45 290 L 85 290 L 82 395 L 48 395 Z"
         className={zoneClass('left-thigh')}
         onClick={handleClick('left-thigh')}
         style={{ fill: getZoneColor('left-thigh', selectedZones, zoneIntensities['left-thigh']) }}
       />
-      
-      {/* Right Thigh */}
-      <path
-        d="M 145 275 
-           C 148 290 150 310 150 330 
-           C 150 350 148 370 145 385 
-           L 115 385 
-           C 118 370 120 350 120 330 
-           C 120 310 118 290 115 275 
-           L 128 275 Z"
+      <path d="M 155 290 L 115 290 L 118 395 L 152 395 Z"
         className={zoneClass('right-thigh')}
         onClick={handleClick('right-thigh')}
         style={{ fill: getZoneColor('right-thigh', selectedZones, zoneIntensities['right-thigh']) }}
       />
-      
-      {/* Left Knee */}
-      <path
-        d="M 55 385 
-           C 53 395 52 405 52 415 
-           C 52 425 53 432 55 440 
-           L 85 440 
-           C 83 432 82 425 82 415 
-           C 82 405 83 395 85 385 Z"
+      <path d="M 48 395 L 82 395 L 80 430 L 50 430 Z"
         className={zoneClass('left-knee')}
         onClick={handleClick('left-knee')}
         style={{ fill: getZoneColor('left-knee', selectedZones, zoneIntensities['left-knee']) }}
       />
-      
-      {/* Right Knee */}
-      <path
-        d="M 145 385 
-           C 147 395 148 405 148 415 
-           C 148 425 147 432 145 440 
-           L 115 440 
-           C 117 432 118 425 118 415 
-           C 118 405 117 395 115 385 Z"
+      <path d="M 152 395 L 118 395 L 120 430 L 150 430 Z"
         className={zoneClass('right-knee')}
         onClick={handleClick('right-knee')}
         style={{ fill: getZoneColor('right-knee', selectedZones, zoneIntensities['right-knee']) }}
       />
-      
-      {/* Left Leg */}
-      <path
-        d="M 55 440 
-           C 54 460 53 485 52 510 
-           C 51 530 50 545 50 555 
-           L 78 555 
-           C 79 545 80 530 81 510 
-           C 82 485 83 460 85 440 Z"
+      <path d="M 50 430 L 80 430 L 78 555 L 52 555 Z"
         className={zoneClass('left-leg')}
         onClick={handleClick('left-leg')}
         style={{ fill: getZoneColor('left-leg', selectedZones, zoneIntensities['left-leg']) }}
       />
-      
-      {/* Right Leg */}
-      <path
-        d="M 145 440 
-           C 146 460 147 485 148 510 
-           C 149 530 150 545 150 555 
-           L 122 555 
-           C 121 545 120 530 119 510 
-           C 118 485 117 460 115 440 Z"
+      <path d="M 150 430 L 120 430 L 122 555 L 148 555 Z"
         className={zoneClass('right-leg')}
         onClick={handleClick('right-leg')}
         style={{ fill: getZoneColor('right-leg', selectedZones, zoneIntensities['right-leg']) }}
       />
-      
-      {/* Left Foot */}
-      <path
-        d="M 50 555 
-           C 45 558 38 562 32 568 
-           C 26 575 25 582 28 588 
-           C 32 595 42 598 55 598 
-           C 68 598 78 595 80 588 
-           C 82 580 80 570 78 560 
-           C 77 557 78 555 78 555 Z"
+      <path d="M 40 555 L 85 555 L 85 595 L 40 595 Z"
         className={zoneClass('left-foot')}
         onClick={handleClick('left-foot')}
         style={{ fill: getZoneColor('left-foot', selectedZones, zoneIntensities['left-foot']) }}
       />
-      
-      {/* Right Foot */}
-      <path
-        d="M 150 555 
-           C 155 558 162 562 168 568 
-           C 174 575 175 582 172 588 
-           C 168 595 158 598 145 598 
-           C 132 598 122 595 120 588 
-           C 118 580 120 570 122 560 
-           C 123 557 122 555 122 555 Z"
+      <path d="M 160 555 L 115 555 L 115 595 L 160 595 Z"
         className={zoneClass('right-foot')}
         onClick={handleClick('right-foot')}
         style={{ fill: getZoneColor('right-foot', selectedZones, zoneIntensities['right-foot']) }}
       />
-      
-      {/* Anatomical details overlay */}
-      <AnatomicalDetails isFront={true} />
     </>
   );
 
-  // Back view zones with more human-like paths
-  const backZones = (
+  // Back view - clean line art style
+  const BackView = () => (
     <>
-      {/* Head */}
+      {/* Body outline */}
+      <g className="body-outline pointer-events-none">
+        {/* Hair (back) */}
+        <path
+          d="M 100 5 
+             C 70 5 58 20 58 40 
+             L 60 50 
+             Q 65 45 70 48 
+             L 70 35 
+             Q 75 12 100 10 
+             Q 125 12 130 35 
+             L 130 48 
+             Q 135 45 140 50 
+             L 142 40 
+             C 142 20 130 5 100 5 Z"
+          fill="hsl(var(--foreground) / 0.85)"
+          stroke={strokeColor}
+          strokeWidth="0.5"
+        />
+        
+        {/* Head outline */}
+        <ellipse
+          cx="100" cy="42"
+          rx="32" ry="38"
+          fill="none"
+          stroke={strokeColor}
+          strokeWidth={strokeWidth}
+        />
+        
+        {/* Ears */}
+        <ellipse cx="67" cy="45" rx="4" ry="8" fill="none" stroke={strokeColor} strokeWidth={detailStrokeWidth} />
+        <ellipse cx="133" cy="45" rx="4" ry="8" fill="none" stroke={strokeColor} strokeWidth={detailStrokeWidth} />
+        
+        {/* Neck */}
+        <path
+          d="M 90 78 L 90 95 M 110 78 L 110 95"
+          fill="none"
+          stroke={strokeColor}
+          strokeWidth={strokeWidth}
+        />
+        
+        {/* Shoulders and arms outline */}
+        <path
+          d="M 90 95 
+             Q 75 95 58 102 
+             Q 42 110 38 125 
+             L 35 160 
+             Q 32 180 28 200 
+             L 22 260 
+             Q 20 272 18 280 
+             L 12 305 
+             Q 10 318 25 320 
+             Q 35 322 40 315 
+             L 42 280 
+             Q 44 260 48 240"
+          fill="none"
+          stroke={strokeColor}
+          strokeWidth={strokeWidth}
+        />
+        <path
+          d="M 110 95 
+             Q 125 95 142 102 
+             Q 158 110 162 125 
+             L 165 160 
+             Q 168 180 172 200 
+             L 178 260 
+             Q 180 272 182 280 
+             L 188 305 
+             Q 190 318 175 320 
+             Q 165 322 160 315 
+             L 158 280 
+             Q 156 260 152 240"
+          fill="none"
+          stroke={strokeColor}
+          strokeWidth={strokeWidth}
+        />
+        
+        {/* Torso outline */}
+        <path
+          d="M 58 102 
+             Q 55 110 54 120 
+             L 52 160 
+             Q 52 180 55 200 
+             L 58 230 
+             Q 60 250 62 265 
+             L 50 290"
+          fill="none"
+          stroke={strokeColor}
+          strokeWidth={strokeWidth}
+        />
+        <path
+          d="M 142 102 
+             Q 145 110 146 120 
+             L 148 160 
+             Q 148 180 145 200 
+             L 142 230 
+             Q 140 250 138 265 
+             L 150 290"
+          fill="none"
+          stroke={strokeColor}
+          strokeWidth={strokeWidth}
+        />
+        
+        {/* Buttocks */}
+        <path
+          d="M 62 265 
+             Q 75 268 88 272 
+             L 88 295 
+             Q 75 298 70 302 
+             L 65 310"
+          fill="none"
+          stroke={strokeColor}
+          strokeWidth={strokeWidth}
+        />
+        <path
+          d="M 138 265 
+             Q 125 268 112 272 
+             L 112 295 
+             Q 125 298 130 302 
+             L 135 310"
+          fill="none"
+          stroke={strokeColor}
+          strokeWidth={strokeWidth}
+        />
+        <path
+          d="M 88 272 Q 100 275 112 272"
+          fill="none"
+          stroke={strokeColor}
+          strokeWidth={detailStrokeWidth}
+        />
+        <path
+          d="M 88 295 Q 100 300 112 295"
+          fill="none"
+          stroke={strokeColor}
+          strokeWidth={detailStrokeWidth}
+        />
+        
+        {/* Legs outline */}
+        <path
+          d="M 50 290 
+             L 48 340 
+             Q 46 380 48 420 
+             Q 48 460 50 500 
+             L 52 540 
+             Q 52 555 48 565 
+             L 40 580 
+             Q 35 588 45 590 
+             L 80 590 
+             Q 85 588 82 580 
+             L 78 570 
+             Q 76 560 78 545 
+             L 82 310"
+          fill="none"
+          stroke={strokeColor}
+          strokeWidth={strokeWidth}
+        />
+        <path
+          d="M 150 290 
+             L 152 340 
+             Q 154 380 152 420 
+             Q 152 460 150 500 
+             L 148 540 
+             Q 148 555 152 565 
+             L 160 580 
+             Q 165 588 155 590 
+             L 120 590 
+             Q 115 588 118 580 
+             L 122 570 
+             Q 124 560 122 545 
+             L 118 310"
+          fill="none"
+          stroke={strokeColor}
+          strokeWidth={strokeWidth}
+        />
+      </g>
+      
+      {/* Anatomical details */}
+      <g className="anatomical-details pointer-events-none" opacity="0.35">
+        {/* Spine */}
+        <path d="M 100 80 L 100 240" fill="none" stroke={strokeColor} strokeWidth={detailStrokeWidth} />
+        
+        {/* Trapezius */}
+        <path d="M 90 95 Q 85 100 75 105" fill="none" stroke={strokeColor} strokeWidth={detailStrokeWidth} />
+        <path d="M 110 95 Q 115 100 125 105" fill="none" stroke={strokeColor} strokeWidth={detailStrokeWidth} />
+        
+        {/* Scapula (shoulder blades) */}
+        <path d="M 70 110 Q 75 130 80 145 L 85 140 Q 82 125 78 110 Z" fill="none" stroke={strokeColor} strokeWidth={detailStrokeWidth} />
+        <path d="M 130 110 Q 125 130 120 145 L 115 140 Q 118 125 122 110 Z" fill="none" stroke={strokeColor} strokeWidth={detailStrokeWidth} />
+        
+        {/* Lower back muscles */}
+        <path d="M 92 180 L 92 235" fill="none" stroke={strokeColor} strokeWidth={detailStrokeWidth} />
+        <path d="M 108 180 L 108 235" fill="none" stroke={strokeColor} strokeWidth={detailStrokeWidth} />
+        
+        {/* Latissimus dorsi hints */}
+        <path d="M 60 130 Q 68 160 72 195" fill="none" stroke={strokeColor} strokeWidth="0.4" />
+        <path d="M 140 130 Q 132 160 128 195" fill="none" stroke={strokeColor} strokeWidth="0.4" />
+        
+        {/* Gluteal crease */}
+        <path d="M 70 300 Q 85 308 100 310 Q 115 308 130 300" fill="none" stroke={strokeColor} strokeWidth={detailStrokeWidth} />
+        
+        {/* Elbow */}
+        <circle cx="35" cy="195" r="6" fill="none" stroke={strokeColor} strokeWidth={detailStrokeWidth} />
+        <circle cx="165" cy="195" r="6" fill="none" stroke={strokeColor} strokeWidth={detailStrokeWidth} />
+        
+        {/* Wrist lines */}
+        <path d="M 20 268 L 38 268" fill="none" stroke={strokeColor} strokeWidth={detailStrokeWidth} />
+        <path d="M 162 268 L 180 268" fill="none" stroke={strokeColor} strokeWidth={detailStrokeWidth} />
+        
+        {/* Back of knee */}
+        <path d="M 55 405 Q 65 415 78 405" fill="none" stroke={strokeColor} strokeWidth={detailStrokeWidth} />
+        <path d="M 122 405 Q 135 415 145 405" fill="none" stroke={strokeColor} strokeWidth={detailStrokeWidth} />
+        
+        {/* Calf muscles */}
+        <path d="M 58 430 Q 55 470 55 510" fill="none" stroke={strokeColor} strokeWidth={detailStrokeWidth} />
+        <path d="M 75 430 Q 78 470 78 510" fill="none" stroke={strokeColor} strokeWidth={detailStrokeWidth} />
+        <path d="M 125 430 Q 122 470 122 510" fill="none" stroke={strokeColor} strokeWidth={detailStrokeWidth} />
+        <path d="M 142 430 Q 145 470 145 510" fill="none" stroke={strokeColor} strokeWidth={detailStrokeWidth} />
+        
+        {/* Achilles tendon */}
+        <path d="M 65 530 L 65 565" fill="none" stroke={strokeColor} strokeWidth={detailStrokeWidth} />
+        <path d="M 135 530 L 135 565" fill="none" stroke={strokeColor} strokeWidth={detailStrokeWidth} />
+        
+        {/* Ankle bones */}
+        <circle cx="52" cy="555" r="5" fill="none" stroke={strokeColor} strokeWidth={detailStrokeWidth} />
+        <circle cx="78" cy="555" r="5" fill="none" stroke={strokeColor} strokeWidth={detailStrokeWidth} />
+        <circle cx="122" cy="555" r="5" fill="none" stroke={strokeColor} strokeWidth={detailStrokeWidth} />
+        <circle cx="148" cy="555" r="5" fill="none" stroke={strokeColor} strokeWidth={detailStrokeWidth} />
+        
+        {/* Heel */}
+        <path d="M 58 575 Q 65 582 72 575" fill="none" stroke={strokeColor} strokeWidth={detailStrokeWidth} />
+        <path d="M 128 575 Q 135 582 142 575" fill="none" stroke={strokeColor} strokeWidth={detailStrokeWidth} />
+      </g>
+      
+      {/* Clickable zones - transparent overlays */}
       <path
-        d="M 100 8 
-           C 125 8 138 25 138 45 
-           C 138 58 130 68 120 72 
-           C 115 74 105 76 100 76 
-           C 95 76 85 74 80 72 
-           C 70 68 62 58 62 45 
-           C 62 25 75 8 100 8 Z"
+        d="M 68 5 C 130 5 135 80 68 80 C 65 80 68 5 68 5 Z"
         className={zoneClass('head')}
         onClick={handleClick('head')}
         style={{ fill: getZoneColor('head', selectedZones, zoneIntensities['head']) }}
       />
-      
-      {/* Neck */}
-      <path
-        d="M 88 74 
-           C 88 74 85 80 85 85 
-           L 85 95 
-           C 90 97 95 98 100 98 
-           C 105 98 110 97 115 95 
-           L 115 85 
-           C 115 80 112 74 112 74 Z"
+      <rect x="85" y="78" width="30" height="20" rx="5"
         className={zoneClass('neck')}
         onClick={handleClick('neck')}
         style={{ fill: getZoneColor('neck', selectedZones, zoneIntensities['neck']) }}
       />
-      
-      {/* Left Shoulder */}
-      <path
-        d="M 85 95 
-           C 75 95 60 98 50 105 
-           C 45 108 42 115 42 120 
-           L 55 120 
-           C 60 115 70 108 85 105 Z"
+      <path d="M 58 98 Q 70 95 85 98 L 65 125 L 48 118 Z"
         className={zoneClass('left-shoulder')}
         onClick={handleClick('left-shoulder')}
         style={{ fill: getZoneColor('left-shoulder', selectedZones, zoneIntensities['left-shoulder']) }}
       />
-      
-      {/* Right Shoulder */}
-      <path
-        d="M 115 95 
-           C 125 95 140 98 150 105 
-           C 155 108 158 115 158 120 
-           L 145 120 
-           C 140 115 130 108 115 105 Z"
+      <path d="M 142 98 Q 130 95 115 98 L 135 125 L 152 118 Z"
         className={zoneClass('right-shoulder')}
         onClick={handleClick('right-shoulder')}
         style={{ fill: getZoneColor('right-shoulder', selectedZones, zoneIntensities['right-shoulder']) }}
       />
-      
-      {/* Upper Back */}
-      <path
-        d="M 70 100 
-           C 70 100 65 105 65 115 
-           L 65 150 
-           C 65 155 70 160 75 160 
-           L 125 160 
-           C 130 160 135 155 135 150 
-           L 135 115 
-           C 135 105 130 100 130 100 
-           C 120 98 110 97 100 97 
-           C 90 97 80 98 70 100 Z"
+      <path d="M 55 98 L 145 98 L 145 165 L 55 165 Z"
         className={zoneClass('upper-back')}
         onClick={handleClick('upper-back')}
         style={{ fill: getZoneColor('upper-back', selectedZones, zoneIntensities['upper-back']) }}
       />
-      
-      {/* Left Arm */}
-      <path
-        d="M 42 120 
-           C 38 125 35 135 33 145 
-           C 30 160 28 175 28 185 
-           L 50 185 
-           C 50 175 52 160 54 145 
-           C 55 138 56 130 55 120 Z"
-        className={zoneClass('left-arm')}
-        onClick={handleClick('left-arm')}
-        style={{ fill: getZoneColor('left-arm', selectedZones, zoneIntensities['left-arm']) }}
-      />
-      
-      {/* Right Arm */}
-      <path
-        d="M 158 120 
-           C 162 125 165 135 167 145 
-           C 170 160 172 175 172 185 
-           L 150 185 
-           C 150 175 148 160 146 145 
-           C 145 138 144 130 145 120 Z"
-        className={zoneClass('right-arm')}
-        onClick={handleClick('right-arm')}
-        style={{ fill: getZoneColor('right-arm', selectedZones, zoneIntensities['right-arm']) }}
-      />
-      
-      {/* Left Forearm */}
-      <path
-        d="M 28 185 
-           C 26 200 24 220 22 235 
-           C 20 250 18 260 18 270 
-           L 40 270 
-           C 42 260 44 248 46 235 
-           C 48 220 50 200 50 185 Z"
-        className={zoneClass('left-forearm')}
-        onClick={handleClick('left-forearm')}
-        style={{ fill: getZoneColor('left-forearm', selectedZones, zoneIntensities['left-forearm']) }}
-      />
-      
-      {/* Right Forearm */}
-      <path
-        d="M 172 185 
-           C 174 200 176 220 178 235 
-           C 180 250 182 260 182 270 
-           L 160 270 
-           C 158 260 156 248 154 235 
-           C 152 220 150 200 150 185 Z"
-        className={zoneClass('right-forearm')}
-        onClick={handleClick('right-forearm')}
-        style={{ fill: getZoneColor('right-forearm', selectedZones, zoneIntensities['right-forearm']) }}
-      />
-      
-      {/* Left Hand */}
-      <path
-        d="M 18 270 
-           C 15 275 12 282 10 290 
-           C 8 300 8 310 12 318 
-           C 16 326 24 330 32 328 
-           C 38 326 42 320 44 312 
-           C 46 302 44 290 42 280 
-           C 41 275 40 272 40 270 Z"
-        className={zoneClass('left-hand')}
-        onClick={handleClick('left-hand')}
-        style={{ fill: getZoneColor('left-hand', selectedZones, zoneIntensities['left-hand']) }}
-      />
-      
-      {/* Right Hand */}
-      <path
-        d="M 182 270 
-           C 185 275 188 282 190 290 
-           C 192 300 192 310 188 318 
-           C 184 326 176 330 168 328 
-           C 162 326 158 320 156 312 
-           C 154 302 156 290 158 280 
-           C 159 275 160 272 160 270 Z"
-        className={zoneClass('right-hand')}
-        onClick={handleClick('right-hand')}
-        style={{ fill: getZoneColor('right-hand', selectedZones, zoneIntensities['right-hand']) }}
-      />
-      
-      {/* Lower Back */}
-      <path
-        d="M 65 160 
-           L 65 220 
-           C 65 228 70 235 78 238 
-           C 85 240 92 240 100 240 
-           C 108 240 115 240 122 238 
-           C 130 235 135 228 135 220 
-           L 135 160 
-           C 130 162 120 163 100 163 
-           C 80 163 70 162 65 160 Z"
+      <path d="M 55 165 L 145 165 L 142 235 L 58 235 Z"
         className={zoneClass('lower-back')}
         onClick={handleClick('lower-back')}
         style={{ fill: getZoneColor('lower-back', selectedZones, zoneIntensities['lower-back']) }}
       />
-      
-      {/* Pelvis */}
-      <path
-        d="M 68 238 
-           C 68 250 72 262 80 268 
-           C 88 274 95 275 100 275 
-           C 105 275 112 274 120 268 
-           C 128 262 132 250 132 238 
-           C 125 242 112 245 100 245 
-           C 88 245 75 242 68 238 Z"
+      <path d="M 38 120 L 55 120 L 50 195 L 28 195 Z"
+        className={zoneClass('left-arm')}
+        onClick={handleClick('left-arm')}
+        style={{ fill: getZoneColor('left-arm', selectedZones, zoneIntensities['left-arm']) }}
+      />
+      <path d="M 162 120 L 145 120 L 150 195 L 172 195 Z"
+        className={zoneClass('right-arm')}
+        onClick={handleClick('right-arm')}
+        style={{ fill: getZoneColor('right-arm', selectedZones, zoneIntensities['right-arm']) }}
+      />
+      <path d="M 28 195 L 50 195 L 42 270 L 18 270 Z"
+        className={zoneClass('left-forearm')}
+        onClick={handleClick('left-forearm')}
+        style={{ fill: getZoneColor('left-forearm', selectedZones, zoneIntensities['left-forearm']) }}
+      />
+      <path d="M 172 195 L 150 195 L 158 270 L 182 270 Z"
+        className={zoneClass('right-forearm')}
+        onClick={handleClick('right-forearm')}
+        style={{ fill: getZoneColor('right-forearm', selectedZones, zoneIntensities['right-forearm']) }}
+      />
+      <path d="M 18 270 L 42 270 L 35 320 L 10 320 Z"
+        className={zoneClass('left-hand')}
+        onClick={handleClick('left-hand')}
+        style={{ fill: getZoneColor('left-hand', selectedZones, zoneIntensities['left-hand']) }}
+      />
+      <path d="M 182 270 L 158 270 L 165 320 L 190 320 Z"
+        className={zoneClass('right-hand')}
+        onClick={handleClick('right-hand')}
+        style={{ fill: getZoneColor('right-hand', selectedZones, zoneIntensities['right-hand']) }}
+      />
+      <path d="M 58 235 L 142 235 L 138 280 L 62 280 Z"
         className={zoneClass('pelvis')}
         onClick={handleClick('pelvis')}
         style={{ fill: getZoneColor('pelvis', selectedZones, zoneIntensities['pelvis']) }}
       />
-      
-      {/* Left Hip */}
-      <path
-        d="M 65 225 
-           C 58 230 52 240 50 252 
-           C 48 265 50 275 55 285 
-           L 72 285 
-           C 70 275 68 265 70 255 
-           C 72 245 75 235 78 230 
-           C 73 228 68 226 65 225 Z"
+      <path d="M 50 240 L 62 240 L 58 295 L 45 295 Z"
         className={zoneClass('left-hip')}
         onClick={handleClick('left-hip')}
         style={{ fill: getZoneColor('left-hip', selectedZones, zoneIntensities['left-hip']) }}
       />
-      
-      {/* Right Hip */}
-      <path
-        d="M 135 225 
-           C 142 230 148 240 150 252 
-           C 152 265 150 275 145 285 
-           L 128 285 
-           C 130 275 132 265 130 255 
-           C 128 245 125 235 122 230 
-           C 127 228 132 226 135 225 Z"
+      <path d="M 150 240 L 138 240 L 142 295 L 155 295 Z"
         className={zoneClass('right-hip')}
         onClick={handleClick('right-hip')}
         style={{ fill: getZoneColor('right-hip', selectedZones, zoneIntensities['right-hip']) }}
       />
-      
-      {/* Left Thigh */}
-      <path
-        d="M 55 285 
-           C 52 300 50 320 50 340 
-           C 50 360 52 380 55 395 
-           L 85 395 
-           C 82 380 80 360 80 340 
-           C 80 320 82 300 85 285 
-           L 72 285 Z"
+      <path d="M 45 290 L 85 290 L 82 395 L 48 395 Z"
         className={zoneClass('left-thigh')}
         onClick={handleClick('left-thigh')}
         style={{ fill: getZoneColor('left-thigh', selectedZones, zoneIntensities['left-thigh']) }}
       />
-      
-      {/* Right Thigh */}
-      <path
-        d="M 145 285 
-           C 148 300 150 320 150 340 
-           C 150 360 148 380 145 395 
-           L 115 395 
-           C 118 380 120 360 120 340 
-           C 120 320 118 300 115 285 
-           L 128 285 Z"
+      <path d="M 155 290 L 115 290 L 118 395 L 152 395 Z"
         className={zoneClass('right-thigh')}
         onClick={handleClick('right-thigh')}
         style={{ fill: getZoneColor('right-thigh', selectedZones, zoneIntensities['right-thigh']) }}
       />
-      
-      {/* Left Knee */}
-      <path
-        d="M 55 395 
-           C 53 405 52 415 52 425 
-           C 52 435 53 442 55 450 
-           L 85 450 
-           C 83 442 82 435 82 425 
-           C 82 415 83 405 85 395 Z"
+      <path d="M 48 395 L 82 395 L 80 430 L 50 430 Z"
         className={zoneClass('left-knee')}
         onClick={handleClick('left-knee')}
         style={{ fill: getZoneColor('left-knee', selectedZones, zoneIntensities['left-knee']) }}
       />
-      
-      {/* Right Knee */}
-      <path
-        d="M 145 395 
-           C 147 405 148 415 148 425 
-           C 148 435 147 442 145 450 
-           L 115 450 
-           C 117 442 118 435 118 425 
-           C 118 415 117 405 115 395 Z"
+      <path d="M 152 395 L 118 395 L 120 430 L 150 430 Z"
         className={zoneClass('right-knee')}
         onClick={handleClick('right-knee')}
         style={{ fill: getZoneColor('right-knee', selectedZones, zoneIntensities['right-knee']) }}
       />
-      
-      {/* Left Leg */}
-      <path
-        d="M 55 450 
-           C 54 470 53 495 52 520 
-           C 51 540 50 555 50 565 
-           L 78 565 
-           C 79 555 80 540 81 520 
-           C 82 495 83 470 85 450 Z"
+      <path d="M 50 430 L 80 430 L 78 555 L 52 555 Z"
         className={zoneClass('left-leg')}
         onClick={handleClick('left-leg')}
         style={{ fill: getZoneColor('left-leg', selectedZones, zoneIntensities['left-leg']) }}
       />
-      
-      {/* Right Leg */}
-      <path
-        d="M 145 450 
-           C 146 470 147 495 148 520 
-           C 149 540 150 555 150 565 
-           L 122 565 
-           C 121 555 120 540 119 520 
-           C 118 495 117 470 115 450 Z"
+      <path d="M 150 430 L 120 430 L 122 555 L 148 555 Z"
         className={zoneClass('right-leg')}
         onClick={handleClick('right-leg')}
         style={{ fill: getZoneColor('right-leg', selectedZones, zoneIntensities['right-leg']) }}
       />
-      
-      {/* Left Foot */}
-      <path
-        d="M 50 565 
-           C 48 572 46 580 48 588 
-           C 50 596 56 602 65 604 
-           C 74 606 80 602 82 594 
-           C 84 586 82 576 80 568 
-           C 79 566 78 565 78 565 Z"
+      <path d="M 40 555 L 85 555 L 85 595 L 40 595 Z"
         className={zoneClass('left-foot')}
         onClick={handleClick('left-foot')}
         style={{ fill: getZoneColor('left-foot', selectedZones, zoneIntensities['left-foot']) }}
       />
-      
-      {/* Right Foot */}
-      <path
-        d="M 150 565 
-           C 152 572 154 580 152 588 
-           C 150 596 144 602 135 604 
-           C 126 606 120 602 118 594 
-           C 116 586 118 576 120 568 
-           C 121 566 122 565 122 565 Z"
+      <path d="M 160 555 L 115 555 L 115 595 L 160 595 Z"
         className={zoneClass('right-foot')}
         onClick={handleClick('right-foot')}
         style={{ fill: getZoneColor('right-foot', selectedZones, zoneIntensities['right-foot']) }}
       />
-      
-      {/* Anatomical details overlay */}
-      <AnatomicalDetails isFront={false} />
     </>
   );
 
   return (
     <svg
-      viewBox="0 0 200 610"
-      className="w-full h-auto max-h-[450px]"
-      aria-label={`Corps humain vue ${view === 'front' ? 'de face' : 'de dos'}`}
+      viewBox="0 0 200 600"
+      className="w-full h-auto max-h-[500px]"
+      style={{ touchAction: 'manipulation' }}
     >
-      {view === 'front' ? frontZones : backZones}
+      <defs>
+        <style>
+          {`
+            .body-zone {
+              stroke: transparent;
+              stroke-width: 1;
+            }
+            .body-zone:hover {
+              stroke: hsl(var(--primary));
+              stroke-width: 2;
+            }
+            .body-zone.selected {
+              stroke: hsl(var(--primary));
+              stroke-width: 2;
+            }
+          `}
+        </style>
+      </defs>
+      {view === 'front' ? <FrontView /> : <BackView />}
     </svg>
   );
 }

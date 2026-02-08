@@ -104,11 +104,11 @@ export function BodyMapSVG({
       'left-knee': { cx: cx - 42, cy: 660, rx: 24, ry: 30 },
       'right-knee': { cx: cx + 42, cy: 660, rx: 24, ry: 30 },
       // Jambes (mollets/tibias) - ellipses fines
-      'left-leg': { cx: cx - 38, cy: 770, rx: 18, ry: 65 },
-      'right-leg': { cx: cx + 38, cy: 770, rx: 18, ry: 65 },
-      // Pieds - ellipses horizontales en bas
-      'left-foot': { cx: cx - 38, cy: 880, rx: 28, ry: 35 },
-      'right-foot': { cx: cx + 38, cy: 880, rx: 28, ry: 35 },
+      'left-leg': { cx: cx - 38, cy: 760, rx: 18, ry: 60 },
+      'right-leg': { cx: cx + 38, cy: 760, rx: 18, ry: 60 },
+      // Pieds - repositionnés pour correspondre à l'image
+      'left-foot': { cx: cx - 38, cy: 855, rx: 25, ry: 30 },
+      'right-foot': { cx: cx + 38, cy: 855, rx: 25, ry: 30 },
     };
     
     if (isFront) {

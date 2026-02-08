@@ -153,40 +153,47 @@ export function PainMap({
         )}
       </div>
 
-      {/* Pain map container */}
+      {/* Pain map container - position: relative for absolute children */}
       <div 
         ref={containerRef}
         onClick={handleContainerClick}
-        className="relative w-full aspect-[608/1080] max-h-[500px] mx-auto cursor-crosshair select-none overflow-hidden rounded-2xl bg-gradient-to-b from-muted/30 to-muted/10"
-        style={{ touchAction: 'manipulation' }}
+        className="relative mx-auto cursor-crosshair select-none overflow-hidden rounded-2xl bg-gradient-to-b from-muted/30 to-muted/10"
+        style={{ 
+          touchAction: 'manipulation',
+          width: 'fit-content',
+          maxHeight: '500px',
+        }}
       >
-        {/* Body image */}
+        {/* Body image - no object-contain to ensure accurate click mapping */}
         <img
           src={bodyImage}
           alt={`Corps humain - vue ${view === 'front' ? 'de face' : 'de dos'}`}
-          className="w-full h-full object-contain pointer-events-none"
+          className="h-full max-h-[500px] w-auto pointer-events-none"
           draggable={false}
         />
 
-        {/* Pain points */}
+        {/* Pain points - position: absolute avec pourcentages */}
         {painPoints.map((point) => (
           <div
             key={point.id}
-            className="pain-point absolute transform -translate-x-1/2 -translate-y-1/2 cursor-pointer group"
+            className="pain-point absolute cursor-pointer group"
             style={{
               top: `${point.y}%`,
               left: `${point.x}%`,
+              // Centrer la boule sur le point de clic avec translate(-50%, -50%)
+              transform: 'translate(-50%, -50%)',
             }}
             onClick={(e) => handlePointClick(point.id, e)}
           >
             {/* Outer ping animation */}
             <div 
-              className="absolute inset-0 rounded-full animate-ping"
+              className="absolute rounded-full animate-ping"
               style={{
                 width: '40px',
                 height: '40px',
-                marginLeft: '-20px',
-                marginTop: '-20px',
+                top: '50%',
+                left: '50%',
+                transform: 'translate(-50%, -50%)',
                 background: `radial-gradient(circle, ${getPointColor(point.intensity)} 0%, transparent 70%)`,
                 animationDuration: '1.5s',
               }}
@@ -198,21 +205,20 @@ export function PainMap({
               style={{
                 width: '50px',
                 height: '50px',
-                marginLeft: '-25px',
-                marginTop: '-25px',
+                top: '50%',
+                left: '50%',
+                transform: 'translate(-50%, -50%)',
                 background: `radial-gradient(circle, transparent 40%, ${getGlowColor(point.intensity)} 60%, transparent 70%)`,
                 animationDuration: '2s',
               }}
             />
 
-            {/* Main pain marker with thermal gradient */}
+            {/* Main pain marker with thermal gradient - centered */}
             <div 
-              className="relative rounded-full transition-transform duration-200 hover:scale-110"
+              className="rounded-full transition-transform duration-200 hover:scale-110"
               style={{
                 width: '30px',
                 height: '30px',
-                marginLeft: '-15px',
-                marginTop: '-15px',
                 background: `radial-gradient(circle at 40% 40%, 
                   ${getPointColor(point.intensity).replace('0.6', '0.9')} 0%, 
                   ${getPointColor(point.intensity)} 40%, 
@@ -222,12 +228,12 @@ export function PainMap({
               }}
             />
 
-            {/* Remove button on hover */}
+            {/* Remove button on hover - positioned top-right of marker */}
             <button
               type="button"
               onClick={(e) => handleRemovePoint(point.id, e)}
-              className="absolute -top-2 -right-2 w-5 h-5 bg-destructive text-destructive-foreground rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-200 hover:scale-110"
-              style={{ marginLeft: '10px', marginTop: '-25px' }}
+              className="absolute w-5 h-5 bg-destructive text-destructive-foreground rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-200 hover:scale-110"
+              style={{ top: '-8px', right: '-8px' }}
             >
               <X className="w-3 h-3" />
             </button>

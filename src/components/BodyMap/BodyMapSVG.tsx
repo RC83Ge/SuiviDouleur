@@ -61,14 +61,14 @@ export function BodyMapSVG({
       'right-hand': { cx: cx + 115, cy: 470, rx: 16, ry: 28 },
       'left-hip': { cx: cx - 45, cy: 460, rx: 35, ry: 30 },
       'right-hip': { cx: cx + 45, cy: 460, rx: 35, ry: 30 },
-      'left-thigh': { cx: cx - 42, cy: 570, rx: 32, ry: 70 },
-      'right-thigh': { cx: cx + 42, cy: 570, rx: 32, ry: 70 },
-      'left-knee': { cx: cx - 38, cy: 680, rx: 22, ry: 28 },
-      'right-knee': { cx: cx + 38, cy: 680, rx: 22, ry: 28 },
-      'left-leg': { cx: cx - 35, cy: 780, rx: 16, ry: 55 },
-      'right-leg': { cx: cx + 35, cy: 780, rx: 16, ry: 55 },
-      'left-foot': { cx: cx - 35, cy: 880, rx: 22, ry: 14 },
-      'right-foot': { cx: cx + 35, cy: 880, rx: 22, ry: 14 },
+      'left-thigh': { cx: cx - 40, cy: 560, rx: 28, ry: 60 },
+      'right-thigh': { cx: cx + 40, cy: 560, rx: 28, ry: 60 },
+      'left-knee': { cx: cx - 36, cy: 660, rx: 20, ry: 25 },
+      'right-knee': { cx: cx + 36, cy: 660, rx: 20, ry: 25 },
+      'left-leg': { cx: cx - 32, cy: 750, rx: 14, ry: 50 },
+      'right-leg': { cx: cx + 32, cy: 750, rx: 14, ry: 50 },
+      'left-foot': { cx: cx - 30, cy: 840, rx: 20, ry: 12 },
+      'right-foot': { cx: cx + 30, cy: 840, rx: 20, ry: 12 },
     };
     
     if (isFront) {

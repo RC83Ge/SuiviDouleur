@@ -42,7 +42,7 @@ export function BodyMapSVG({
 
   // Full image dimensions: 1344x756
   // 4 figures evenly spaced: Male Back | Male Front | Female Front | Female Back
-  // Each figure ~336px wide
+  // Each figure ~336px wide, centers at: 168, 504, 840, 1176
 
   const getViewBox = () => {
     if (gender === 'male') {
@@ -60,9 +60,18 @@ export function BodyMapSVG({
     }
   };
 
-  // Zone positions - relative to 336-wide cropped view
-  const getZones = (isMale: boolean, isFront: boolean) => {
-    const cx = 168; // Center of 336-wide view
+  // Get the center X position based on the current gender/view
+  const getCenterX = () => {
+    if (gender === 'male') {
+      return view === 'front' ? 504 : 168; // Male front: 504, Male back: 168
+    } else {
+      return view === 'front' ? 840 : 1176; // Female front: 840, Female back: 1176
+    }
+  };
+
+  // Zone positions - using absolute coordinates in the full image
+  const getZones = (isFront: boolean) => {
+    const cx = getCenterX();
     
     const commonZones = {
       head: { cx, cy: 55, rx: 38, ry: 45 },
@@ -105,7 +114,7 @@ export function BodyMapSVG({
 
   const isFront = view === 'front';
   const isMale = gender === 'male';
-  const zones = getZones(isMale, isFront);
+  const zones = getZones(isFront);
   const viewBox = getViewBox();
 
   const renderZone = (zone: BodyZone) => {

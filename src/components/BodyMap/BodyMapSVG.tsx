@@ -45,43 +45,44 @@ export function BodyMapSVG({
   // Get the center X position (centered in single image)
   const cx = 304;
 
-  // Zone positions - adjusted for 608x1080 single body images
+  // Zone positions - fine-tuned for 608x1080 single body images
   const getZones = (isFront: boolean) => {
+    // Common zones shared between front and back views
     const commonZones = {
-      head: { cx, cy: 75, rx: 45, ry: 55 },
-      neck: { x: cx - 20, y: 130, width: 40, height: 35 },
-      'left-shoulder': { cx: cx - 70, cy: 185, rx: 40, ry: 22 },
-      'right-shoulder': { cx: cx + 70, cy: 185, rx: 40, ry: 22 },
-      'left-arm': { cx: cx - 105, cy: 290, rx: 22, ry: 60 },
-      'right-arm': { cx: cx + 105, cy: 290, rx: 22, ry: 60 },
-      'left-forearm': { cx: cx - 118, cy: 420, rx: 18, ry: 55 },
-      'right-forearm': { cx: cx + 118, cy: 420, rx: 18, ry: 55 },
-      'left-hand': { cx: cx - 125, cy: 520, rx: 18, ry: 32 },
-      'right-hand': { cx: cx + 125, cy: 520, rx: 18, ry: 32 },
-      'left-hip': { cx: cx - 50, cy: 490, rx: 40, ry: 35 },
-      'right-hip': { cx: cx + 50, cy: 490, rx: 40, ry: 35 },
-      'left-thigh': { cx: cx - 45, cy: 610, rx: 35, ry: 80 },
-      'right-thigh': { cx: cx + 45, cy: 610, rx: 35, ry: 80 },
-      'left-knee': { cx: cx - 42, cy: 720, rx: 25, ry: 30 },
-      'right-knee': { cx: cx + 42, cy: 720, rx: 25, ry: 30 },
-      'left-leg': { cx: cx - 38, cy: 820, rx: 18, ry: 60 },
-      'right-leg': { cx: cx + 38, cy: 820, rx: 18, ry: 60 },
-      'left-foot': { cx: cx - 38, cy: 920, rx: 25, ry: 15 },
-      'right-foot': { cx: cx + 38, cy: 920, rx: 25, ry: 15 },
+      head: { cx, cy: 70, rx: 42, ry: 50 },
+      neck: { x: cx - 18, y: 120, width: 36, height: 30 },
+      'left-shoulder': { cx: cx - 65, cy: 175, rx: 35, ry: 20 },
+      'right-shoulder': { cx: cx + 65, cy: 175, rx: 35, ry: 20 },
+      'left-arm': { cx: cx - 95, cy: 270, rx: 20, ry: 50 },
+      'right-arm': { cx: cx + 95, cy: 270, rx: 20, ry: 50 },
+      'left-forearm': { cx: cx - 108, cy: 380, rx: 16, ry: 45 },
+      'right-forearm': { cx: cx + 108, cy: 380, rx: 16, ry: 45 },
+      'left-hand': { cx: cx - 115, cy: 470, rx: 16, ry: 28 },
+      'right-hand': { cx: cx + 115, cy: 470, rx: 16, ry: 28 },
+      'left-hip': { cx: cx - 45, cy: 460, rx: 35, ry: 30 },
+      'right-hip': { cx: cx + 45, cy: 460, rx: 35, ry: 30 },
+      'left-thigh': { cx: cx - 42, cy: 570, rx: 32, ry: 70 },
+      'right-thigh': { cx: cx + 42, cy: 570, rx: 32, ry: 70 },
+      'left-knee': { cx: cx - 38, cy: 680, rx: 22, ry: 28 },
+      'right-knee': { cx: cx + 38, cy: 680, rx: 22, ry: 28 },
+      'left-leg': { cx: cx - 35, cy: 780, rx: 16, ry: 55 },
+      'right-leg': { cx: cx + 35, cy: 780, rx: 16, ry: 55 },
+      'left-foot': { cx: cx - 35, cy: 880, rx: 22, ry: 14 },
+      'right-foot': { cx: cx + 35, cy: 880, rx: 22, ry: 14 },
     };
     
     if (isFront) {
       return {
         ...commonZones,
-        chest: { cx, cy: 260, rx: 70, ry: 55 },
-        abdomen: { cx, cy: 360, rx: 55, ry: 55 },
-        pelvis: { cx, cy: 450, rx: 60, ry: 45 },
+        chest: { cx, cy: 230, rx: 60, ry: 45 },
+        abdomen: { cx, cy: 320, rx: 50, ry: 45 },
+        pelvis: { cx, cy: 420, rx: 55, ry: 40 },
       };
     } else {
       return {
         ...commonZones,
-        'upper-back': { cx, cy: 260, rx: 70, ry: 55 },
-        'lower-back': { cx, cy: 390, rx: 60, ry: 80 },
+        'upper-back': { cx, cy: 230, rx: 60, ry: 50 },
+        'lower-back': { cx, cy: 360, rx: 55, ry: 70 },
       };
     }
   };

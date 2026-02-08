@@ -34,7 +34,9 @@ export function BodyMapSVG({
   };
 
   const zoneClass = (zone: BodyZone) => cn(
-    'body-zone cursor-pointer transition-all duration-200 hover:fill-primary/20',
+    'body-zone cursor-pointer transition-all duration-200',
+    'hover:fill-primary/40 hover:stroke-primary hover:stroke-2',
+    'active:fill-primary/50',
     selectedZones.includes(zone) && 'selected'
   );
 

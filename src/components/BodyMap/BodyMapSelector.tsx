@@ -1,7 +1,7 @@
 import React from 'react';
 import { BodyView, BodyZone, BODY_ZONE_LABELS } from '@/types/pain';
 import { BodyMapSVG } from './BodyMapSVG';
-import { RotateCcw, X, Sparkles } from 'lucide-react';
+import { X, Sparkles } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
 interface BodyMapSelectorProps {
@@ -30,43 +30,30 @@ export function BodyMapSelector({
   return (
     <div className="space-y-4">
       {/* View toggle */}
-      <div className="flex items-center justify-between">
-        <div className="flex items-center gap-2">
-          <div className="flex bg-muted rounded-lg p-1">
-            <button
-              type="button"
-              onClick={() => setView('front')}
-              className={cn(
-                "px-3 py-1.5 text-xs font-medium rounded-md transition-all duration-200",
-                view === 'front' 
-                  ? "bg-background text-foreground shadow-sm" 
-                  : "text-muted-foreground hover:text-foreground"
-              )}
-            >
-              Face
-            </button>
-            <button
-              type="button"
-              onClick={() => setView('back')}
-              className={cn(
-                "px-3 py-1.5 text-xs font-medium rounded-md transition-all duration-200",
-                view === 'back' 
-                  ? "bg-background text-foreground shadow-sm" 
-                  : "text-muted-foreground hover:text-foreground"
-              )}
-            >
-              Dos
-            </button>
-          </div>
-        </div>
-        
+      <div className="flex bg-muted rounded-lg p-1 w-fit">
         <button
           type="button"
-          onClick={() => setView(view === 'front' ? 'back' : 'front')}
-          className="flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium text-muted-foreground hover:text-foreground bg-muted/50 hover:bg-muted rounded-lg transition-all duration-200"
+          onClick={() => setView('front')}
+          className={cn(
+            "px-3 py-1.5 text-xs font-medium rounded-md transition-all duration-200",
+            view === 'front' 
+              ? "bg-background text-foreground shadow-sm" 
+              : "text-muted-foreground hover:text-foreground"
+          )}
         >
-          <RotateCcw className="w-3.5 h-3.5" />
-          Pivoter
+          Face
+        </button>
+        <button
+          type="button"
+          onClick={() => setView('back')}
+          className={cn(
+            "px-3 py-1.5 text-xs font-medium rounded-md transition-all duration-200",
+            view === 'back' 
+              ? "bg-background text-foreground shadow-sm" 
+              : "text-muted-foreground hover:text-foreground"
+          )}
+        >
+          Dos
         </button>
       </div>
 

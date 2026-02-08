@@ -1,7 +1,8 @@
 import React from 'react';
 import { BodyView, BodyZone } from '@/types/pain';
 import { cn } from '@/lib/utils';
-import bodyMap from '@/assets/body-map-neutral.png';
+import bodyFront from '@/assets/body-front.png';
+import bodyBack from '@/assets/body-back.png';
 
 interface BodyMapSVGProps {
   view: BodyView;
@@ -38,27 +39,14 @@ export function BodyMapSVG({
     selectedZones.includes(zone) && 'selected'
   );
 
-  // Full image dimensions: 1920x1080
-  // 2 figures: Front (left) | Back (right)
-  // Each figure ~960px wide
+  // Single image dimensions: 608x1080
+  const viewBox = '0 0 608 1080';
 
-  const getViewBox = () => {
-    if (view === 'front') {
-      return '0 0 960 1080'; // Front view (left figure)
-    } else {
-      return '960 0 960 1080'; // Back view (right figure)
-    }
-  };
-
-  // Get the center X position for each figure
-  const getCenterX = () => {
-    return view === 'front' ? 480 : 1440; // Center of each half
-  };
+  // Get the center X position (centered in single image)
+  const cx = 304;
 
   // Zone positions - using absolute coordinates aligned to silhouettes
   const getZones = (isFront: boolean) => {
-    const cx = getCenterX();
-    
     const commonZones = {
       head: { cx, cy: 95, rx: 55, ry: 70 },
       neck: { x: cx - 25, y: 165, width: 50, height: 50 },
@@ -100,7 +88,7 @@ export function BodyMapSVG({
 
   const isFront = view === 'front';
   const zones = getZones(isFront);
-  const viewBox = getViewBox();
+  const bodyImage = isFront ? bodyFront : bodyBack;
 
   const renderZone = (zone: BodyZone) => {
     const zoneData = zones[zone as keyof typeof zones];
@@ -154,10 +142,10 @@ export function BodyMapSVG({
     >
       {/* Background image */}
       <image
-        href={bodyMap}
+        href={bodyImage}
         x="0"
         y="0"
-        width="1920"
+        width="608"
         height="1080"
         preserveAspectRatio="xMidYMid meet"
       />

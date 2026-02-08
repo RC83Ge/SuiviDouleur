@@ -1,10 +1,9 @@
 import React from 'react';
-import { Gender, BodyView, BodyZone } from '@/types/pain';
+import { BodyView, BodyZone } from '@/types/pain';
 import { cn } from '@/lib/utils';
-import bodyMap from '@/assets/body-map-new.png';
+import bodyMap from '@/assets/body-map-neutral.png';
 
 interface BodyMapSVGProps {
-  gender: Gender;
   view: BodyView;
   selectedZones: BodyZone[];
   onZoneClick: (zone: BodyZone) => void;
@@ -22,7 +21,6 @@ const getZoneColor = (zone: BodyZone, selectedZones: BodyZone[], intensity?: num
 };
 
 export function BodyMapSVG({ 
-  gender, 
   view, 
   selectedZones, 
   onZoneClick,
@@ -41,32 +39,20 @@ export function BodyMapSVG({
   );
 
   // Full image dimensions: 1920x1080
-  // 4 figures: Back | Front | Front | Back
-  // Each figure ~480px wide
+  // 2 figures: Front (left) | Back (right)
+  // Each figure ~960px wide
 
   const getViewBox = () => {
-    if (gender === 'male') {
-      if (view === 'front') {
-        return '480 0 480 1080'; // Male front (2nd figure)
-      } else {
-        return '0 0 480 1080'; // Male back (1st figure)
-      }
+    if (view === 'front') {
+      return '0 0 960 1080'; // Front view (left figure)
     } else {
-      if (view === 'front') {
-        return '960 0 480 1080'; // Female front (3rd figure)
-      } else {
-        return '1440 0 480 1080'; // Female back (4th figure)
-      }
+      return '960 0 960 1080'; // Back view (right figure)
     }
   };
 
-  // Get the center X position for each figure - adjusted to actual positions
+  // Get the center X position for each figure
   const getCenterX = () => {
-    if (gender === 'male') {
-      return view === 'front' ? 718 : 238; // Male front / Male back
-    } else {
-      return view === 'front' ? 1198 : 1678; // Female front / Female back
-    }
+    return view === 'front' ? 480 : 1440; // Center of each half
   };
 
   // Zone positions - using absolute coordinates aligned to silhouettes
@@ -113,7 +99,6 @@ export function BodyMapSVG({
   };
 
   const isFront = view === 'front';
-  const isMale = gender === 'male';
   const zones = getZones(isFront);
   const viewBox = getViewBox();
 

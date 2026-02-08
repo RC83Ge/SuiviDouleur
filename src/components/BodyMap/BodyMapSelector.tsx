@@ -32,42 +32,15 @@ export function BodyMapSelector({
 
   return (
     <div className="space-y-4">
-      <div className="flex items-center justify-between">
-        <div className="flex items-center gap-2">
-          <button
-            type="button"
-            onClick={() => onGenderChange('male')}
-            className={`btn-medical text-xs px-3 py-1.5 ${
-              gender === 'male' 
-                ? 'bg-primary text-primary-foreground' 
-                : 'bg-secondary text-secondary-foreground'
-            }`}
-          >
-            Homme
-          </button>
-          <button
-            type="button"
-            onClick={() => onGenderChange('female')}
-            className={`btn-medical text-xs px-3 py-1.5 ${
-              gender === 'female' 
-                ? 'bg-primary text-primary-foreground' 
-                : 'bg-secondary text-secondary-foreground'
-            }`}
-          >
-            Femme
-          </button>
-        </div>
-        
-        <div className="flex items-center gap-2">
-          <button
-            type="button"
-            onClick={() => setView(view === 'front' ? 'back' : 'front')}
-            className="btn-medical bg-secondary text-secondary-foreground text-xs px-3 py-1.5 gap-1"
-          >
-            <RotateCcw className="w-3.5 h-3.5" />
-            {view === 'front' ? 'Voir dos' : 'Voir face'}
-          </button>
-        </div>
+      <div className="flex items-center justify-end">
+        <button
+          type="button"
+          onClick={() => setView(view === 'front' ? 'back' : 'front')}
+          className="btn-medical bg-secondary text-secondary-foreground text-xs px-3 py-1.5 gap-1"
+        >
+          <RotateCcw className="w-3.5 h-3.5" />
+          {view === 'front' ? 'Voir dos' : 'Voir face'}
+        </button>
       </div>
 
       <div className="flex gap-4">

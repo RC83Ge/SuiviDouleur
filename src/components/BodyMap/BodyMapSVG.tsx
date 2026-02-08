@@ -1,8 +1,6 @@
 import React, { useState } from 'react';
 import { BodyView, BodyZone, BODY_ZONE_LABELS } from '@/types/pain';
 import { cn } from '@/lib/utils';
-import bodyFront from '@/assets/body-front.png';
-import bodyBack from '@/assets/body-back.png';
 
 interface BodyMapSVGProps {
   view: BodyView;
@@ -10,16 +8,6 @@ interface BodyMapSVGProps {
   onZoneClick: (zone: BodyZone) => void;
   zoneIntensities?: Partial<Record<BodyZone, number>>;
 }
-
-const getZoneColor = (zone: BodyZone, selectedZones: BodyZone[], intensity?: number) => {
-  if (!selectedZones.includes(zone)) {
-    return 'transparent';
-  }
-  if (intensity !== undefined) {
-    return `hsl(var(--pain-${intensity}) / 0.5)`;
-  }
-  return 'hsl(var(--primary) / 0.5)';
-};
 
 export function BodyMapSVG({ 
   view, 
@@ -42,12 +30,6 @@ export function BodyMapSVG({
     setHoveredZone(null);
   };
 
-  const zoneClass = (zone: BodyZone) => cn(
-    'body-zone cursor-pointer transition-all duration-300 ease-out',
-    'hover:stroke-primary hover:stroke-[3px]',
-    selectedZones.includes(zone) && 'stroke-primary stroke-2'
-  );
-
   const getZoneFill = (zone: BodyZone) => {
     const isSelected = selectedZones.includes(zone);
     const isHovered = hoveredZone === zone;
@@ -55,190 +37,232 @@ export function BodyMapSVG({
     
     if (isSelected) {
       if (intensity !== undefined) {
-        return `hsl(var(--pain-${intensity}) / ${isHovered ? 0.7 : 0.5})`;
+        return `hsl(var(--pain-${intensity}))`;
       }
-      return `hsl(var(--primary) / ${isHovered ? 0.7 : 0.5})`;
+      return 'hsl(var(--primary))';
     }
     
     if (isHovered) {
-      return 'hsl(var(--primary) / 0.25)';
+      return 'hsl(var(--primary) / 0.3)';
     }
     
-    return 'transparent';
+    return 'hsl(var(--muted))';
   };
 
-  // Single image dimensions: 608x1080
-  const viewBox = '0 0 608 1080';
-
-  // Get the center X position (centered in single image)
-  const cx = 304;
-
-  // Zone positions - fine-tuned for 608x1080 single body images
-  const getZones = (isFront: boolean) => {
-    // Common zones shared between front and back views
-    const commonZones = {
-      head: { cx, cy: 70, rx: 42, ry: 50 },
-      neck: { x: cx - 18, y: 120, width: 36, height: 30 },
-      'left-shoulder': { cx: cx - 65, cy: 175, rx: 35, ry: 20 },
-      'right-shoulder': { cx: cx + 65, cy: 175, rx: 35, ry: 20 },
-      'left-arm': { cx: cx - 95, cy: 270, rx: 20, ry: 50 },
-      'right-arm': { cx: cx + 95, cy: 270, rx: 20, ry: 50 },
-      'left-forearm': { cx: cx - 108, cy: 380, rx: 16, ry: 45 },
-      'right-forearm': { cx: cx + 108, cy: 380, rx: 16, ry: 45 },
-      'left-hand': { cx: cx - 115, cy: 470, rx: 16, ry: 28 },
-      'right-hand': { cx: cx + 115, cy: 470, rx: 16, ry: 28 },
-      'left-hip': { cx: cx - 45, cy: 460, rx: 35, ry: 30 },
-      'right-hip': { cx: cx + 45, cy: 460, rx: 35, ry: 30 },
-      'left-thigh': { cx: cx - 40, cy: 560, rx: 28, ry: 60 },
-      'right-thigh': { cx: cx + 40, cy: 560, rx: 28, ry: 60 },
-      'left-knee': { cx: cx - 36, cy: 660, rx: 20, ry: 25 },
-      'right-knee': { cx: cx + 36, cy: 660, rx: 20, ry: 25 },
-      'left-leg': { cx: cx - 32, cy: 750, rx: 14, ry: 50 },
-      'right-leg': { cx: cx + 32, cy: 750, rx: 14, ry: 50 },
-      'left-foot': { cx: cx - 30, cy: 840, rx: 20, ry: 12 },
-      'right-foot': { cx: cx + 30, cy: 840, rx: 20, ry: 12 },
-    };
+  const getZoneStroke = (zone: BodyZone) => {
+    const isSelected = selectedZones.includes(zone);
+    const isHovered = hoveredZone === zone;
     
-    if (isFront) {
-      return {
-        ...commonZones,
-        chest: { cx, cy: 230, rx: 60, ry: 45 },
-        abdomen: { cx, cy: 320, rx: 50, ry: 45 },
-        pelvis: { cx, cy: 420, rx: 55, ry: 40 },
-      };
-    } else {
-      return {
-        ...commonZones,
-        'upper-back': { cx, cy: 230, rx: 60, ry: 50 },
-        'lower-back': { cx, cy: 360, rx: 55, ry: 70 },
-      };
+    if (isSelected || isHovered) {
+      return 'hsl(var(--primary))';
     }
+    return 'hsl(var(--border))';
   };
+
+  const zoneProps = (zone: BodyZone) => ({
+    className: cn(
+      'cursor-pointer transition-all duration-200 ease-out',
+      selectedZones.includes(zone) && 'drop-shadow-md'
+    ),
+    onClick: handleClick(zone),
+    onMouseEnter: handleMouseEnter(zone),
+    onMouseLeave: handleMouseLeave,
+    style: { 
+      fill: getZoneFill(zone),
+      stroke: getZoneStroke(zone),
+      strokeWidth: hoveredZone === zone || selectedZones.includes(zone) ? 2 : 1,
+    }
+  });
 
   const isFront = view === 'front';
-  const zones = getZones(isFront);
-  const bodyImage = isFront ? bodyFront : bodyBack;
 
-  const renderZone = (zone: BodyZone) => {
-    const zoneData = zones[zone as keyof typeof zones];
-    if (!zoneData) return null;
-
-    const commonProps = {
-      className: zoneClass(zone),
-      onClick: handleClick(zone),
-      onMouseEnter: handleMouseEnter(zone),
-      onMouseLeave: handleMouseLeave,
-      style: { 
-        fill: getZoneFill(zone),
-        filter: hoveredZone === zone ? 'drop-shadow(0 0 8px hsl(var(--primary) / 0.4))' : 'none'
-      }
+  // Tooltip position calculation
+  const getTooltipPosition = (zone: BodyZone): { x: number; y: number } => {
+    const positions: Record<string, { x: number; y: number }> = {
+      head: { x: 100, y: 25 },
+      neck: { x: 100, y: 70 },
+      'left-shoulder': { x: 55, y: 95 },
+      'right-shoulder': { x: 145, y: 95 },
+      chest: { x: 100, y: 130 },
+      'upper-back': { x: 100, y: 130 },
+      'left-arm': { x: 35, y: 150 },
+      'right-arm': { x: 165, y: 150 },
+      'left-forearm': { x: 25, y: 210 },
+      'right-forearm': { x: 175, y: 210 },
+      'left-hand': { x: 15, y: 270 },
+      'right-hand': { x: 185, y: 270 },
+      abdomen: { x: 100, y: 190 },
+      'lower-back': { x: 100, y: 200 },
+      pelvis: { x: 100, y: 240 },
+      'left-hip': { x: 70, y: 260 },
+      'right-hip': { x: 130, y: 260 },
+      'left-thigh': { x: 70, y: 310 },
+      'right-thigh': { x: 130, y: 310 },
+      'left-knee': { x: 70, y: 370 },
+      'right-knee': { x: 130, y: 370 },
+      'left-leg': { x: 70, y: 420 },
+      'right-leg': { x: 130, y: 420 },
+      'left-foot': { x: 65, y: 480 },
+      'right-foot': { x: 135, y: 480 },
     };
-
-    if ('cx' in zoneData) {
-      return (
-        <ellipse
-          key={zone}
-          cx={zoneData.cx}
-          cy={zoneData.cy}
-          rx={zoneData.rx}
-          ry={zoneData.ry}
-          {...commonProps}
-        />
-      );
-    } else {
-      return (
-        <rect
-          key={zone}
-          x={zoneData.x}
-          y={zoneData.y}
-          width={zoneData.width}
-          height={zoneData.height}
-          rx={6}
-          {...commonProps}
-        />
-      );
-    }
+    return positions[zone] || { x: 100, y: 250 };
   };
-
-  // Get tooltip position for a zone
-  const getTooltipPosition = (zone: BodyZone) => {
-    const zoneData = zones[zone as keyof typeof zones];
-    if (!zoneData) return { x: 0, y: 0 };
-    
-    if ('cx' in zoneData) {
-      return { x: zoneData.cx, y: zoneData.cy - zoneData.ry - 15 };
-    } else {
-      return { x: zoneData.x + zoneData.width / 2, y: zoneData.y - 15 };
-    }
-  };
-
-  const allZones: BodyZone[] = isFront 
-    ? ['head', 'neck', 'left-shoulder', 'right-shoulder', 'chest', 'left-arm', 'right-arm', 
-       'left-forearm', 'right-forearm', 'left-hand', 'right-hand', 'abdomen', 'pelvis',
-       'left-hip', 'right-hip', 'left-thigh', 'right-thigh', 'left-knee', 'right-knee',
-       'left-leg', 'right-leg', 'left-foot', 'right-foot']
-    : ['head', 'neck', 'left-shoulder', 'right-shoulder', 'upper-back', 'left-arm', 'right-arm',
-       'left-forearm', 'right-forearm', 'left-hand', 'right-hand', 'lower-back',
-       'left-hip', 'right-hip', 'left-thigh', 'right-thigh', 'left-knee', 'right-knee',
-       'left-leg', 'right-leg', 'left-foot', 'right-foot'];
 
   const tooltipPos = hoveredZone ? getTooltipPosition(hoveredZone) : null;
 
   return (
     <svg
-      viewBox={viewBox}
+      viewBox="0 0 200 500"
       className="w-full h-auto max-h-[500px] select-none"
       style={{ touchAction: 'manipulation' }}
     >
-      {/* Subtle gradient background */}
       <defs>
-        <linearGradient id="bodyGradient" x1="0%" y1="0%" x2="0%" y2="100%">
-          <stop offset="0%" stopColor="hsl(var(--muted))" stopOpacity="0.3" />
-          <stop offset="100%" stopColor="hsl(var(--muted))" stopOpacity="0.1" />
-        </linearGradient>
-        <filter id="glow">
-          <feGaussianBlur stdDeviation="3" result="coloredBlur"/>
-          <feMerge>
-            <feMergeNode in="coloredBlur"/>
-            <feMergeNode in="SourceGraphic"/>
-          </feMerge>
+        <filter id="zoneShadow" x="-20%" y="-20%" width="140%" height="140%">
+          <feDropShadow dx="0" dy="2" stdDeviation="3" floodOpacity="0.2"/>
         </filter>
       </defs>
 
-      {/* Background image */}
-      <image
-        href={bodyImage}
-        x="0"
-        y="0"
-        width="608"
-        height="1080"
-        preserveAspectRatio="xMidYMid meet"
-        className="pointer-events-none"
-      />
-      
-      {/* Clickable zones overlay */}
-      {allZones.map(renderZone)}
+      {/* Body silhouette with separate paths for each zone */}
+      <g>
+        {/* Head */}
+        <ellipse cx="100" cy="45" rx="28" ry="32" {...zoneProps('head')} />
+        
+        {/* Neck */}
+        <rect x="88" y="75" width="24" height="25" rx="4" {...zoneProps('neck')} />
+
+        {/* Shoulders */}
+        <path 
+          d="M 60 100 Q 50 105, 48 120 L 60 120 Q 65 108, 75 105 Z" 
+          {...zoneProps('left-shoulder')} 
+        />
+        <path 
+          d="M 140 100 Q 150 105, 152 120 L 140 120 Q 135 108, 125 105 Z" 
+          {...zoneProps('right-shoulder')} 
+        />
+
+        {/* Chest / Upper Back */}
+        {isFront ? (
+          <path 
+            d="M 75 105 Q 100 100, 125 105 L 125 165 Q 100 170, 75 165 Z" 
+            {...zoneProps('chest')} 
+          />
+        ) : (
+          <path 
+            d="M 75 105 Q 100 100, 125 105 L 125 165 Q 100 170, 75 165 Z" 
+            {...zoneProps('upper-back')} 
+          />
+        )}
+
+        {/* Arms */}
+        <path 
+          d="M 48 120 L 38 180 Q 35 185, 40 190 L 52 190 Q 57 185, 55 180 L 60 120 Z" 
+          {...zoneProps('left-arm')} 
+        />
+        <path 
+          d="M 152 120 L 162 180 Q 165 185, 160 190 L 148 190 Q 143 185, 145 180 L 140 120 Z" 
+          {...zoneProps('right-arm')} 
+        />
+
+        {/* Forearms */}
+        <path 
+          d="M 40 190 L 30 250 Q 28 255, 32 258 L 45 258 Q 50 255, 48 250 L 52 190 Z" 
+          {...zoneProps('left-forearm')} 
+        />
+        <path 
+          d="M 160 190 L 170 250 Q 172 255, 168 258 L 155 258 Q 150 255, 152 250 L 148 190 Z" 
+          {...zoneProps('right-forearm')} 
+        />
+
+        {/* Hands */}
+        <path 
+          d="M 32 258 Q 25 262, 22 275 Q 20 290, 28 295 Q 35 298, 42 292 Q 48 285, 45 270 Q 48 262, 45 258 Z" 
+          {...zoneProps('left-hand')} 
+        />
+        <path 
+          d="M 168 258 Q 175 262, 178 275 Q 180 290, 172 295 Q 165 298, 158 292 Q 152 285, 155 270 Q 152 262, 155 258 Z" 
+          {...zoneProps('right-hand')} 
+        />
+
+        {/* Abdomen / Lower Back */}
+        {isFront ? (
+          <path 
+            d="M 75 165 Q 100 170, 125 165 L 125 220 Q 100 225, 75 220 Z" 
+            {...zoneProps('abdomen')} 
+          />
+        ) : (
+          <path 
+            d="M 75 165 Q 100 170, 125 165 L 125 235 Q 100 240, 75 235 Z" 
+            {...zoneProps('lower-back')} 
+          />
+        )}
+
+        {/* Pelvis (front only) */}
+        {isFront && (
+          <path 
+            d="M 75 220 Q 100 225, 125 220 L 130 255 Q 100 265, 70 255 Z" 
+            {...zoneProps('pelvis')} 
+          />
+        )}
+
+        {/* Hips */}
+        <ellipse cx="78" cy="268" rx="18" ry="15" {...zoneProps('left-hip')} />
+        <ellipse cx="122" cy="268" rx="18" ry="15" {...zoneProps('right-hip')} />
+
+        {/* Thighs */}
+        <path 
+          d="M 65 280 Q 60 320, 65 360 L 85 360 Q 90 320, 90 280 Z" 
+          {...zoneProps('left-thigh')} 
+        />
+        <path 
+          d="M 135 280 Q 140 320, 135 360 L 115 360 Q 110 320, 110 280 Z" 
+          {...zoneProps('right-thigh')} 
+        />
+
+        {/* Knees */}
+        <ellipse cx="75" cy="375" rx="14" ry="18" {...zoneProps('left-knee')} />
+        <ellipse cx="125" cy="375" rx="14" ry="18" {...zoneProps('right-knee')} />
+
+        {/* Legs (calves) */}
+        <path 
+          d="M 63 392 Q 60 420, 65 455 L 82 455 Q 88 420, 87 392 Z" 
+          {...zoneProps('left-leg')} 
+        />
+        <path 
+          d="M 137 392 Q 140 420, 135 455 L 118 455 Q 112 420, 113 392 Z" 
+          {...zoneProps('right-leg')} 
+        />
+
+        {/* Feet */}
+        <path 
+          d="M 65 455 Q 55 460, 52 470 Q 50 480, 58 485 Q 72 490, 82 485 Q 88 480, 82 465 L 82 455 Z" 
+          {...zoneProps('left-foot')} 
+        />
+        <path 
+          d="M 135 455 Q 145 460, 148 470 Q 150 480, 142 485 Q 128 490, 118 485 Q 112 480, 118 465 L 118 455 Z" 
+          {...zoneProps('right-foot')} 
+        />
+      </g>
 
       {/* Tooltip */}
       {hoveredZone && tooltipPos && (
         <g className="pointer-events-none">
           <rect
-            x={tooltipPos.x - 60}
-            y={tooltipPos.y - 24}
-            width="120"
-            height="28"
+            x={tooltipPos.x - 50}
+            y={tooltipPos.y - 22}
+            width="100"
+            height="24"
             rx="6"
             fill="hsl(var(--popover))"
             stroke="hsl(var(--border))"
             strokeWidth="1"
-            className="drop-shadow-md"
+            filter="url(#zoneShadow)"
           />
           <text
             x={tooltipPos.x}
             y={tooltipPos.y - 6}
             textAnchor="middle"
             fill="hsl(var(--popover-foreground))"
-            fontSize="13"
+            fontSize="11"
             fontWeight="500"
             fontFamily="system-ui, sans-serif"
           >

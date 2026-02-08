@@ -152,16 +152,22 @@ export function PainMap({
 
       {/* 
         CONTENEUR PARENT - position: relative
+        RÈGLE 1: width: fit-content + height: fit-content pour "hugger" l'image
         C'est ici qu'on attache le onClick, PAS sur l'image
       */}
       <div
         onClick={handleContainerClick}
         className="relative mx-auto cursor-crosshair rounded-2xl bg-gradient-to-b from-muted/30 to-muted/10 overflow-hidden"
-        style={{ width: 'fit-content' }}
+        style={{ 
+          display: 'inline-block', // Alternative à fit-content pour meilleure compatibilité
+          width: 'fit-content',
+          height: 'fit-content',
+          lineHeight: 0, // Supprime les espaces fantômes liés au line-height
+        }}
       >
         {/* 
           IMAGE DU CORPS
-          - width: 100%, display: block pour éviter les espaces fantômes
+          RÈGLE 2: display: block pour supprimer la marge fantôme sous l'image
           - pointer-events: none pour que les clics passent au conteneur
         */}
         <img
@@ -169,9 +175,10 @@ export function PainMap({
           alt={`Corps humain - vue ${view === 'front' ? 'de face' : 'de dos'}`}
           draggable={false}
           style={{
-            display: 'block',
-            width: '100%',
+            display: 'block', // Supprime l'espace fantôme (line-height)
             maxHeight: '500px',
+            width: 'auto', // Laisse l'image définir sa propre largeur
+            height: 'auto', // Maintient le ratio
             pointerEvents: 'none',
             userSelect: 'none',
           }}

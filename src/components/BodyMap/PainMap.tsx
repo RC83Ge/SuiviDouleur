@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react';
+import React, { useState } from 'react';
 import { BodyView } from '@/types/pain';
 import { cn } from '@/lib/utils';
 import bodyFront from '@/assets/body-front.png';
@@ -30,86 +30,83 @@ export function PainMap({
   // Internal state fallback
   const [internalView, setInternalView] = useState<BodyView>('front');
   const [internalPainPoints, setInternalPainPoints] = useState<PainPoint[]>([]);
-  
+  const [selectedPointId, setSelectedPointId] = useState<string | null>(null);
+
   // Use external or internal state
   const view = externalView ?? internalView;
   const setView = onViewChange ?? setInternalView;
   const painPoints = externalPainPoints ?? internalPainPoints;
   const setPainPoints = onPainPointsChange ?? setInternalPainPoints;
 
-  const containerRef = useRef<HTMLDivElement>(null);
-  const [selectedPoint, setSelectedPoint] = useState<string | null>(null);
+  // GESTION DU CLIC - Attaché uniquement sur le conteneur parent
+  const handleContainerClick = (event: React.MouseEvent<HTMLDivElement>) => {
+    // Utilise event.currentTarget pour obtenir le conteneur parent
+    const rect = event.currentTarget.getBoundingClientRect();
 
-  const handleContainerClick = (e: React.MouseEvent<HTMLDivElement>) => {
-    if (!containerRef.current) return;
-    
-    // Ignore clicks on existing points
-    if ((e.target as HTMLElement).closest('.pain-point')) return;
+    // Calcul des coordonnées en pourcentage
+    const x = ((event.clientX - rect.left) / rect.width) * 100;
+    const y = ((event.clientY - rect.top) / rect.height) * 100;
 
-    const rect = containerRef.current.getBoundingClientRect();
-    const x = ((e.clientX - rect.left) / rect.width) * 100;
-    const y = ((e.clientY - rect.top) / rect.height) * 100;
-
+    // Créer un nouveau point
     const newPoint: PainPoint = {
-      id: `pain-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`,
+      id: `pain-${Date.now()}`,
       x,
       y,
-      intensity: 5, // Default intensity
+      intensity: 5,
     };
 
     setPainPoints([...painPoints, newPoint]);
+    setSelectedPointId(null);
   };
 
   const handleRemovePoint = (id: string, e: React.MouseEvent) => {
     e.stopPropagation();
-    setPainPoints(painPoints.filter(p => p.id !== id));
-    setSelectedPoint(null);
+    setPainPoints(painPoints.filter((p) => p.id !== id));
+    if (selectedPointId === id) setSelectedPointId(null);
   };
 
-  const handlePointClick = (id: string, e: React.MouseEvent) => {
+  const handlePointInteraction = (id: string, e: React.MouseEvent) => {
     e.stopPropagation();
-    setSelectedPoint(selectedPoint === id ? null : id);
+    setSelectedPointId(selectedPointId === id ? null : id);
   };
 
   const handleIntensityChange = (id: string, intensity: number) => {
-    setPainPoints(painPoints.map(p => 
-      p.id === id ? { ...p, intensity } : p
-    ));
+    setPainPoints(painPoints.map((p) => (p.id === id ? { ...p, intensity } : p)));
   };
 
   const clearAllPoints = () => {
     setPainPoints([]);
-    setSelectedPoint(null);
+    setSelectedPointId(null);
   };
 
   const bodyImage = view === 'front' ? bodyFront : bodyBack;
 
-  // Get color based on intensity
-  const getPointColor = (intensity: number) => {
+  // Couleur basée sur l'intensité
+  const getPointColor = (intensity: number): string => {
     const colors = [
-      'rgba(34, 197, 94, 0.6)',   // 1 - green
-      'rgba(74, 222, 128, 0.6)',  // 2
-      'rgba(163, 230, 53, 0.6)',  // 3 - lime
-      'rgba(250, 204, 21, 0.6)',  // 4 - yellow
-      'rgba(251, 146, 60, 0.6)',  // 5 - orange
-      'rgba(249, 115, 22, 0.6)',  // 6
-      'rgba(239, 68, 68, 0.6)',   // 7 - red
-      'rgba(220, 38, 38, 0.6)',   // 8
-      'rgba(185, 28, 28, 0.7)',   // 9
-      'rgba(127, 29, 29, 0.8)',   // 10 - dark red
+      'rgba(34, 197, 94, 0.7)',   // 1 - vert
+      'rgba(74, 222, 128, 0.7)',  // 2
+      'rgba(163, 230, 53, 0.7)',  // 3
+      'rgba(250, 204, 21, 0.7)',  // 4 - jaune
+      'rgba(251, 146, 60, 0.7)',  // 5 - orange
+      'rgba(249, 115, 22, 0.7)',  // 6
+      'rgba(239, 68, 68, 0.7)',   // 7 - rouge
+      'rgba(220, 38, 38, 0.75)',  // 8
+      'rgba(185, 28, 28, 0.8)',   // 9
+      'rgba(127, 29, 29, 0.85)',  // 10 - rouge foncé
     ];
-    return colors[Math.min(intensity - 1, 9)];
+    return colors[Math.min(Math.max(intensity - 1, 0), 9)];
   };
 
-  const getGlowColor = (intensity: number) => {
-    if (intensity <= 3) return 'rgba(34, 197, 94, 0.4)';
-    if (intensity <= 5) return 'rgba(251, 146, 60, 0.4)';
-    if (intensity <= 7) return 'rgba(239, 68, 68, 0.4)';
-    return 'rgba(185, 28, 28, 0.5)';
+  const getGlowColor = (intensity: number): string => {
+    if (intensity <= 3) return 'rgba(34, 197, 94, 0.5)';
+    if (intensity <= 5) return 'rgba(251, 146, 60, 0.5)';
+    if (intensity <= 7) return 'rgba(239, 68, 68, 0.5)';
+    return 'rgba(185, 28, 28, 0.6)';
   };
 
   return (
-    <div className={cn("space-y-4", className)}>
+    <div className={cn('space-y-4', className)}>
       {/* Header controls */}
       <div className="flex items-center justify-between">
         {/* View toggle */}
@@ -118,10 +115,10 @@ export function PainMap({
             type="button"
             onClick={() => setView('front')}
             className={cn(
-              "px-3 py-1.5 text-xs font-medium rounded-md transition-all duration-200",
-              view === 'front' 
-                ? "bg-background text-foreground shadow-sm" 
-                : "text-muted-foreground hover:text-foreground"
+              'px-3 py-1.5 text-xs font-medium rounded-md transition-all duration-200',
+              view === 'front'
+                ? 'bg-background text-foreground shadow-sm'
+                : 'text-muted-foreground hover:text-foreground'
             )}
           >
             Face
@@ -130,10 +127,10 @@ export function PainMap({
             type="button"
             onClick={() => setView('back')}
             className={cn(
-              "px-3 py-1.5 text-xs font-medium rounded-md transition-all duration-200",
-              view === 'back' 
-                ? "bg-background text-foreground shadow-sm" 
-                : "text-muted-foreground hover:text-foreground"
+              'px-3 py-1.5 text-xs font-medium rounded-md transition-all duration-200',
+              view === 'back'
+                ? 'bg-background text-foreground shadow-sm'
+                : 'text-muted-foreground hover:text-foreground'
             )}
           >
             Dos
@@ -153,102 +150,128 @@ export function PainMap({
         )}
       </div>
 
-      {/* Pain map container - position: relative for absolute children */}
-      <div 
-        ref={containerRef}
+      {/* 
+        CONTENEUR PARENT - position: relative
+        C'est ici qu'on attache le onClick, PAS sur l'image
+      */}
+      <div
         onClick={handleContainerClick}
-        className="relative mx-auto cursor-crosshair select-none overflow-hidden rounded-2xl bg-gradient-to-b from-muted/30 to-muted/10"
-        style={{ 
-          touchAction: 'manipulation',
-          width: 'fit-content',
-          maxHeight: '500px',
-        }}
+        className="relative mx-auto cursor-crosshair rounded-2xl bg-gradient-to-b from-muted/30 to-muted/10 overflow-hidden"
+        style={{ width: 'fit-content' }}
       >
-        {/* Body image - no object-contain to ensure accurate click mapping */}
+        {/* 
+          IMAGE DU CORPS
+          - width: 100%, display: block pour éviter les espaces fantômes
+          - pointer-events: none pour que les clics passent au conteneur
+        */}
         <img
           src={bodyImage}
           alt={`Corps humain - vue ${view === 'front' ? 'de face' : 'de dos'}`}
-          className="h-full max-h-[500px] w-auto pointer-events-none"
           draggable={false}
+          style={{
+            display: 'block',
+            width: '100%',
+            maxHeight: '500px',
+            pointerEvents: 'none',
+            userSelect: 'none',
+          }}
         />
 
-        {/* Pain points - position: absolute avec pourcentages */}
+        {/* RENDU DES BOULES DE DOULEUR */}
         {painPoints.map((point) => (
           <div
             key={point.id}
-            className="pain-point absolute cursor-pointer group"
+            className="group"
             style={{
-              top: `${point.y}%`,
+              // Position absolue dans le conteneur parent
+              position: 'absolute',
               left: `${point.x}%`,
-              // Centrer la boule sur le point de clic avec translate(-50%, -50%)
+              top: `${point.y}%`,
+              // CRUCIAL: translate(-50%, -50%) pour centrer la boule sur le point exact
               transform: 'translate(-50%, -50%)',
+              // pointer-events: auto pour permettre l'interaction avec cette boule
+              pointerEvents: 'auto',
             }}
-            onClick={(e) => handlePointClick(point.id, e)}
           >
-            {/* Outer ping animation */}
-            <div 
-              className="absolute rounded-full animate-ping"
+            {/* Animation ping externe */}
+            <div
               style={{
-                width: '40px',
-                height: '40px',
+                position: 'absolute',
                 top: '50%',
                 left: '50%',
                 transform: 'translate(-50%, -50%)',
+                width: '44px',
+                height: '44px',
+                borderRadius: '50%',
                 background: `radial-gradient(circle, ${getPointColor(point.intensity)} 0%, transparent 70%)`,
-                animationDuration: '1.5s',
+                animation: 'ping 1.5s cubic-bezier(0, 0, 0.2, 1) infinite',
+                pointerEvents: 'none',
               }}
             />
-            
-            {/* Pulsing glow ring */}
-            <div 
-              className="absolute rounded-full animate-pulse"
+
+            {/* Anneau de glow pulsant */}
+            <div
               style={{
-                width: '50px',
-                height: '50px',
+                position: 'absolute',
                 top: '50%',
                 left: '50%',
                 transform: 'translate(-50%, -50%)',
-                background: `radial-gradient(circle, transparent 40%, ${getGlowColor(point.intensity)} 60%, transparent 70%)`,
-                animationDuration: '2s',
+                width: '54px',
+                height: '54px',
+                borderRadius: '50%',
+                background: `radial-gradient(circle, transparent 35%, ${getGlowColor(point.intensity)} 55%, transparent 70%)`,
+                animation: 'pulse 2s ease-in-out infinite',
+                pointerEvents: 'none',
               }}
             />
 
-            {/* Main pain marker with thermal gradient - centered */}
-            <div 
-              className="rounded-full transition-transform duration-200 hover:scale-110"
+            {/* Marqueur principal avec dégradé thermique */}
+            <div
+              onClick={(e) => handlePointInteraction(point.id, e)}
               style={{
-                width: '30px',
-                height: '30px',
-                background: `radial-gradient(circle at 40% 40%, 
-                  ${getPointColor(point.intensity).replace('0.6', '0.9')} 0%, 
-                  ${getPointColor(point.intensity)} 40%, 
-                  transparent 70%)`,
-                boxShadow: `0 0 20px ${getGlowColor(point.intensity)}, 
-                           0 0 40px ${getGlowColor(point.intensity).replace('0.4', '0.2')}`,
+                position: 'relative',
+                width: '28px',
+                height: '28px',
+                borderRadius: '50%',
+                background: `radial-gradient(circle at 35% 35%, 
+                  ${getPointColor(point.intensity).replace('0.7', '1')} 0%, 
+                  ${getPointColor(point.intensity)} 50%, 
+                  transparent 75%)`,
+                boxShadow: `0 0 16px ${getGlowColor(point.intensity)}, 
+                            0 0 32px ${getGlowColor(point.intensity).replace('0.5', '0.25')}`,
+                cursor: 'pointer',
+                transition: 'transform 0.2s ease',
               }}
+              onMouseEnter={(e) => (e.currentTarget.style.transform = 'scale(1.15)')}
+              onMouseLeave={(e) => (e.currentTarget.style.transform = 'scale(1)')}
             />
 
-            {/* Remove button on hover - positioned top-right of marker */}
+            {/* Bouton de suppression au survol */}
             <button
               type="button"
               onClick={(e) => handleRemovePoint(point.id, e)}
-              className="absolute w-5 h-5 bg-destructive text-destructive-foreground rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-200 hover:scale-110"
-              style={{ top: '-8px', right: '-8px' }}
+              className="absolute opacity-0 group-hover:opacity-100 transition-opacity duration-200 flex items-center justify-center bg-destructive text-destructive-foreground rounded-full hover:scale-110"
+              style={{
+                width: '18px',
+                height: '18px',
+                top: '-6px',
+                right: '-6px',
+              }}
             >
               <X className="w-3 h-3" />
             </button>
 
-            {/* Intensity selector on click */}
-            {selectedPoint === point.id && (
-              <div 
-                className="absolute z-10 bg-popover border border-border rounded-xl p-3 shadow-lg animate-in fade-in-0 zoom-in-95"
-                style={{ 
-                  top: '40px', 
-                  left: '50%', 
-                  transform: 'translateX(-50%)',
-                  minWidth: '180px'
-                }}
+            {/* Sélecteur d'intensité au clic */}
+            {selectedPointId === point.id && (
+              <div
                 onClick={(e) => e.stopPropagation()}
+                className="absolute z-20 bg-popover border border-border rounded-xl p-3 shadow-lg animate-in fade-in-0 zoom-in-95"
+                style={{
+                  top: '36px',
+                  left: '50%',
+                  transform: 'translateX(-50%)',
+                  minWidth: '160px',
+                }}
               >
                 <div className="text-xs font-medium text-foreground mb-2">
                   Intensité: {point.intensity}/10
@@ -262,9 +285,10 @@ export function PainMap({
                   className="w-full h-2 rounded-full appearance-none cursor-pointer"
                   style={{
                     background: `linear-gradient(to right, 
-                      hsl(var(--pain-0)) 0%, 
-                      hsl(var(--pain-5)) 50%, 
-                      hsl(var(--pain-10)) 100%)`
+                      hsl(120, 60%, 50%) 0%, 
+                      hsl(60, 70%, 50%) 30%,
+                      hsl(30, 80%, 50%) 60%,
+                      hsl(0, 70%, 45%) 100%)`,
                   }}
                 />
                 <div className="flex justify-between text-[10px] text-muted-foreground mt-1">
@@ -276,9 +300,12 @@ export function PainMap({
           </div>
         ))}
 
-        {/* Instructions overlay when empty */}
+        {/* Instructions si aucun point */}
         {painPoints.length === 0 && (
-          <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
+          <div
+            className="absolute inset-0 flex items-center justify-center"
+            style={{ pointerEvents: 'none' }}
+          >
             <div className="bg-background/80 backdrop-blur-sm rounded-xl px-4 py-3 border border-border/50 shadow-lg">
               <p className="text-sm text-muted-foreground text-center">
                 Cliquez sur le corps pour ajouter un point de douleur
@@ -288,7 +315,7 @@ export function PainMap({
         )}
       </div>
 
-      {/* Points summary */}
+      {/* Résumé des points */}
       {painPoints.length > 0 && (
         <div className="flex items-center justify-center gap-2 text-xs text-muted-foreground">
           <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-muted">
@@ -296,6 +323,24 @@ export function PainMap({
           </span>
         </div>
       )}
+
+      {/* Keyframes pour les animations */}
+      <style>{`
+        @keyframes ping {
+          75%, 100% {
+            transform: translate(-50%, -50%) scale(2);
+            opacity: 0;
+          }
+        }
+        @keyframes pulse {
+          0%, 100% {
+            opacity: 1;
+          }
+          50% {
+            opacity: 0.5;
+          }
+        }
+      `}</style>
     </div>
   );
 }

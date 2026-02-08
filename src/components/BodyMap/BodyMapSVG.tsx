@@ -1,7 +1,7 @@
 import React from 'react';
 import { Gender, BodyView, BodyZone } from '@/types/pain';
 import { cn } from '@/lib/utils';
-import bodyReference from '@/assets/body-reference.png';
+import bodyMap from '@/assets/body-map-cropped.png';
 
 interface BodyMapSVGProps {
   gender: Gender;
@@ -38,147 +38,72 @@ export function BodyMapSVG({
     selectedZones.includes(zone) && 'selected'
   );
 
-  // Image layout from left to right:
-  // 1. Male side (profile) - ~0-85
-  // 2. Male back - ~85-170  
-  // 3. Male front - ~170-255
-  // 4. Female front - ~280-365
-  // 5. Female back - ~365-450
-  // 6. Female side (profile) - ~450-530
+  // Full image dimensions: 1344x756 (16:9)
+  // 4 figures evenly spaced
+  // Each figure ~250px wide, centered in quarters
 
   const getViewBox = () => {
     if (gender === 'male') {
       if (view === 'front') {
-        return '170 0 85 210'; // Male front
+        return '270 0 280 756'; // Male front (2nd figure)
       } else {
-        return '85 0 85 210'; // Male back
+        return '10 0 280 756'; // Male back (1st figure)
       }
     } else {
       if (view === 'front') {
-        return '280 0 85 210'; // Female front
+        return '520 0 280 756'; // Female front (3rd figure)
       } else {
-        return '365 0 85 210'; // Female back
+        return '780 0 280 756'; // Female back (4th figure)
       }
     }
   };
 
-  // Zone positions - centered at ~42 (middle of 85-wide crop)
-  const getMaleZones = (isFront: boolean) => {
-    const cx = 42; // Center X for the figure
+  // Zone positions - relative to 280-wide cropped view
+  const getZones = (isMale: boolean, isFront: boolean) => {
+    const cx = 140; // Center of 280-wide view
+    
+    const commonZones = {
+      head: { cx, cy: 58, rx: 32, ry: 40 },
+      neck: { x: cx - 14, y: 98, width: 28, height: 35 },
+      'left-shoulder': { cx: cx - 60, cy: 148, rx: 32, ry: 20 },
+      'right-shoulder': { cx: cx + 60, cy: 148, rx: 32, ry: 20 },
+      'left-arm': { cx: cx - 88, cy: 235, rx: 20, ry: 60 },
+      'right-arm': { cx: cx + 88, cy: 235, rx: 20, ry: 60 },
+      'left-forearm': { cx: cx - 95, cy: 355, rx: 16, ry: 55 },
+      'right-forearm': { cx: cx + 95, cy: 355, rx: 16, ry: 55 },
+      'left-hand': { cx: cx - 100, cy: 450, rx: 16, ry: 32 },
+      'right-hand': { cx: cx + 100, cy: 450, rx: 16, ry: 32 },
+      'left-hip': { cx: cx - 40, cy: 400, rx: 28, ry: 30 },
+      'right-hip': { cx: cx + 40, cy: 400, rx: 28, ry: 30 },
+      'left-thigh': { cx: cx - 35, cy: 490, rx: 28, ry: 70 },
+      'right-thigh': { cx: cx + 35, cy: 490, rx: 28, ry: 70 },
+      'left-knee': { cx: cx - 32, cy: 580, rx: 20, ry: 28 },
+      'right-knee': { cx: cx + 32, cy: 580, rx: 20, ry: 28 },
+      'left-leg': { cx: cx - 28, cy: 660, rx: 18, ry: 55 },
+      'right-leg': { cx: cx + 28, cy: 660, rx: 18, ry: 55 },
+      'left-foot': { cx: cx - 28, cy: 730, rx: 22, ry: 16 },
+      'right-foot': { cx: cx + 28, cy: 730, rx: 22, ry: 16 },
+    };
     
     if (isFront) {
       return {
-        head: { cx, cy: 20, rx: 10, ry: 12 },
-        neck: { x: cx - 5, y: 32, width: 10, height: 10 },
-        'left-shoulder': { cx: cx - 20, cy: 47, rx: 10, ry: 6 },
-        'right-shoulder': { cx: cx + 20, cy: 47, rx: 10, ry: 6 },
-        chest: { cx, cy: 58, rx: 18, ry: 14 },
-        'left-arm': { cx: cx - 28, cy: 72, rx: 6, ry: 18 },
-        'right-arm': { cx: cx + 28, cy: 72, rx: 6, ry: 18 },
-        'left-forearm': { cx: cx - 30, cy: 108, rx: 5, ry: 16 },
-        'right-forearm': { cx: cx + 30, cy: 108, rx: 5, ry: 16 },
-        'left-hand': { cx: cx - 32, cy: 135, rx: 5, ry: 10 },
-        'right-hand': { cx: cx + 32, cy: 135, rx: 5, ry: 10 },
-        abdomen: { cx, cy: 82, rx: 14, ry: 14 },
-        pelvis: { cx, cy: 105, rx: 14, ry: 12 },
-        'left-hip': { cx: cx - 12, cy: 115, rx: 8, ry: 8 },
-        'right-hip': { cx: cx + 12, cy: 115, rx: 8, ry: 8 },
-        'left-thigh': { cx: cx - 10, cy: 140, rx: 8, ry: 22 },
-        'right-thigh': { cx: cx + 10, cy: 140, rx: 8, ry: 22 },
-        'left-knee': { cx: cx - 9, cy: 168, rx: 6, ry: 8 },
-        'right-knee': { cx: cx + 9, cy: 168, rx: 6, ry: 8 },
-        'left-leg': { cx: cx - 8, cy: 188, rx: 5, ry: 16 },
-        'right-leg': { cx: cx + 8, cy: 188, rx: 5, ry: 16 },
-        'left-foot': { cx: cx - 8, cy: 206, rx: 6, ry: 4 },
-        'right-foot': { cx: cx + 8, cy: 206, rx: 6, ry: 4 },
+        ...commonZones,
+        chest: { cx, cy: 190, rx: 55, ry: 45 },
+        abdomen: { cx, cy: 280, rx: 45, ry: 50 },
+        pelvis: { cx, cy: 365, rx: 50, ry: 45 },
       };
     } else {
       return {
-        head: { cx, cy: 20, rx: 10, ry: 12 },
-        neck: { x: cx - 5, y: 32, width: 10, height: 10 },
-        'left-shoulder': { cx: cx - 20, cy: 47, rx: 10, ry: 6 },
-        'right-shoulder': { cx: cx + 20, cy: 47, rx: 10, ry: 6 },
-        'upper-back': { cx, cy: 58, rx: 18, ry: 14 },
-        'left-arm': { cx: cx - 28, cy: 72, rx: 6, ry: 18 },
-        'right-arm': { cx: cx + 28, cy: 72, rx: 6, ry: 18 },
-        'left-forearm': { cx: cx - 30, cy: 108, rx: 5, ry: 16 },
-        'right-forearm': { cx: cx + 30, cy: 108, rx: 5, ry: 16 },
-        'left-hand': { cx: cx - 32, cy: 135, rx: 5, ry: 10 },
-        'right-hand': { cx: cx + 32, cy: 135, rx: 5, ry: 10 },
-        'lower-back': { cx, cy: 88, rx: 16, ry: 18 },
-        'left-hip': { cx: cx - 12, cy: 115, rx: 10, ry: 10 },
-        'right-hip': { cx: cx + 12, cy: 115, rx: 10, ry: 10 },
-        'left-thigh': { cx: cx - 10, cy: 142, rx: 8, ry: 22 },
-        'right-thigh': { cx: cx + 10, cy: 142, rx: 8, ry: 22 },
-        'left-knee': { cx: cx - 9, cy: 168, rx: 6, ry: 8 },
-        'right-knee': { cx: cx + 9, cy: 168, rx: 6, ry: 8 },
-        'left-leg': { cx: cx - 8, cy: 188, rx: 5, ry: 16 },
-        'right-leg': { cx: cx + 8, cy: 188, rx: 5, ry: 16 },
-        'left-foot': { cx: cx - 8, cy: 206, rx: 6, ry: 4 },
-        'right-foot': { cx: cx + 8, cy: 206, rx: 6, ry: 4 },
-      };
-    }
-  };
-
-  const getFemaleZones = (isFront: boolean) => {
-    const cx = 42;
-    
-    if (isFront) {
-      return {
-        head: { cx, cy: 18, rx: 9, ry: 11 },
-        neck: { x: cx - 4, y: 29, width: 8, height: 9 },
-        'left-shoulder': { cx: cx - 16, cy: 42, rx: 9, ry: 5 },
-        'right-shoulder': { cx: cx + 16, cy: 42, rx: 9, ry: 5 },
-        chest: { cx, cy: 55, rx: 16, ry: 12 },
-        'left-arm': { cx: cx - 24, cy: 65, rx: 5, ry: 16 },
-        'right-arm': { cx: cx + 24, cy: 65, rx: 5, ry: 16 },
-        'left-forearm': { cx: cx - 26, cy: 100, rx: 4, ry: 14 },
-        'right-forearm': { cx: cx + 26, cy: 100, rx: 4, ry: 14 },
-        'left-hand': { cx: cx - 27, cy: 125, rx: 4, ry: 9 },
-        'right-hand': { cx: cx + 27, cy: 125, rx: 4, ry: 9 },
-        abdomen: { cx, cy: 75, rx: 12, ry: 12 },
-        pelvis: { cx, cy: 98, rx: 14, ry: 12 },
-        'left-hip': { cx: cx - 12, cy: 108, rx: 9, ry: 9 },
-        'right-hip': { cx: cx + 12, cy: 108, rx: 9, ry: 9 },
-        'left-thigh': { cx: cx - 9, cy: 138, rx: 8, ry: 24 },
-        'right-thigh': { cx: cx + 9, cy: 138, rx: 8, ry: 24 },
-        'left-knee': { cx: cx - 8, cy: 168, rx: 5, ry: 7 },
-        'right-knee': { cx: cx + 8, cy: 168, rx: 5, ry: 7 },
-        'left-leg': { cx: cx - 7, cy: 188, rx: 4, ry: 16 },
-        'right-leg': { cx: cx + 7, cy: 188, rx: 4, ry: 16 },
-        'left-foot': { cx: cx - 7, cy: 206, rx: 5, ry: 4 },
-        'right-foot': { cx: cx + 7, cy: 206, rx: 5, ry: 4 },
-      };
-    } else {
-      return {
-        head: { cx, cy: 18, rx: 9, ry: 11 },
-        neck: { x: cx - 4, y: 29, width: 8, height: 9 },
-        'left-shoulder': { cx: cx - 16, cy: 42, rx: 9, ry: 5 },
-        'right-shoulder': { cx: cx + 16, cy: 42, rx: 9, ry: 5 },
-        'upper-back': { cx, cy: 55, rx: 16, ry: 12 },
-        'left-arm': { cx: cx - 24, cy: 65, rx: 5, ry: 16 },
-        'right-arm': { cx: cx + 24, cy: 65, rx: 5, ry: 16 },
-        'left-forearm': { cx: cx - 26, cy: 100, rx: 4, ry: 14 },
-        'right-forearm': { cx: cx + 26, cy: 100, rx: 4, ry: 14 },
-        'left-hand': { cx: cx - 27, cy: 125, rx: 4, ry: 9 },
-        'right-hand': { cx: cx + 27, cy: 125, rx: 4, ry: 9 },
-        'lower-back': { cx, cy: 82, rx: 14, ry: 16 },
-        'left-hip': { cx: cx - 12, cy: 108, rx: 10, ry: 10 },
-        'right-hip': { cx: cx + 12, cy: 108, rx: 10, ry: 10 },
-        'left-thigh': { cx: cx - 9, cy: 140, rx: 8, ry: 24 },
-        'right-thigh': { cx: cx + 9, cy: 140, rx: 8, ry: 24 },
-        'left-knee': { cx: cx - 8, cy: 168, rx: 5, ry: 7 },
-        'right-knee': { cx: cx + 8, cy: 168, rx: 5, ry: 7 },
-        'left-leg': { cx: cx - 7, cy: 188, rx: 4, ry: 16 },
-        'right-leg': { cx: cx + 7, cy: 188, rx: 4, ry: 16 },
-        'left-foot': { cx: cx - 7, cy: 206, rx: 5, ry: 4 },
-        'right-foot': { cx: cx + 7, cy: 206, rx: 5, ry: 4 },
+        ...commonZones,
+        'upper-back': { cx, cy: 190, rx: 55, ry: 45 },
+        'lower-back': { cx, cy: 300, rx: 50, ry: 60 },
       };
     }
   };
 
   const isFront = view === 'front';
-  const zones = gender === 'male' ? getMaleZones(isFront) : getFemaleZones(isFront);
+  const isMale = gender === 'male';
+  const zones = getZones(isMale, isFront);
   const viewBox = getViewBox();
 
   const renderZone = (zone: BodyZone) => {
@@ -206,7 +131,7 @@ export function BodyMapSVG({
           y={zoneData.y}
           width={zoneData.width}
           height={zoneData.height}
-          rx={2}
+          rx={4}
           className={zoneClass(zone)}
           onClick={handleClick(zone)}
           style={{ fill: getZoneColor(zone, selectedZones, zoneIntensities[zone]) }}
@@ -231,14 +156,14 @@ export function BodyMapSVG({
       className="w-full h-auto max-h-[500px]"
       style={{ touchAction: 'manipulation' }}
     >
-      {/* Background image - full image, viewBox crops it */}
+      {/* Background image */}
       <image
-        href={bodyReference}
+        href={bodyMap}
         x="0"
         y="0"
-        width="550"
-        height="210"
-        preserveAspectRatio="xMinYMin slice"
+        width="1344"
+        height="756"
+        preserveAspectRatio="xMidYMid meet"
       />
       
       {/* Clickable zones overlay */}

@@ -73,44 +73,61 @@ export function BodyMapSVG({
   // Get the center X position (centered in single image)
   const cx = 304;
 
-  // Zone positions - fine-tuned for 608x1080 single body images
+  // Zone positions - recalibrées précisément pour les images 608x1080
+  // Basées sur les proportions anatomiques réelles de l'image PNG
   const getZones = (isFront: boolean) => {
-    // Common zones shared between front and back views
+    // Zones communes partagées entre vue de face et de dos
     const commonZones = {
-      head: { cx, cy: 70, rx: 42, ry: 50 },
-      neck: { x: cx - 18, y: 120, width: 36, height: 30 },
-      'left-shoulder': { cx: cx - 65, cy: 175, rx: 35, ry: 20 },
-      'right-shoulder': { cx: cx + 65, cy: 175, rx: 35, ry: 20 },
-      'left-arm': { cx: cx - 95, cy: 270, rx: 20, ry: 50 },
-      'right-arm': { cx: cx + 95, cy: 270, rx: 20, ry: 50 },
-      'left-forearm': { cx: cx - 108, cy: 380, rx: 16, ry: 45 },
-      'right-forearm': { cx: cx + 108, cy: 380, rx: 16, ry: 45 },
-      'left-hand': { cx: cx - 115, cy: 470, rx: 16, ry: 28 },
-      'right-hand': { cx: cx + 115, cy: 470, rx: 16, ry: 28 },
-      'left-hip': { cx: cx - 45, cy: 460, rx: 35, ry: 30 },
-      'right-hip': { cx: cx + 45, cy: 460, rx: 35, ry: 30 },
-      'left-thigh': { cx: cx - 40, cy: 560, rx: 28, ry: 60 },
-      'right-thigh': { cx: cx + 40, cy: 560, rx: 28, ry: 60 },
-      'left-knee': { cx: cx - 36, cy: 660, rx: 20, ry: 25 },
-      'right-knee': { cx: cx + 36, cy: 660, rx: 20, ry: 25 },
-      'left-leg': { cx: cx - 32, cy: 750, rx: 14, ry: 50 },
-      'right-leg': { cx: cx + 32, cy: 750, rx: 14, ry: 50 },
-      'left-foot': { cx: cx - 30, cy: 840, rx: 20, ry: 12 },
-      'right-foot': { cx: cx + 30, cy: 840, rx: 20, ry: 12 },
+      // Tête - centrée en haut
+      head: { cx, cy: 65, rx: 48, ry: 55 },
+      // Cou - rectangle étroit sous la tête
+      neck: { x: cx - 22, y: 115, width: 44, height: 35 },
+      // Épaules - ellipses horizontales de chaque côté du cou
+      'left-shoulder': { cx: cx - 72, cy: 170, rx: 40, ry: 22 },
+      'right-shoulder': { cx: cx + 72, cy: 170, rx: 40, ry: 22 },
+      // Bras (partie supérieure) - ellipses verticales
+      'left-arm': { cx: cx - 100, cy: 260, rx: 22, ry: 55 },
+      'right-arm': { cx: cx + 100, cy: 260, rx: 22, ry: 55 },
+      // Avant-bras - ellipses plus fines et basses
+      'left-forearm': { cx: cx - 115, cy: 370, rx: 18, ry: 50 },
+      'right-forearm': { cx: cx + 115, cy: 370, rx: 18, ry: 50 },
+      // Mains - petites ellipses aux extrémités
+      'left-hand': { cx: cx - 125, cy: 460, rx: 20, ry: 32 },
+      'right-hand': { cx: cx + 125, cy: 460, rx: 20, ry: 32 },
+      // Hanches - ellipses sur les côtés du bassin
+      'left-hip': { cx: cx - 55, cy: 445, rx: 38, ry: 35 },
+      'right-hip': { cx: cx + 55, cy: 445, rx: 38, ry: 35 },
+      // Cuisses - grandes ellipses verticales
+      'left-thigh': { cx: cx - 48, cy: 550, rx: 32, ry: 70 },
+      'right-thigh': { cx: cx + 48, cy: 550, rx: 32, ry: 70 },
+      // Genoux - ellipses plus petites
+      'left-knee': { cx: cx - 42, cy: 660, rx: 24, ry: 30 },
+      'right-knee': { cx: cx + 42, cy: 660, rx: 24, ry: 30 },
+      // Jambes (mollets/tibias) - ellipses fines
+      'left-leg': { cx: cx - 38, cy: 770, rx: 18, ry: 65 },
+      'right-leg': { cx: cx + 38, cy: 770, rx: 18, ry: 65 },
+      // Pieds - ellipses horizontales en bas
+      'left-foot': { cx: cx - 38, cy: 880, rx: 28, ry: 35 },
+      'right-foot': { cx: cx + 38, cy: 880, rx: 28, ry: 35 },
     };
     
     if (isFront) {
       return {
         ...commonZones,
-        chest: { cx, cy: 230, rx: 60, ry: 45 },
-        abdomen: { cx, cy: 320, rx: 50, ry: 45 },
-        pelvis: { cx, cy: 420, rx: 55, ry: 40 },
+        // Thorax/Poitrine - grande ellipse centrale
+        chest: { cx, cy: 220, rx: 65, ry: 50 },
+        // Abdomen - ellipse centrale sous le thorax
+        abdomen: { cx, cy: 320, rx: 55, ry: 50 },
+        // Bassin/Pelvis - ellipse basse
+        pelvis: { cx, cy: 410, rx: 60, ry: 45 },
       };
     } else {
       return {
         ...commonZones,
-        'upper-back': { cx, cy: 230, rx: 60, ry: 50 },
-        'lower-back': { cx, cy: 360, rx: 55, ry: 70 },
+        // Haut du dos - grande ellipse centrale
+        'upper-back': { cx, cy: 220, rx: 65, ry: 55 },
+        // Bas du dos (lombaires) - ellipse plus grande
+        'lower-back': { cx, cy: 355, rx: 60, ry: 75 },
       };
     }
   };

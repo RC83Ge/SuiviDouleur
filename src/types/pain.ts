@@ -125,6 +125,5 @@ export interface PainEntry {
   triggerFactors: string[];
   reliefFactors: string[];
   notes: string;
-  gender: Gender;
   createdAt: Date;
 }

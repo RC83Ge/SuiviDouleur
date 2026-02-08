@@ -6,7 +6,7 @@ import { IntensitySlider } from './IntensitySlider';
 import { PainTypeSelector } from './PainTypeSelector';
 import { DurationSelector } from './DurationSelector';
 import { FactorsSelector } from './FactorsSelector';
-import { BodyZone, Gender, PainType, PainDuration, PainEntry } from '@/types/pain';
+import { BodyZone, PainType, PainDuration, PainEntry } from '@/types/pain';
 import { Calendar, Clock, Save, X } from 'lucide-react';
 
 interface PainEntryFormProps {
@@ -17,7 +17,6 @@ interface PainEntryFormProps {
 export function PainEntryForm({ onSave, onCancel }: PainEntryFormProps) {
   const [date, setDate] = useState(format(new Date(), "yyyy-MM-dd"));
   const [time, setTime] = useState(format(new Date(), "HH:mm"));
-  const [gender, setGender] = useState<Gender>('male');
   const [selectedZones, setSelectedZones] = useState<BodyZone[]>([]);
   const [painTypes, setPainTypes] = useState<PainType[]>([]);
   const [intensity, setIntensity] = useState(5);
@@ -45,7 +44,6 @@ export function PainEntryForm({ onSave, onCancel }: PainEntryFormProps) {
       triggerFactors,
       reliefFactors,
       notes: painTypes.includes('other') ? `${notes}\n[Autre: ${otherDescription}]` : notes,
-      gender,
     });
   };
 
@@ -87,8 +85,6 @@ export function PainEntryForm({ onSave, onCancel }: PainEntryFormProps) {
         <BodyMapSelector
           selectedZones={selectedZones}
           onZonesChange={setSelectedZones}
-          gender={gender}
-          onGenderChange={setGender}
         />
       </div>
 

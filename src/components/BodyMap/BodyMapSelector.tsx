@@ -1,20 +1,16 @@
 import React from 'react';
-import { Gender, BodyView, BodyZone, BODY_ZONE_LABELS } from '@/types/pain';
+import { BodyView, BodyZone, BODY_ZONE_LABELS } from '@/types/pain';
 import { BodyMapSVG } from './BodyMapSVG';
-import { User, RotateCcw } from 'lucide-react';
+import { RotateCcw } from 'lucide-react';
 
 interface BodyMapSelectorProps {
   selectedZones: BodyZone[];
   onZonesChange: (zones: BodyZone[]) => void;
-  gender: Gender;
-  onGenderChange: (gender: Gender) => void;
 }
 
 export function BodyMapSelector({
   selectedZones,
   onZonesChange,
-  gender,
-  onGenderChange,
 }: BodyMapSelectorProps) {
   const [view, setView] = React.useState<BodyView>('front');
 
@@ -47,7 +43,6 @@ export function BodyMapSelector({
         <div className="flex-1 flex justify-center">
           <div className="w-full max-w-[200px]">
             <BodyMapSVG
-              gender={gender}
               view={view}
               selectedZones={selectedZones}
               onZoneClick={handleZoneClick}

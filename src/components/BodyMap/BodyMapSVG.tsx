@@ -37,259 +37,231 @@ export function BodyMapSVG({
     selectedZones.includes(zone) && 'selected'
   );
 
-  // Colors - skin tone with soft outline
-  const skinColor = '#E8C4A0';
-  const strokeColor = '#A0785A';
-  const strokeWidth = '1.5';
+  // Colors matching the reference image
+  const skinColor = '#D4A574';
+  const strokeColor = '#8B6914';
+  const strokeWidth = '2';
 
-  // Smooth rounded body silhouette - Male Front
+  // Exact copy of reference body - Male Front
   const MaleFrontView = () => (
     <>
       <g className="body-silhouette pointer-events-none">
-        {/* Head - smooth oval */}
-        <ellipse cx="100" cy="42" rx="24" ry="28" fill={skinColor} stroke={strokeColor} strokeWidth={strokeWidth} />
+        {/* Head - round circle */}
+        <circle cx="100" cy="45" r="30" fill={skinColor} stroke={strokeColor} strokeWidth={strokeWidth} />
         
-        {/* Neck */}
+        {/* Neck - short wide */}
+        <rect x="85" y="73" width="30" height="18" rx="8" fill={skinColor} stroke={strokeColor} strokeWidth={strokeWidth} />
+        
+        {/* Body - main rounded torso shape */}
         <path
-          d="M 88 68 Q 88 80 88 88 L 112 88 Q 112 80 112 68"
+          d="M 55 90
+             C 35 95, 28 115, 32 140
+             L 38 140
+             C 42 125, 50 115, 55 110
+             L 55 220
+             C 52 250, 55 275, 65 295
+             L 135 295
+             C 145 275, 148 250, 145 220
+             L 145 110
+             C 150 115, 158 125, 162 140
+             L 168 140
+             C 172 115, 165 95, 145 90
+             C 135 88, 115 88, 100 88
+             C 85 88, 65 88, 55 90 Z"
           fill={skinColor}
           stroke={strokeColor}
           strokeWidth={strokeWidth}
         />
         
-        {/* Torso - smooth rounded shape */}
+        {/* Left arm */}
         <path
-          d="M 88 88 
-             C 70 88, 52 95, 42 110
-             C 38 118, 40 125, 45 130
-             L 48 130
-             C 52 120, 55 115, 58 112
-             L 58 165
-             C 55 190, 55 215, 58 240
-             C 60 255, 65 268, 70 275
-             L 100 280
-             L 130 275
-             C 135 268, 140 255, 142 240
-             C 145 215, 145 190, 142 165
-             L 142 112
-             C 145 115, 148 120, 152 130
-             L 155 130
-             C 160 125, 162 118, 158 110
-             C 148 95, 130 88, 112 88 Z"
+          d="M 32 140
+             C 28 160, 24 190, 22 220
+             C 20 250, 18 280, 18 305
+             C 18 320, 25 330, 35 330
+             C 45 330, 50 320, 48 305
+             C 46 280, 46 250, 48 220
+             C 50 190, 50 160, 48 140
+             L 38 140 Z"
           fill={skinColor}
           stroke={strokeColor}
           strokeWidth={strokeWidth}
         />
         
-        {/* Left arm - smooth rounded */}
+        {/* Right arm */}
         <path
-          d="M 42 110
-             C 35 115, 32 130, 30 150
-             C 28 175, 26 200, 25 225
-             C 24 250, 22 275, 22 295
-             C 22 310, 28 320, 35 320
-             C 42 320, 48 310, 48 295
-             C 48 275, 50 250, 52 225
-             C 54 200, 54 175, 52 150
-             C 50 130, 48 118, 45 130"
+          d="M 168 140
+             C 172 160, 176 190, 178 220
+             C 180 250, 182 280, 182 305
+             C 182 320, 175 330, 165 330
+             C 155 330, 150 320, 152 305
+             C 154 280, 154 250, 152 220
+             C 150 190, 150 160, 152 140
+             L 162 140 Z"
+          fill={skinColor}
+          stroke={strokeColor}
+          strokeWidth={strokeWidth}
+        />
+
+        {/* Left hand - rounded */}
+        <ellipse cx="33" cy="340" rx="16" ry="20" fill={skinColor} stroke={strokeColor} strokeWidth={strokeWidth} />
+        
+        {/* Right hand - rounded */}
+        <ellipse cx="167" cy="340" rx="16" ry="20" fill={skinColor} stroke={strokeColor} strokeWidth={strokeWidth} />
+        
+        {/* Left leg */}
+        <path
+          d="M 65 295
+             L 68 295
+             C 65 330, 62 370, 60 410
+             C 58 450, 56 490, 55 530
+             C 54 560, 58 580, 65 590
+             L 95 590
+             C 98 580, 100 560, 98 530
+             C 96 490, 94 450, 94 410
+             C 94 370, 96 330, 100 295
+             L 100 295 Z"
           fill={skinColor}
           stroke={strokeColor}
           strokeWidth={strokeWidth}
         />
         
-        {/* Right arm - smooth rounded */}
+        {/* Right leg */}
         <path
-          d="M 158 110
-             C 165 115, 168 130, 170 150
-             C 172 175, 174 200, 175 225
-             C 176 250, 178 275, 178 295
-             C 178 310, 172 320, 165 320
-             C 158 320, 152 310, 152 295
-             C 152 275, 150 250, 148 225
-             C 146 200, 146 175, 148 150
-             C 150 130, 152 118, 155 130"
-          fill={skinColor}
-          stroke={strokeColor}
-          strokeWidth={strokeWidth}
-        />
-        
-        {/* Pelvis connection */}
-        <path
-          d="M 70 275 
-             C 75 280, 85 285, 100 288
-             C 115 285, 125 280, 130 275
-             L 130 300
-             L 70 300 Z"
-          fill={skinColor}
-          stroke={strokeColor}
-          strokeWidth={strokeWidth}
-        />
-        
-        {/* Left leg - smooth rounded */}
-        <path
-          d="M 70 300
-             C 68 330, 68 360, 70 390
-             C 72 420, 72 450, 70 480
-             C 68 510, 66 540, 65 560
-             C 64 575, 68 585, 75 585
-             L 90 585
-             C 92 575, 90 565, 88 555
-             C 86 535, 86 505, 88 475
-             C 90 445, 92 415, 92 385
-             C 92 355, 92 325, 92 300
-             L 70 300 Z"
-          fill={skinColor}
-          stroke={strokeColor}
-          strokeWidth={strokeWidth}
-        />
-        
-        {/* Right leg - smooth rounded */}
-        <path
-          d="M 130 300
-             C 132 330, 132 360, 130 390
-             C 128 420, 128 450, 130 480
-             C 132 510, 134 540, 135 560
-             C 136 575, 132 585, 125 585
-             L 110 585
-             C 108 575, 110 565, 112 555
-             C 114 535, 114 505, 112 475
-             C 110 445, 108 415, 108 385
-             C 108 355, 108 325, 108 300
-             L 130 300 Z"
+          d="M 135 295
+             L 132 295
+             C 135 330, 138 370, 140 410
+             C 142 450, 144 490, 145 530
+             C 146 560, 142 580, 135 590
+             L 105 590
+             C 102 580, 100 560, 102 530
+             C 104 490, 106 450, 106 410
+             C 106 370, 104 330, 100 295
+             L 100 295 Z"
           fill={skinColor}
           stroke={strokeColor}
           strokeWidth={strokeWidth}
         />
         
         {/* Left foot */}
-        <path
-          d="M 65 560 C 60 565, 55 575, 55 585 C 55 595, 65 600, 80 600 L 90 600 C 92 595, 92 590, 90 585 L 75 585 C 72 580, 68 570, 65 560 Z"
-          fill={skinColor}
-          stroke={strokeColor}
-          strokeWidth={strokeWidth}
-        />
+        <ellipse cx="77" cy="605" rx="25" ry="15" fill={skinColor} stroke={strokeColor} strokeWidth={strokeWidth} />
         
         {/* Right foot */}
-        <path
-          d="M 135 560 C 140 565, 145 575, 145 585 C 145 595, 135 600, 120 600 L 110 600 C 108 595, 108 590, 110 585 L 125 585 C 128 580, 132 570, 135 560 Z"
-          fill={skinColor}
-          stroke={strokeColor}
-          strokeWidth={strokeWidth}
-        />
+        <ellipse cx="123" cy="605" rx="25" ry="15" fill={skinColor} stroke={strokeColor} strokeWidth={strokeWidth} />
       </g>
       
       {/* Clickable zones - transparent overlays */}
-      <ellipse cx="100" cy="42" rx="24" ry="28"
+      <circle cx="100" cy="45" r="30"
         className={zoneClass('head')}
         onClick={handleClick('head')}
         style={{ fill: getZoneColor('head', selectedZones, zoneIntensities['head']) }}
       />
-      <rect x="88" y="68" width="24" height="20" rx="4"
+      <rect x="85" y="73" width="30" height="18" rx="4"
         className={zoneClass('neck')}
         onClick={handleClick('neck')}
         style={{ fill: getZoneColor('neck', selectedZones, zoneIntensities['neck']) }}
       />
-      <ellipse cx="55" cy="105" rx="20" ry="15"
+      <ellipse cx="42" cy="115" rx="18" ry="20"
         className={zoneClass('left-shoulder')}
         onClick={handleClick('left-shoulder')}
         style={{ fill: getZoneColor('left-shoulder', selectedZones, zoneIntensities['left-shoulder']) }}
       />
-      <ellipse cx="145" cy="105" rx="20" ry="15"
+      <ellipse cx="158" cy="115" rx="18" ry="20"
         className={zoneClass('right-shoulder')}
         onClick={handleClick('right-shoulder')}
         style={{ fill: getZoneColor('right-shoulder', selectedZones, zoneIntensities['right-shoulder']) }}
       />
-      <ellipse cx="100" cy="140" rx="40" ry="30"
+      <ellipse cx="100" cy="140" rx="45" ry="35"
         className={zoneClass('chest')}
         onClick={handleClick('chest')}
         style={{ fill: getZoneColor('chest', selectedZones, zoneIntensities['chest']) }}
       />
-      <ellipse cx="40" cy="160" rx="12" ry="35"
+      <ellipse cx="38" cy="180" rx="12" ry="35"
         className={zoneClass('left-arm')}
         onClick={handleClick('left-arm')}
         style={{ fill: getZoneColor('left-arm', selectedZones, zoneIntensities['left-arm']) }}
       />
-      <ellipse cx="160" cy="160" rx="12" ry="35"
+      <ellipse cx="162" cy="180" rx="12" ry="35"
         className={zoneClass('right-arm')}
         onClick={handleClick('right-arm')}
         style={{ fill: getZoneColor('right-arm', selectedZones, zoneIntensities['right-arm']) }}
       />
-      <ellipse cx="35" cy="245" rx="10" ry="40"
+      <ellipse cx="32" cy="260" rx="12" ry="45"
         className={zoneClass('left-forearm')}
         onClick={handleClick('left-forearm')}
         style={{ fill: getZoneColor('left-forearm', selectedZones, zoneIntensities['left-forearm']) }}
       />
-      <ellipse cx="165" cy="245" rx="10" ry="40"
+      <ellipse cx="168" cy="260" rx="12" ry="45"
         className={zoneClass('right-forearm')}
         onClick={handleClick('right-forearm')}
         style={{ fill: getZoneColor('right-forearm', selectedZones, zoneIntensities['right-forearm']) }}
       />
-      <ellipse cx="35" cy="305" rx="10" ry="18"
+      <ellipse cx="33" cy="340" rx="16" ry="20"
         className={zoneClass('left-hand')}
         onClick={handleClick('left-hand')}
         style={{ fill: getZoneColor('left-hand', selectedZones, zoneIntensities['left-hand']) }}
       />
-      <ellipse cx="165" cy="305" rx="10" ry="18"
+      <ellipse cx="167" cy="340" rx="16" ry="20"
         className={zoneClass('right-hand')}
         onClick={handleClick('right-hand')}
         style={{ fill: getZoneColor('right-hand', selectedZones, zoneIntensities['right-hand']) }}
       />
-      <ellipse cx="100" cy="210" rx="38" ry="35"
+      <ellipse cx="100" cy="220" rx="42" ry="35"
         className={zoneClass('abdomen')}
         onClick={handleClick('abdomen')}
         style={{ fill: getZoneColor('abdomen', selectedZones, zoneIntensities['abdomen']) }}
       />
-      <ellipse cx="100" cy="270" rx="32" ry="20"
+      <ellipse cx="100" cy="280" rx="35" ry="22"
         className={zoneClass('pelvis')}
         onClick={handleClick('pelvis')}
         style={{ fill: getZoneColor('pelvis', selectedZones, zoneIntensities['pelvis']) }}
       />
-      <ellipse cx="68" cy="265" rx="10" ry="18"
+      <ellipse cx="70" cy="275" rx="12" ry="18"
         className={zoneClass('left-hip')}
         onClick={handleClick('left-hip')}
         style={{ fill: getZoneColor('left-hip', selectedZones, zoneIntensities['left-hip']) }}
       />
-      <ellipse cx="132" cy="265" rx="10" ry="18"
+      <ellipse cx="130" cy="275" rx="12" ry="18"
         className={zoneClass('right-hip')}
         onClick={handleClick('right-hip')}
         style={{ fill: getZoneColor('right-hip', selectedZones, zoneIntensities['right-hip']) }}
       />
-      <ellipse cx="80" cy="350" rx="14" ry="50"
+      <ellipse cx="78" cy="360" rx="16" ry="55"
         className={zoneClass('left-thigh')}
         onClick={handleClick('left-thigh')}
         style={{ fill: getZoneColor('left-thigh', selectedZones, zoneIntensities['left-thigh']) }}
       />
-      <ellipse cx="120" cy="350" rx="14" ry="50"
+      <ellipse cx="122" cy="360" rx="16" ry="55"
         className={zoneClass('right-thigh')}
         onClick={handleClick('right-thigh')}
         style={{ fill: getZoneColor('right-thigh', selectedZones, zoneIntensities['right-thigh']) }}
       />
-      <ellipse cx="78" cy="420" rx="12" ry="18"
+      <ellipse cx="76" cy="435" rx="14" ry="20"
         className={zoneClass('left-knee')}
         onClick={handleClick('left-knee')}
         style={{ fill: getZoneColor('left-knee', selectedZones, zoneIntensities['left-knee']) }}
       />
-      <ellipse cx="122" cy="420" rx="12" ry="18"
+      <ellipse cx="124" cy="435" rx="14" ry="20"
         className={zoneClass('right-knee')}
         onClick={handleClick('right-knee')}
         style={{ fill: getZoneColor('right-knee', selectedZones, zoneIntensities['right-knee']) }}
       />
-      <ellipse cx="76" cy="505" rx="12" ry="60"
+      <ellipse cx="74" cy="520" rx="14" ry="60"
         className={zoneClass('left-leg')}
         onClick={handleClick('left-leg')}
         style={{ fill: getZoneColor('left-leg', selectedZones, zoneIntensities['left-leg']) }}
       />
-      <ellipse cx="124" cy="505" rx="12" ry="60"
+      <ellipse cx="126" cy="520" rx="14" ry="60"
         className={zoneClass('right-leg')}
         onClick={handleClick('right-leg')}
         style={{ fill: getZoneColor('right-leg', selectedZones, zoneIntensities['right-leg']) }}
       />
-      <ellipse cx="72" cy="590" rx="18" ry="12"
+      <ellipse cx="77" cy="605" rx="25" ry="15"
         className={zoneClass('left-foot')}
         onClick={handleClick('left-foot')}
         style={{ fill: getZoneColor('left-foot', selectedZones, zoneIntensities['left-foot']) }}
       />
-      <ellipse cx="128" cy="590" rx="18" ry="12"
+      <ellipse cx="123" cy="605" rx="25" ry="15"
         className={zoneClass('right-foot')}
         onClick={handleClick('right-foot')}
         style={{ fill: getZoneColor('right-foot', selectedZones, zoneIntensities['right-foot']) }}
@@ -301,54 +273,45 @@ export function BodyMapSVG({
   const FemaleFrontView = () => (
     <>
       <g className="body-silhouette pointer-events-none">
-        {/* Head */}
-        <ellipse cx="100" cy="42" rx="22" ry="26" fill={skinColor} stroke={strokeColor} strokeWidth={strokeWidth} />
+        {/* Head - round circle */}
+        <circle cx="100" cy="45" r="28" fill={skinColor} stroke={strokeColor} strokeWidth={strokeWidth} />
         
-        {/* Neck - slimmer */}
+        {/* Neck - short, slimmer */}
+        <rect x="87" y="71" width="26" height="18" rx="8" fill={skinColor} stroke={strokeColor} strokeWidth={strokeWidth} />
+        
+        {/* Body - narrower shoulders, wider hips */}
         <path
-          d="M 90 66 Q 90 78 90 86 L 110 86 Q 110 78 110 66"
+          d="M 60 88
+             C 42 93, 35 112, 38 135
+             L 44 135
+             C 48 122, 55 114, 60 108
+             L 58 175
+             C 52 195, 48 220, 50 250
+             C 52 275, 60 290, 70 300
+             L 130 300
+             C 140 290, 148 275, 150 250
+             C 152 220, 148 195, 142 175
+             L 140 108
+             C 145 114, 152 122, 156 135
+             L 162 135
+             C 165 112, 158 93, 140 88
+             C 130 86, 115 86, 100 86
+             C 85 86, 70 86, 60 88 Z"
           fill={skinColor}
           stroke={strokeColor}
           strokeWidth={strokeWidth}
         />
         
-        {/* Torso - narrower shoulders, defined waist, wider hips */}
+        {/* Left arm */}
         <path
-          d="M 90 86 
-             C 75 86, 58 92, 50 105
-             C 46 112, 48 120, 52 125
-             L 55 125
-             C 58 118, 60 114, 62 112
-             L 60 145
-             C 55 165, 54 185, 56 205
-             C 58 225, 62 245, 65 260
-             C 68 275, 75 285, 85 290
-             L 100 292
-             L 115 290
-             C 125 285, 132 275, 135 260
-             C 138 245, 142 225, 144 205
-             C 146 185, 145 165, 140 145
-             L 138 112
-             C 140 114, 142 118, 145 125
-             L 148 125
-             C 152 120, 154 112, 150 105
-             C 142 92, 125 86, 110 86 Z"
-          fill={skinColor}
-          stroke={strokeColor}
-          strokeWidth={strokeWidth}
-        />
-        
-        {/* Left arm - slimmer */}
-        <path
-          d="M 50 105
-             C 44 110, 40 125, 38 145
-             C 36 170, 34 195, 33 220
-             C 32 245, 30 270, 30 290
-             C 30 305, 35 312, 42 312
-             C 49 312, 54 305, 54 290
-             C 54 270, 55 245, 56 220
-             C 57 195, 56 170, 55 145
-             C 54 125, 54 115, 52 125"
+          d="M 38 135
+             C 34 155, 30 185, 28 215
+             C 26 245, 24 275, 24 300
+             C 24 315, 30 325, 40 325
+             C 50 325, 54 315, 52 300
+             C 50 275, 50 245, 52 215
+             C 54 185, 54 155, 52 135
+             L 44 135 Z"
           fill={skinColor}
           stroke={strokeColor}
           strokeWidth={strokeWidth}
@@ -356,45 +319,36 @@ export function BodyMapSVG({
         
         {/* Right arm */}
         <path
-          d="M 150 105
-             C 156 110, 160 125, 162 145
-             C 164 170, 166 195, 167 220
-             C 168 245, 170 270, 170 290
-             C 170 305, 165 312, 158 312
-             C 151 312, 146 305, 146 290
-             C 146 270, 145 245, 144 220
-             C 143 195, 144 170, 145 145
-             C 146 125, 146 115, 148 125"
+          d="M 162 135
+             C 166 155, 170 185, 172 215
+             C 174 245, 176 275, 176 300
+             C 176 315, 170 325, 160 325
+             C 150 325, 146 315, 148 300
+             C 150 275, 150 245, 148 215
+             C 146 185, 146 155, 148 135
+             L 156 135 Z"
           fill={skinColor}
           stroke={strokeColor}
           strokeWidth={strokeWidth}
         />
+
+        {/* Left hand */}
+        <ellipse cx="38" cy="335" rx="15" ry="18" fill={skinColor} stroke={strokeColor} strokeWidth={strokeWidth} />
         
-        {/* Pelvis - wider */}
-        <path
-          d="M 65 260 
-             C 70 275, 82 290, 100 295
-             C 118 290, 130 275, 135 260
-             L 135 310
-             L 65 310 Z"
-          fill={skinColor}
-          stroke={strokeColor}
-          strokeWidth={strokeWidth}
-        />
+        {/* Right hand */}
+        <ellipse cx="162" cy="335" rx="15" ry="18" fill={skinColor} stroke={strokeColor} strokeWidth={strokeWidth} />
         
         {/* Left leg */}
         <path
-          d="M 65 310
-             C 63 340, 64 370, 66 400
-             C 68 430, 68 460, 66 490
-             C 64 520, 62 550, 62 570
-             C 62 582, 66 590, 74 590
-             L 88 590
-             C 90 582, 88 572, 86 562
-             C 84 540, 84 510, 86 480
-             C 88 450, 90 420, 90 390
-             C 90 360, 90 330, 90 310
-             L 65 310 Z"
+          d="M 70 300
+             C 68 335, 65 375, 63 415
+             C 61 455, 59 495, 58 535
+             C 57 560, 60 578, 68 588
+             L 96 588
+             C 98 578, 100 560, 98 535
+             C 96 495, 95 455, 95 415
+             C 95 375, 96 335, 100 300
+             L 100 300 Z"
           fill={skinColor}
           stroke={strokeColor}
           strokeWidth={strokeWidth}
@@ -402,151 +356,139 @@ export function BodyMapSVG({
         
         {/* Right leg */}
         <path
-          d="M 135 310
-             C 137 340, 136 370, 134 400
-             C 132 430, 132 460, 134 490
-             C 136 520, 138 550, 138 570
-             C 138 582, 134 590, 126 590
-             L 112 590
-             C 110 582, 112 572, 114 562
-             C 116 540, 116 510, 114 480
-             C 112 450, 110 420, 110 390
-             C 110 360, 110 330, 110 310
-             L 135 310 Z"
+          d="M 130 300
+             C 132 335, 135 375, 137 415
+             C 139 455, 141 495, 142 535
+             C 143 560, 140 578, 132 588
+             L 104 588
+             C 102 578, 100 560, 102 535
+             C 104 495, 105 455, 105 415
+             C 105 375, 104 335, 100 300
+             L 100 300 Z"
           fill={skinColor}
           stroke={strokeColor}
           strokeWidth={strokeWidth}
         />
         
         {/* Left foot */}
-        <path
-          d="M 62 570 C 58 575, 54 582, 54 590 C 54 598, 62 603, 78 603 L 88 603 C 90 598, 90 593, 88 590 L 74 590 C 70 585, 66 578, 62 570 Z"
-          fill={skinColor}
-          stroke={strokeColor}
-          strokeWidth={strokeWidth}
-        />
+        <ellipse cx="79" cy="603" rx="24" ry="14" fill={skinColor} stroke={strokeColor} strokeWidth={strokeWidth} />
         
         {/* Right foot */}
-        <path
-          d="M 138 570 C 142 575, 146 582, 146 590 C 146 598, 138 603, 122 603 L 112 603 C 110 598, 110 593, 112 590 L 126 590 C 130 585, 134 578, 138 570 Z"
-          fill={skinColor}
-          stroke={strokeColor}
-          strokeWidth={strokeWidth}
-        />
+        <ellipse cx="121" cy="603" rx="24" ry="14" fill={skinColor} stroke={strokeColor} strokeWidth={strokeWidth} />
       </g>
       
       {/* Clickable zones */}
-      <ellipse cx="100" cy="42" rx="22" ry="26"
+      <circle cx="100" cy="45" r="28"
         className={zoneClass('head')}
         onClick={handleClick('head')}
         style={{ fill: getZoneColor('head', selectedZones, zoneIntensities['head']) }}
       />
-      <rect x="90" y="66" width="20" height="20" rx="4"
+      <rect x="87" y="71" width="26" height="18" rx="4"
         className={zoneClass('neck')}
         onClick={handleClick('neck')}
         style={{ fill: getZoneColor('neck', selectedZones, zoneIntensities['neck']) }}
       />
-      <ellipse cx="58" cy="102" rx="16" ry="14"
+      <ellipse cx="48" cy="112" rx="16" ry="18"
         className={zoneClass('left-shoulder')}
         onClick={handleClick('left-shoulder')}
         style={{ fill: getZoneColor('left-shoulder', selectedZones, zoneIntensities['left-shoulder']) }}
       />
-      <ellipse cx="142" cy="102" rx="16" ry="14"
+      <ellipse cx="152" cy="112" rx="16" ry="18"
         className={zoneClass('right-shoulder')}
         onClick={handleClick('right-shoulder')}
         style={{ fill: getZoneColor('right-shoulder', selectedZones, zoneIntensities['right-shoulder']) }}
       />
-      <ellipse cx="100" cy="135" rx="36" ry="28"
+      <ellipse cx="100" cy="140" rx="40" ry="32"
         className={zoneClass('chest')}
         onClick={handleClick('chest')}
         style={{ fill: getZoneColor('chest', selectedZones, zoneIntensities['chest']) }}
       />
-      <ellipse cx="45" cy="155" rx="10" ry="32"
+      <ellipse cx="44" cy="175" rx="11" ry="32"
         className={zoneClass('left-arm')}
         onClick={handleClick('left-arm')}
         style={{ fill: getZoneColor('left-arm', selectedZones, zoneIntensities['left-arm']) }}
       />
-      <ellipse cx="155" cy="155" rx="10" ry="32"
+      <ellipse cx="156" cy="175" rx="11" ry="32"
         className={zoneClass('right-arm')}
         onClick={handleClick('right-arm')}
         style={{ fill: getZoneColor('right-arm', selectedZones, zoneIntensities['right-arm']) }}
       />
-      <ellipse cx="40" cy="240" rx="9" ry="38"
+      <ellipse cx="38" cy="255" rx="11" ry="42"
         className={zoneClass('left-forearm')}
         onClick={handleClick('left-forearm')}
         style={{ fill: getZoneColor('left-forearm', selectedZones, zoneIntensities['left-forearm']) }}
       />
-      <ellipse cx="160" cy="240" rx="9" ry="38"
+      <ellipse cx="162" cy="255" rx="11" ry="42"
         className={zoneClass('right-forearm')}
         onClick={handleClick('right-forearm')}
         style={{ fill: getZoneColor('right-forearm', selectedZones, zoneIntensities['right-forearm']) }}
       />
-      <ellipse cx="42" cy="300" rx="9" ry="16"
+      <ellipse cx="38" cy="335" rx="15" ry="18"
         className={zoneClass('left-hand')}
         onClick={handleClick('left-hand')}
         style={{ fill: getZoneColor('left-hand', selectedZones, zoneIntensities['left-hand']) }}
       />
-      <ellipse cx="158" cy="300" rx="9" ry="16"
+      <ellipse cx="162" cy="335" rx="15" ry="18"
         className={zoneClass('right-hand')}
         onClick={handleClick('right-hand')}
         style={{ fill: getZoneColor('right-hand', selectedZones, zoneIntensities['right-hand']) }}
       />
-      <ellipse cx="100" cy="200" rx="35" ry="32"
+      <ellipse cx="100" cy="210" rx="40" ry="32"
         className={zoneClass('abdomen')}
         onClick={handleClick('abdomen')}
         style={{ fill: getZoneColor('abdomen', selectedZones, zoneIntensities['abdomen']) }}
       />
-      <ellipse cx="100" cy="270" rx="35" ry="22"
+      <ellipse cx="100" cy="275" rx="38" ry="24"
         className={zoneClass('pelvis')}
         onClick={handleClick('pelvis')}
         style={{ fill: getZoneColor('pelvis', selectedZones, zoneIntensities['pelvis']) }}
       />
-      <ellipse cx="68" cy="268" rx="12" ry="18"
+      <ellipse cx="72" cy="280" rx="14" ry="18"
         className={zoneClass('left-hip')}
         onClick={handleClick('left-hip')}
         style={{ fill: getZoneColor('left-hip', selectedZones, zoneIntensities['left-hip']) }}
       />
-      <ellipse cx="132" cy="268" rx="12" ry="18"
+      <ellipse cx="128" cy="280" rx="14" ry="18"
         className={zoneClass('right-hip')}
         onClick={handleClick('right-hip')}
         style={{ fill: getZoneColor('right-hip', selectedZones, zoneIntensities['right-hip']) }}
       />
-      <ellipse cx="78" cy="360" rx="13" ry="48"
+      <ellipse cx="80" cy="360" rx="16" ry="52"
         className={zoneClass('left-thigh')}
         onClick={handleClick('left-thigh')}
         style={{ fill: getZoneColor('left-thigh', selectedZones, zoneIntensities['left-thigh']) }}
       />
-      <ellipse cx="122" cy="360" rx="13" ry="48"
+      <ellipse cx="120" cy="360" rx="16" ry="52"
         className={zoneClass('right-thigh')}
         onClick={handleClick('right-thigh')}
         style={{ fill: getZoneColor('right-thigh', selectedZones, zoneIntensities['right-thigh']) }}
       />
-      <ellipse cx="76" cy="425" rx="11" ry="16"
+      <ellipse cx="78" cy="430" rx="13" ry="18"
         className={zoneClass('left-knee')}
         onClick={handleClick('left-knee')}
         style={{ fill: getZoneColor('left-knee', selectedZones, zoneIntensities['left-knee']) }}
       />
-      <ellipse cx="124" cy="425" rx="11" ry="16"
+      <ellipse cx="122" cy="430" rx="13" ry="18"
         className={zoneClass('right-knee')}
         onClick={handleClick('right-knee')}
         style={{ fill: getZoneColor('right-knee', selectedZones, zoneIntensities['right-knee']) }}
       />
-      <ellipse cx="74" cy="510" rx="11" ry="58"
+      <ellipse cx="76" cy="515" rx="13" ry="58"
         className={zoneClass('left-leg')}
         onClick={handleClick('left-leg')}
         style={{ fill: getZoneColor('left-leg', selectedZones, zoneIntensities['left-leg']) }}
       />
-      <ellipse cx="126" cy="510" rx="11" ry="58"
+      <ellipse cx="124" cy="515" rx="13" ry="58"
         className={zoneClass('right-leg')}
         onClick={handleClick('right-leg')}
         style={{ fill: getZoneColor('right-leg', selectedZones, zoneIntensities['right-leg']) }}
       />
-      <ellipse cx="72" cy="595" rx="16" ry="10"
+      <ellipse cx="79" cy="603" rx="24" ry="14"
         className={zoneClass('left-foot')}
         onClick={handleClick('left-foot')}
         style={{ fill: getZoneColor('left-foot', selectedZones, zoneIntensities['left-foot']) }}
       />
-      <ellipse cx="128" cy="595" rx="16" ry="10"
+      <ellipse cx="121" cy="603" rx="24" ry="14"
         className={zoneClass('right-foot')}
         onClick={handleClick('right-foot')}
         style={{ fill: getZoneColor('right-foot', selectedZones, zoneIntensities['right-foot']) }}
@@ -559,35 +501,27 @@ export function BodyMapSVG({
     <>
       <g className="body-silhouette pointer-events-none">
         {/* Head */}
-        <ellipse cx="100" cy="42" rx="24" ry="28" fill={skinColor} stroke={strokeColor} strokeWidth={strokeWidth} />
+        <circle cx="100" cy="45" r="30" fill={skinColor} stroke={strokeColor} strokeWidth={strokeWidth} />
         
         {/* Neck */}
-        <path
-          d="M 88 68 Q 88 80 88 88 L 112 88 Q 112 80 112 68"
-          fill={skinColor}
-          stroke={strokeColor}
-          strokeWidth={strokeWidth}
-        />
+        <rect x="85" y="73" width="30" height="18" rx="8" fill={skinColor} stroke={strokeColor} strokeWidth={strokeWidth} />
         
-        {/* Torso */}
+        {/* Back torso */}
         <path
-          d="M 88 88 
-             C 70 88, 52 95, 42 110
-             C 38 118, 40 125, 45 130
-             L 48 130
-             C 52 120, 55 115, 58 112
-             L 58 165
-             C 55 190, 55 215, 58 240
-             C 60 255, 65 268, 70 275
-             L 100 280
-             L 130 275
-             C 135 268, 140 255, 142 240
-             C 145 215, 145 190, 142 165
-             L 142 112
-             C 145 115, 148 120, 152 130
-             L 155 130
-             C 160 125, 162 118, 158 110
-             C 148 95, 130 88, 112 88 Z"
+          d="M 55 90
+             C 35 95, 28 115, 32 140
+             L 38 140
+             C 42 125, 50 115, 55 110
+             L 55 220
+             C 52 250, 55 275, 65 295
+             L 135 295
+             C 145 275, 148 250, 145 220
+             L 145 110
+             C 150 115, 158 125, 162 140
+             L 168 140
+             C 172 115, 165 95, 145 90
+             C 135 88, 115 88, 100 88
+             C 85 88, 65 88, 55 90 Z"
           fill={skinColor}
           stroke={strokeColor}
           strokeWidth={strokeWidth}
@@ -595,15 +529,14 @@ export function BodyMapSVG({
         
         {/* Left arm */}
         <path
-          d="M 42 110
-             C 35 115, 32 130, 30 150
-             C 28 175, 26 200, 25 225
-             C 24 250, 22 275, 22 295
-             C 22 310, 28 320, 35 320
-             C 42 320, 48 310, 48 295
-             C 48 275, 50 250, 52 225
-             C 54 200, 54 175, 52 150
-             C 50 130, 48 118, 45 130"
+          d="M 32 140
+             C 28 160, 24 190, 22 220
+             C 20 250, 18 280, 18 305
+             C 18 320, 25 330, 35 330
+             C 45 330, 50 320, 48 305
+             C 46 280, 46 250, 48 220
+             C 50 190, 50 160, 48 140
+             L 38 140 Z"
           fill={skinColor}
           stroke={strokeColor}
           strokeWidth={strokeWidth}
@@ -611,45 +544,37 @@ export function BodyMapSVG({
         
         {/* Right arm */}
         <path
-          d="M 158 110
-             C 165 115, 168 130, 170 150
-             C 172 175, 174 200, 175 225
-             C 176 250, 178 275, 178 295
-             C 178 310, 172 320, 165 320
-             C 158 320, 152 310, 152 295
-             C 152 275, 150 250, 148 225
-             C 146 200, 146 175, 148 150
-             C 150 130, 152 118, 155 130"
+          d="M 168 140
+             C 172 160, 176 190, 178 220
+             C 180 250, 182 280, 182 305
+             C 182 320, 175 330, 165 330
+             C 155 330, 150 320, 152 305
+             C 154 280, 154 250, 152 220
+             C 150 190, 150 160, 152 140
+             L 162 140 Z"
           fill={skinColor}
           stroke={strokeColor}
           strokeWidth={strokeWidth}
         />
+
+        {/* Left hand */}
+        <ellipse cx="33" cy="340" rx="16" ry="20" fill={skinColor} stroke={strokeColor} strokeWidth={strokeWidth} />
         
-        {/* Pelvis/buttocks */}
-        <path
-          d="M 70 275 
-             C 75 280, 85 285, 100 288
-             C 115 285, 125 280, 130 275
-             L 130 300
-             L 70 300 Z"
-          fill={skinColor}
-          stroke={strokeColor}
-          strokeWidth={strokeWidth}
-        />
+        {/* Right hand */}
+        <ellipse cx="167" cy="340" rx="16" ry="20" fill={skinColor} stroke={strokeColor} strokeWidth={strokeWidth} />
         
         {/* Left leg */}
         <path
-          d="M 70 300
-             C 68 330, 68 360, 70 390
-             C 72 420, 72 450, 70 480
-             C 68 510, 66 540, 65 560
-             C 64 575, 68 585, 75 585
-             L 90 585
-             C 92 575, 90 565, 88 555
-             C 86 535, 86 505, 88 475
-             C 90 445, 92 415, 92 385
-             C 92 355, 92 325, 92 300
-             L 70 300 Z"
+          d="M 65 295
+             L 68 295
+             C 65 330, 62 370, 60 410
+             C 58 450, 56 490, 55 530
+             C 54 560, 58 580, 65 590
+             L 95 590
+             C 98 580, 100 560, 98 530
+             C 96 490, 94 450, 94 410
+             C 94 370, 96 330, 100 295
+             L 100 295 Z"
           fill={skinColor}
           stroke={strokeColor}
           strokeWidth={strokeWidth}
@@ -657,151 +582,135 @@ export function BodyMapSVG({
         
         {/* Right leg */}
         <path
-          d="M 130 300
-             C 132 330, 132 360, 130 390
-             C 128 420, 128 450, 130 480
-             C 132 510, 134 540, 135 560
-             C 136 575, 132 585, 125 585
-             L 110 585
-             C 108 575, 110 565, 112 555
-             C 114 535, 114 505, 112 475
-             C 110 445, 108 415, 108 385
-             C 108 355, 108 325, 108 300
-             L 130 300 Z"
+          d="M 135 295
+             L 132 295
+             C 135 330, 138 370, 140 410
+             C 142 450, 144 490, 145 530
+             C 146 560, 142 580, 135 590
+             L 105 590
+             C 102 580, 100 560, 102 530
+             C 104 490, 106 450, 106 410
+             C 106 370, 104 330, 100 295
+             L 100 295 Z"
           fill={skinColor}
           stroke={strokeColor}
           strokeWidth={strokeWidth}
         />
         
         {/* Left foot */}
-        <path
-          d="M 65 560 C 60 565, 55 575, 55 585 C 55 595, 65 600, 80 600 L 90 600 C 92 595, 92 590, 90 585 L 75 585 C 72 580, 68 570, 65 560 Z"
-          fill={skinColor}
-          stroke={strokeColor}
-          strokeWidth={strokeWidth}
-        />
+        <ellipse cx="77" cy="605" rx="25" ry="15" fill={skinColor} stroke={strokeColor} strokeWidth={strokeWidth} />
         
         {/* Right foot */}
-        <path
-          d="M 135 560 C 140 565, 145 575, 145 585 C 145 595, 135 600, 120 600 L 110 600 C 108 595, 108 590, 110 585 L 125 585 C 128 580, 132 570, 135 560 Z"
-          fill={skinColor}
-          stroke={strokeColor}
-          strokeWidth={strokeWidth}
-        />
+        <ellipse cx="123" cy="605" rx="25" ry="15" fill={skinColor} stroke={strokeColor} strokeWidth={strokeWidth} />
       </g>
       
       {/* Clickable zones */}
-      <ellipse cx="100" cy="42" rx="24" ry="28"
+      <circle cx="100" cy="45" r="30"
         className={zoneClass('head')}
         onClick={handleClick('head')}
         style={{ fill: getZoneColor('head', selectedZones, zoneIntensities['head']) }}
       />
-      <rect x="88" y="68" width="24" height="20" rx="4"
+      <rect x="85" y="73" width="30" height="18" rx="4"
         className={zoneClass('neck')}
         onClick={handleClick('neck')}
         style={{ fill: getZoneColor('neck', selectedZones, zoneIntensities['neck']) }}
       />
-      <ellipse cx="55" cy="105" rx="20" ry="15"
+      <ellipse cx="42" cy="115" rx="18" ry="20"
         className={zoneClass('left-shoulder')}
         onClick={handleClick('left-shoulder')}
         style={{ fill: getZoneColor('left-shoulder', selectedZones, zoneIntensities['left-shoulder']) }}
       />
-      <ellipse cx="145" cy="105" rx="20" ry="15"
+      <ellipse cx="158" cy="115" rx="18" ry="20"
         className={zoneClass('right-shoulder')}
         onClick={handleClick('right-shoulder')}
         style={{ fill: getZoneColor('right-shoulder', selectedZones, zoneIntensities['right-shoulder']) }}
       />
-      <ellipse cx="100" cy="125" rx="40" ry="25"
+      <ellipse cx="100" cy="150" rx="42" ry="40"
         className={zoneClass('upper-back')}
         onClick={handleClick('upper-back')}
         style={{ fill: getZoneColor('upper-back', selectedZones, zoneIntensities['upper-back']) }}
       />
-      <ellipse cx="100" cy="190" rx="38" ry="40"
-        className={zoneClass('lower-back')}
-        onClick={handleClick('lower-back')}
-        style={{ fill: getZoneColor('lower-back', selectedZones, zoneIntensities['lower-back']) }}
-      />
-      <ellipse cx="40" cy="160" rx="12" ry="35"
+      <ellipse cx="38" cy="180" rx="12" ry="35"
         className={zoneClass('left-arm')}
         onClick={handleClick('left-arm')}
         style={{ fill: getZoneColor('left-arm', selectedZones, zoneIntensities['left-arm']) }}
       />
-      <ellipse cx="160" cy="160" rx="12" ry="35"
+      <ellipse cx="162" cy="180" rx="12" ry="35"
         className={zoneClass('right-arm')}
         onClick={handleClick('right-arm')}
         style={{ fill: getZoneColor('right-arm', selectedZones, zoneIntensities['right-arm']) }}
       />
-      <ellipse cx="35" cy="245" rx="10" ry="40"
+      <ellipse cx="32" cy="260" rx="12" ry="45"
         className={zoneClass('left-forearm')}
         onClick={handleClick('left-forearm')}
         style={{ fill: getZoneColor('left-forearm', selectedZones, zoneIntensities['left-forearm']) }}
       />
-      <ellipse cx="165" cy="245" rx="10" ry="40"
+      <ellipse cx="168" cy="260" rx="12" ry="45"
         className={zoneClass('right-forearm')}
         onClick={handleClick('right-forearm')}
         style={{ fill: getZoneColor('right-forearm', selectedZones, zoneIntensities['right-forearm']) }}
       />
-      <ellipse cx="35" cy="305" rx="10" ry="18"
+      <ellipse cx="33" cy="340" rx="16" ry="20"
         className={zoneClass('left-hand')}
         onClick={handleClick('left-hand')}
         style={{ fill: getZoneColor('left-hand', selectedZones, zoneIntensities['left-hand']) }}
       />
-      <ellipse cx="165" cy="305" rx="10" ry="18"
+      <ellipse cx="167" cy="340" rx="16" ry="20"
         className={zoneClass('right-hand')}
         onClick={handleClick('right-hand')}
         style={{ fill: getZoneColor('right-hand', selectedZones, zoneIntensities['right-hand']) }}
       />
-      <ellipse cx="100" cy="270" rx="32" ry="20"
-        className={zoneClass('pelvis')}
-        onClick={handleClick('pelvis')}
-        style={{ fill: getZoneColor('pelvis', selectedZones, zoneIntensities['pelvis']) }}
+      <ellipse cx="100" cy="235" rx="40" ry="40"
+        className={zoneClass('lower-back')}
+        onClick={handleClick('lower-back')}
+        style={{ fill: getZoneColor('lower-back', selectedZones, zoneIntensities['lower-back']) }}
       />
-      <ellipse cx="68" cy="265" rx="10" ry="18"
+      <ellipse cx="70" cy="275" rx="12" ry="18"
         className={zoneClass('left-hip')}
         onClick={handleClick('left-hip')}
         style={{ fill: getZoneColor('left-hip', selectedZones, zoneIntensities['left-hip']) }}
       />
-      <ellipse cx="132" cy="265" rx="10" ry="18"
+      <ellipse cx="130" cy="275" rx="12" ry="18"
         className={zoneClass('right-hip')}
         onClick={handleClick('right-hip')}
         style={{ fill: getZoneColor('right-hip', selectedZones, zoneIntensities['right-hip']) }}
       />
-      <ellipse cx="80" cy="350" rx="14" ry="50"
+      <ellipse cx="78" cy="360" rx="16" ry="55"
         className={zoneClass('left-thigh')}
         onClick={handleClick('left-thigh')}
         style={{ fill: getZoneColor('left-thigh', selectedZones, zoneIntensities['left-thigh']) }}
       />
-      <ellipse cx="120" cy="350" rx="14" ry="50"
+      <ellipse cx="122" cy="360" rx="16" ry="55"
         className={zoneClass('right-thigh')}
         onClick={handleClick('right-thigh')}
         style={{ fill: getZoneColor('right-thigh', selectedZones, zoneIntensities['right-thigh']) }}
       />
-      <ellipse cx="78" cy="420" rx="12" ry="18"
+      <ellipse cx="76" cy="435" rx="14" ry="20"
         className={zoneClass('left-knee')}
         onClick={handleClick('left-knee')}
         style={{ fill: getZoneColor('left-knee', selectedZones, zoneIntensities['left-knee']) }}
       />
-      <ellipse cx="122" cy="420" rx="12" ry="18"
+      <ellipse cx="124" cy="435" rx="14" ry="20"
         className={zoneClass('right-knee')}
         onClick={handleClick('right-knee')}
         style={{ fill: getZoneColor('right-knee', selectedZones, zoneIntensities['right-knee']) }}
       />
-      <ellipse cx="76" cy="505" rx="12" ry="60"
+      <ellipse cx="74" cy="520" rx="14" ry="60"
         className={zoneClass('left-leg')}
         onClick={handleClick('left-leg')}
         style={{ fill: getZoneColor('left-leg', selectedZones, zoneIntensities['left-leg']) }}
       />
-      <ellipse cx="124" cy="505" rx="12" ry="60"
+      <ellipse cx="126" cy="520" rx="14" ry="60"
         className={zoneClass('right-leg')}
         onClick={handleClick('right-leg')}
         style={{ fill: getZoneColor('right-leg', selectedZones, zoneIntensities['right-leg']) }}
       />
-      <ellipse cx="72" cy="590" rx="18" ry="12"
+      <ellipse cx="77" cy="605" rx="25" ry="15"
         className={zoneClass('left-foot')}
         onClick={handleClick('left-foot')}
         style={{ fill: getZoneColor('left-foot', selectedZones, zoneIntensities['left-foot']) }}
       />
-      <ellipse cx="128" cy="590" rx="18" ry="12"
+      <ellipse cx="123" cy="605" rx="25" ry="15"
         className={zoneClass('right-foot')}
         onClick={handleClick('right-foot')}
         style={{ fill: getZoneColor('right-foot', selectedZones, zoneIntensities['right-foot']) }}
@@ -814,37 +723,29 @@ export function BodyMapSVG({
     <>
       <g className="body-silhouette pointer-events-none">
         {/* Head */}
-        <ellipse cx="100" cy="42" rx="22" ry="26" fill={skinColor} stroke={strokeColor} strokeWidth={strokeWidth} />
+        <circle cx="100" cy="45" r="28" fill={skinColor} stroke={strokeColor} strokeWidth={strokeWidth} />
         
         {/* Neck */}
-        <path
-          d="M 90 66 Q 90 78 90 86 L 110 86 Q 110 78 110 66"
-          fill={skinColor}
-          stroke={strokeColor}
-          strokeWidth={strokeWidth}
-        />
+        <rect x="87" y="71" width="26" height="18" rx="8" fill={skinColor} stroke={strokeColor} strokeWidth={strokeWidth} />
         
-        {/* Torso */}
+        {/* Back torso */}
         <path
-          d="M 90 86 
-             C 75 86, 58 92, 50 105
-             C 46 112, 48 120, 52 125
-             L 55 125
-             C 58 118, 60 114, 62 112
-             L 60 145
-             C 55 165, 54 185, 56 205
-             C 58 225, 62 245, 65 260
-             C 68 275, 75 285, 85 290
-             L 100 292
-             L 115 290
-             C 125 285, 132 275, 135 260
-             C 138 245, 142 225, 144 205
-             C 146 185, 145 165, 140 145
-             L 138 112
-             C 140 114, 142 118, 145 125
-             L 148 125
-             C 152 120, 154 112, 150 105
-             C 142 92, 125 86, 110 86 Z"
+          d="M 60 88
+             C 42 93, 35 112, 38 135
+             L 44 135
+             C 48 122, 55 114, 60 108
+             L 58 175
+             C 52 195, 48 220, 50 250
+             C 52 275, 60 290, 70 300
+             L 130 300
+             C 140 290, 148 275, 150 250
+             C 152 220, 148 195, 142 175
+             L 140 108
+             C 145 114, 152 122, 156 135
+             L 162 135
+             C 165 112, 158 93, 140 88
+             C 130 86, 115 86, 100 86
+             C 85 86, 70 86, 60 88 Z"
           fill={skinColor}
           stroke={strokeColor}
           strokeWidth={strokeWidth}
@@ -852,15 +753,14 @@ export function BodyMapSVG({
         
         {/* Left arm */}
         <path
-          d="M 50 105
-             C 44 110, 40 125, 38 145
-             C 36 170, 34 195, 33 220
-             C 32 245, 30 270, 30 290
-             C 30 305, 35 312, 42 312
-             C 49 312, 54 305, 54 290
-             C 54 270, 55 245, 56 220
-             C 57 195, 56 170, 55 145
-             C 54 125, 54 115, 52 125"
+          d="M 38 135
+             C 34 155, 30 185, 28 215
+             C 26 245, 24 275, 24 300
+             C 24 315, 30 325, 40 325
+             C 50 325, 54 315, 52 300
+             C 50 275, 50 245, 52 215
+             C 54 185, 54 155, 52 135
+             L 44 135 Z"
           fill={skinColor}
           stroke={strokeColor}
           strokeWidth={strokeWidth}
@@ -868,45 +768,36 @@ export function BodyMapSVG({
         
         {/* Right arm */}
         <path
-          d="M 150 105
-             C 156 110, 160 125, 162 145
-             C 164 170, 166 195, 167 220
-             C 168 245, 170 270, 170 290
-             C 170 305, 165 312, 158 312
-             C 151 312, 146 305, 146 290
-             C 146 270, 145 245, 144 220
-             C 143 195, 144 170, 145 145
-             C 146 125, 146 115, 148 125"
+          d="M 162 135
+             C 166 155, 170 185, 172 215
+             C 174 245, 176 275, 176 300
+             C 176 315, 170 325, 160 325
+             C 150 325, 146 315, 148 300
+             C 150 275, 150 245, 148 215
+             C 146 185, 146 155, 148 135
+             L 156 135 Z"
           fill={skinColor}
           stroke={strokeColor}
           strokeWidth={strokeWidth}
         />
+
+        {/* Left hand */}
+        <ellipse cx="38" cy="335" rx="15" ry="18" fill={skinColor} stroke={strokeColor} strokeWidth={strokeWidth} />
         
-        {/* Pelvis/buttocks - wider */}
-        <path
-          d="M 65 260 
-             C 70 275, 82 290, 100 295
-             C 118 290, 130 275, 135 260
-             L 135 310
-             L 65 310 Z"
-          fill={skinColor}
-          stroke={strokeColor}
-          strokeWidth={strokeWidth}
-        />
+        {/* Right hand */}
+        <ellipse cx="162" cy="335" rx="15" ry="18" fill={skinColor} stroke={strokeColor} strokeWidth={strokeWidth} />
         
         {/* Left leg */}
         <path
-          d="M 65 310
-             C 63 340, 64 370, 66 400
-             C 68 430, 68 460, 66 490
-             C 64 520, 62 550, 62 570
-             C 62 582, 66 590, 74 590
-             L 88 590
-             C 90 582, 88 572, 86 562
-             C 84 540, 84 510, 86 480
-             C 88 450, 90 420, 90 390
-             C 90 360, 90 330, 90 310
-             L 65 310 Z"
+          d="M 70 300
+             C 68 335, 65 375, 63 415
+             C 61 455, 59 495, 58 535
+             C 57 560, 60 578, 68 588
+             L 96 588
+             C 98 578, 100 560, 98 535
+             C 96 495, 95 455, 95 415
+             C 95 375, 96 335, 100 300
+             L 100 300 Z"
           fill={skinColor}
           stroke={strokeColor}
           strokeWidth={strokeWidth}
@@ -914,151 +805,134 @@ export function BodyMapSVG({
         
         {/* Right leg */}
         <path
-          d="M 135 310
-             C 137 340, 136 370, 134 400
-             C 132 430, 132 460, 134 490
-             C 136 520, 138 550, 138 570
-             C 138 582, 134 590, 126 590
-             L 112 590
-             C 110 582, 112 572, 114 562
-             C 116 540, 116 510, 114 480
-             C 112 450, 110 420, 110 390
-             C 110 360, 110 330, 110 310
-             L 135 310 Z"
+          d="M 130 300
+             C 132 335, 135 375, 137 415
+             C 139 455, 141 495, 142 535
+             C 143 560, 140 578, 132 588
+             L 104 588
+             C 102 578, 100 560, 102 535
+             C 104 495, 105 455, 105 415
+             C 105 375, 104 335, 100 300
+             L 100 300 Z"
           fill={skinColor}
           stroke={strokeColor}
           strokeWidth={strokeWidth}
         />
         
         {/* Left foot */}
-        <path
-          d="M 62 570 C 58 575, 54 582, 54 590 C 54 598, 62 603, 78 603 L 88 603 C 90 598, 90 593, 88 590 L 74 590 C 70 585, 66 578, 62 570 Z"
-          fill={skinColor}
-          stroke={strokeColor}
-          strokeWidth={strokeWidth}
-        />
+        <ellipse cx="79" cy="603" rx="24" ry="14" fill={skinColor} stroke={strokeColor} strokeWidth={strokeWidth} />
         
         {/* Right foot */}
-        <path
-          d="M 138 570 C 142 575, 146 582, 146 590 C 146 598, 138 603, 122 603 L 112 603 C 110 598, 110 593, 112 590 L 126 590 C 130 585, 134 578, 138 570 Z"
-          fill={skinColor}
-          stroke={strokeColor}
-          strokeWidth={strokeWidth}
-        />
+        <ellipse cx="121" cy="603" rx="24" ry="14" fill={skinColor} stroke={strokeColor} strokeWidth={strokeWidth} />
       </g>
       
       {/* Clickable zones */}
-      <ellipse cx="100" cy="42" rx="22" ry="26"
+      <circle cx="100" cy="45" r="28"
         className={zoneClass('head')}
         onClick={handleClick('head')}
         style={{ fill: getZoneColor('head', selectedZones, zoneIntensities['head']) }}
       />
-      <rect x="90" y="66" width="20" height="20" rx="4"
+      <rect x="87" y="71" width="26" height="18" rx="4"
         className={zoneClass('neck')}
         onClick={handleClick('neck')}
         style={{ fill: getZoneColor('neck', selectedZones, zoneIntensities['neck']) }}
       />
-      <ellipse cx="58" cy="102" rx="16" ry="14"
+      <ellipse cx="48" cy="112" rx="16" ry="18"
         className={zoneClass('left-shoulder')}
         onClick={handleClick('left-shoulder')}
         style={{ fill: getZoneColor('left-shoulder', selectedZones, zoneIntensities['left-shoulder']) }}
       />
-      <ellipse cx="142" cy="102" rx="16" ry="14"
+      <ellipse cx="152" cy="112" rx="16" ry="18"
         className={zoneClass('right-shoulder')}
         onClick={handleClick('right-shoulder')}
         style={{ fill: getZoneColor('right-shoulder', selectedZones, zoneIntensities['right-shoulder']) }}
       />
-      <ellipse cx="100" cy="120" rx="36" ry="22"
+      <ellipse cx="100" cy="148" rx="38" ry="38"
         className={zoneClass('upper-back')}
         onClick={handleClick('upper-back')}
         style={{ fill: getZoneColor('upper-back', selectedZones, zoneIntensities['upper-back']) }}
       />
-      <ellipse cx="100" cy="185" rx="35" ry="38"
-        className={zoneClass('lower-back')}
-        onClick={handleClick('lower-back')}
-        style={{ fill: getZoneColor('lower-back', selectedZones, zoneIntensities['lower-back']) }}
-      />
-      <ellipse cx="45" cy="155" rx="10" ry="32"
+      <ellipse cx="44" cy="175" rx="11" ry="32"
         className={zoneClass('left-arm')}
         onClick={handleClick('left-arm')}
         style={{ fill: getZoneColor('left-arm', selectedZones, zoneIntensities['left-arm']) }}
       />
-      <ellipse cx="155" cy="155" rx="10" ry="32"
+      <ellipse cx="156" cy="175" rx="11" ry="32"
         className={zoneClass('right-arm')}
         onClick={handleClick('right-arm')}
         style={{ fill: getZoneColor('right-arm', selectedZones, zoneIntensities['right-arm']) }}
       />
-      <ellipse cx="40" cy="240" rx="9" ry="38"
+      <ellipse cx="38" cy="255" rx="11" ry="42"
         className={zoneClass('left-forearm')}
         onClick={handleClick('left-forearm')}
         style={{ fill: getZoneColor('left-forearm', selectedZones, zoneIntensities['left-forearm']) }}
       />
-      <ellipse cx="160" cy="240" rx="9" ry="38"
+      <ellipse cx="162" cy="255" rx="11" ry="42"
         className={zoneClass('right-forearm')}
         onClick={handleClick('right-forearm')}
         style={{ fill: getZoneColor('right-forearm', selectedZones, zoneIntensities['right-forearm']) }}
       />
-      <ellipse cx="42" cy="300" rx="9" ry="16"
+      <ellipse cx="38" cy="335" rx="15" ry="18"
         className={zoneClass('left-hand')}
         onClick={handleClick('left-hand')}
         style={{ fill: getZoneColor('left-hand', selectedZones, zoneIntensities['left-hand']) }}
       />
-      <ellipse cx="158" cy="300" rx="9" ry="16"
+      <ellipse cx="162" cy="335" rx="15" ry="18"
         className={zoneClass('right-hand')}
         onClick={handleClick('right-hand')}
         style={{ fill: getZoneColor('right-hand', selectedZones, zoneIntensities['right-hand']) }}
       />
-      <ellipse cx="100" cy="275" rx="35" ry="22"
-        className={zoneClass('pelvis')}
-        onClick={handleClick('pelvis')}
-        style={{ fill: getZoneColor('pelvis', selectedZones, zoneIntensities['pelvis']) }}
+      <ellipse cx="100" cy="230" rx="40" ry="38"
+        className={zoneClass('lower-back')}
+        onClick={handleClick('lower-back')}
+        style={{ fill: getZoneColor('lower-back', selectedZones, zoneIntensities['lower-back']) }}
       />
-      <ellipse cx="68" cy="268" rx="12" ry="18"
+      <ellipse cx="72" cy="280" rx="14" ry="18"
         className={zoneClass('left-hip')}
         onClick={handleClick('left-hip')}
         style={{ fill: getZoneColor('left-hip', selectedZones, zoneIntensities['left-hip']) }}
       />
-      <ellipse cx="132" cy="268" rx="12" ry="18"
+      <ellipse cx="128" cy="280" rx="14" ry="18"
         className={zoneClass('right-hip')}
         onClick={handleClick('right-hip')}
         style={{ fill: getZoneColor('right-hip', selectedZones, zoneIntensities['right-hip']) }}
       />
-      <ellipse cx="78" cy="360" rx="13" ry="48"
+      <ellipse cx="80" cy="360" rx="16" ry="52"
         className={zoneClass('left-thigh')}
         onClick={handleClick('left-thigh')}
         style={{ fill: getZoneColor('left-thigh', selectedZones, zoneIntensities['left-thigh']) }}
       />
-      <ellipse cx="122" cy="360" rx="13" ry="48"
+      <ellipse cx="120" cy="360" rx="16" ry="52"
         className={zoneClass('right-thigh')}
         onClick={handleClick('right-thigh')}
         style={{ fill: getZoneColor('right-thigh', selectedZones, zoneIntensities['right-thigh']) }}
       />
-      <ellipse cx="76" cy="425" rx="11" ry="16"
+      <ellipse cx="78" cy="430" rx="13" ry="18"
         className={zoneClass('left-knee')}
         onClick={handleClick('left-knee')}
         style={{ fill: getZoneColor('left-knee', selectedZones, zoneIntensities['left-knee']) }}
       />
-      <ellipse cx="124" cy="425" rx="11" ry="16"
+      <ellipse cx="122" cy="430" rx="13" ry="18"
         className={zoneClass('right-knee')}
         onClick={handleClick('right-knee')}
         style={{ fill: getZoneColor('right-knee', selectedZones, zoneIntensities['right-knee']) }}
       />
-      <ellipse cx="74" cy="510" rx="11" ry="58"
+      <ellipse cx="76" cy="515" rx="13" ry="58"
         className={zoneClass('left-leg')}
         onClick={handleClick('left-leg')}
         style={{ fill: getZoneColor('left-leg', selectedZones, zoneIntensities['left-leg']) }}
       />
-      <ellipse cx="126" cy="510" rx="11" ry="58"
+      <ellipse cx="124" cy="515" rx="13" ry="58"
         className={zoneClass('right-leg')}
         onClick={handleClick('right-leg')}
         style={{ fill: getZoneColor('right-leg', selectedZones, zoneIntensities['right-leg']) }}
       />
-      <ellipse cx="72" cy="595" rx="16" ry="10"
+      <ellipse cx="79" cy="603" rx="24" ry="14"
         className={zoneClass('left-foot')}
         onClick={handleClick('left-foot')}
         style={{ fill: getZoneColor('left-foot', selectedZones, zoneIntensities['left-foot']) }}
       />
-      <ellipse cx="128" cy="595" rx="16" ry="10"
+      <ellipse cx="121" cy="603" rx="24" ry="14"
         className={zoneClass('right-foot')}
         onClick={handleClick('right-foot')}
         style={{ fill: getZoneColor('right-foot', selectedZones, zoneIntensities['right-foot']) }}
@@ -1066,7 +940,6 @@ export function BodyMapSVG({
     </>
   );
 
-  // Choose the right view based on gender and view
   const renderBody = () => {
     if (gender === 'male') {
       return view === 'front' ? <MaleFrontView /> : <MaleBackView />;
@@ -1077,28 +950,10 @@ export function BodyMapSVG({
 
   return (
     <svg
-      viewBox="0 0 200 610"
-      className="w-full h-auto max-h-[500px]"
-      style={{ touchAction: 'manipulation' }}
+      viewBox="0 0 200 630"
+      className="w-full h-auto"
+      style={{ maxHeight: '450px' }}
     >
-      <defs>
-        <style>
-          {`
-            .body-zone {
-              stroke: transparent;
-              stroke-width: 1;
-            }
-            .body-zone:hover {
-              stroke: hsl(var(--primary));
-              stroke-width: 2;
-            }
-            .body-zone.selected {
-              stroke: hsl(var(--primary));
-              stroke-width: 2;
-            }
-          `}
-        </style>
-      </defs>
       {renderBody()}
     </svg>
   );

@@ -3,7 +3,7 @@ import { usePainStore } from '@/hooks/usePainStore';
 import { StatCard } from './StatCard';
 import { BODY_ZONE_LABELS, PAIN_TYPE_LABELS, BodyZone, PainType } from '@/types/pain';
 import { Activity, TrendingUp, MapPin, Flame, Calendar, AlertCircle } from 'lucide-react';
-import { VectorBodyMap } from '@/components/BodyMap/VectorBodyMap';
+import { InteractiveBodyMap } from '@/components/BodyMap/InteractiveBodyMap';
 
 export function Dashboard() {
   const { entries, getStats } = usePainStore();
@@ -19,7 +19,7 @@ export function Dashboard() {
           <p className="text-muted-foreground max-w-sm mx-auto mb-6">
             Touchez les zones du corps pour indiquer où vous avez mal.
           </p>
-          <VectorBodyMap />
+          <InteractiveBodyMap />
         </div>
 
         <div className="disclaimer-medical mx-4">

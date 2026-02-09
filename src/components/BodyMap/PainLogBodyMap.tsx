@@ -18,186 +18,191 @@ interface PainLogBodyMapProps {
 const HIGHLIGHT_FILL = '#4DA3FF55';
 const HIGHLIGHT_STROKE = '#4DA3FF';
 
-// SVG viewBox: 300x600 — zones calibrated to body-front.png / body-back.png
+// SVG viewBox: 608x1080 — matches body-front.png / body-back.png exactly
 interface ZonePath {
   id: PainLogZone;
-  element: 'path' | 'rect';
-  attrs: Record<string, string | number>;
+  element: 'path';
+  attrs: { d: string };
   views: PainLogView[];
 }
 
+// cx=304 is the center of the silhouette in 608x1080
+const cx = 304;
+
 const ZONE_PATHS: ZonePath[] = [
-  // Tête
+  // Tête — ellipse ovale
   {
     id: 'head',
     element: 'path',
-    attrs: { d: 'M135 40 C155 40 165 80 150 100 C135 120 115 100 120 80 C125 60 115 40 135 40' },
+    attrs: { d: `M${cx},25 C${cx+45},25 ${cx+55},55 ${cx+55},80 C${cx+55},110 ${cx+40},130 ${cx},130 C${cx-40},130 ${cx-55},110 ${cx-55},80 C${cx-55},55 ${cx-45},25 ${cx},25 Z` },
     views: ['face', 'dos'],
   },
   // Cou
   {
     id: 'neck',
-    element: 'rect',
-    attrs: { x: 125, y: 100, width: 50, height: 30 },
+    element: 'path',
+    attrs: { d: `M${cx-22},130 L${cx+22},130 L${cx+25},175 L${cx-25},175 Z` },
     views: ['face', 'dos'],
   },
   // Épaule gauche
   {
     id: 'left-shoulder',
     element: 'path',
-    attrs: { d: 'M85 130 L105 130 L105 150 L85 145 Z' },
+    attrs: { d: `M${cx-25},175 L${cx-75},175 L${cx-110},195 L${cx-105},225 L${cx-70},215 L${cx-25},205 Z` },
     views: ['face', 'dos'],
   },
   // Épaule droite
   {
     id: 'right-shoulder',
     element: 'path',
-    attrs: { d: 'M195 130 L215 130 L215 145 L195 150 Z' },
+    attrs: { d: `M${cx+25},175 L${cx+75},175 L${cx+110},195 L${cx+105},225 L${cx+70},215 L${cx+25},205 Z` },
     views: ['face', 'dos'],
   },
-  // Thorax (face) / Haut du dos (dos)
+  // Thorax (face)
   {
     id: 'chest',
     element: 'path',
-    attrs: { d: 'M105 130 L195 130 L195 220 L105 220 Z' },
+    attrs: { d: `M${cx-70},205 L${cx+70},205 L${cx+70},340 L${cx},350 L${cx-70},340 Z` },
     views: ['face'],
   },
+  // Haut du dos (dos)
   {
     id: 'upper-back',
     element: 'path',
-    attrs: { d: 'M105 130 L195 130 L195 220 L105 220 Z' },
+    attrs: { d: `M${cx-70},205 L${cx+70},205 L${cx+70},340 L${cx},350 L${cx-70},340 Z` },
     views: ['dos'],
   },
-  // Bras gauche
+  // Bras gauche (haut)
   {
     id: 'left-arm',
     element: 'path',
-    attrs: { d: 'M85 145 L105 150 L105 220 L85 220 Z' },
+    attrs: { d: `M${cx-110},195 L${cx-105},225 L${cx-100},340 L${cx-130},340 L${cx-135},230 Z` },
     views: ['face', 'dos'],
   },
-  // Bras droit
+  // Bras droit (haut)
   {
     id: 'right-arm',
     element: 'path',
-    attrs: { d: 'M195 150 L215 145 L215 220 L195 220 Z' },
+    attrs: { d: `M${cx+110},195 L${cx+135},230 L${cx+130},340 L${cx+100},340 L${cx+105},225 Z` },
     views: ['face', 'dos'],
   },
   // Avant-bras gauche
   {
     id: 'left-forearm',
     element: 'path',
-    attrs: { d: 'M80 220 L105 220 L100 310 L75 310 Z' },
+    attrs: { d: `M${cx-130},340 L${cx-100},340 L${cx-105},490 L${cx-135},490 Z` },
     views: ['face', 'dos'],
   },
   // Avant-bras droit
   {
     id: 'right-forearm',
     element: 'path',
-    attrs: { d: 'M195 220 L220 220 L225 310 L200 310 Z' },
+    attrs: { d: `M${cx+100},340 L${cx+130},340 L${cx+135},490 L${cx+105},490 Z` },
     views: ['face', 'dos'],
   },
   // Main gauche
   {
     id: 'left-hand',
     element: 'path',
-    attrs: { d: 'M70 310 L100 310 L98 350 L68 350 Z' },
+    attrs: { d: `M${cx-135},490 L${cx-105},490 L${cx-100},555 L${cx-115},565 L${cx-140},555 Z` },
     views: ['face', 'dos'],
   },
   // Main droite
   {
     id: 'right-hand',
     element: 'path',
-    attrs: { d: 'M200 310 L230 310 L232 350 L202 350 Z' },
+    attrs: { d: `M${cx+105},490 L${cx+135},490 L${cx+140},555 L${cx+115},565 L${cx+100},555 Z` },
     views: ['face', 'dos'],
   },
-  // Abdomen (face) / Bas du dos (dos)
+  // Abdomen (face)
   {
     id: 'abdomen',
     element: 'path',
-    attrs: { d: 'M110 220 L190 220 L190 310 L110 310 Z' },
+    attrs: { d: `M${cx-70},340 L${cx+70},340 L${cx+65},460 L${cx},470 L${cx-65},460 Z` },
     views: ['face'],
   },
+  // Bas du dos (dos)
   {
     id: 'lower-back',
     element: 'path',
-    attrs: { d: 'M110 220 L190 220 L190 310 L110 310 Z' },
+    attrs: { d: `M${cx-70},340 L${cx+70},340 L${cx+65},460 L${cx},470 L${cx-65},460 Z` },
     views: ['dos'],
   },
   // Bassin
   {
     id: 'pelvis',
     element: 'path',
-    attrs: { d: 'M110 310 L190 310 L195 340 L105 340 Z' },
+    attrs: { d: `M${cx-65},460 L${cx+65},460 L${cx+60},510 L${cx-60},510 Z` },
     views: ['face', 'dos'],
   },
   // Hanche gauche
   {
     id: 'left-hip',
     element: 'path',
-    attrs: { d: 'M105 330 L140 330 L140 355 L110 355 Z' },
+    attrs: { d: `M${cx-65},490 L${cx-15},490 L${cx-15},530 L${cx-60},530 Z` },
     views: ['face', 'dos'],
   },
   // Hanche droite
   {
     id: 'right-hip',
     element: 'path',
-    attrs: { d: 'M160 330 L195 330 L190 355 L160 355 Z' },
+    attrs: { d: `M${cx+15},490 L${cx+65},490 L${cx+60},530 L${cx+15},530 Z` },
     views: ['face', 'dos'],
   },
   // Cuisse gauche
   {
     id: 'left-thigh',
     element: 'path',
-    attrs: { d: 'M115 340 L150 340 L148 430 L118 430 Z' },
+    attrs: { d: `M${cx-60},510 L${cx-8},510 L${cx-15},700 L${cx-55},700 Z` },
     views: ['face', 'dos'],
   },
   // Cuisse droite
   {
     id: 'right-thigh',
     element: 'path',
-    attrs: { d: 'M155 340 L190 340 L185 430 L155 430 Z' },
+    attrs: { d: `M${cx+8},510 L${cx+60},510 L${cx+55},700 L${cx+15},700 Z` },
     views: ['face', 'dos'],
   },
   // Genou gauche
   {
     id: 'left-knee',
     element: 'path',
-    attrs: { d: 'M118 430 L148 430 L146 460 L120 460 Z' },
+    attrs: { d: `M${cx-55},700 L${cx-15},700 L${cx-18},770 L${cx-52},770 Z` },
     views: ['face', 'dos'],
   },
   // Genou droit
   {
     id: 'right-knee',
     element: 'path',
-    attrs: { d: 'M155 430 L185 430 L183 460 L157 460 Z' },
+    attrs: { d: `M${cx+15},700 L${cx+55},700 L${cx+52},770 L${cx+18},770 Z` },
     views: ['face', 'dos'],
   },
-  // Jambe gauche
+  // Jambe gauche (mollet)
   {
     id: 'left-leg',
     element: 'path',
-    attrs: { d: 'M120 460 L146 460 L144 540 L122 540 Z' },
+    attrs: { d: `M${cx-52},770 L${cx-18},770 L${cx-20},940 L${cx-48},940 Z` },
     views: ['face', 'dos'],
   },
-  // Jambe droite
+  // Jambe droite (mollet)
   {
     id: 'right-leg',
     element: 'path',
-    attrs: { d: 'M157 460 L183 460 L180 540 L158 540 Z' },
+    attrs: { d: `M${cx+18},770 L${cx+52},770 L${cx+48},940 L${cx+20},940 Z` },
     views: ['face', 'dos'],
   },
   // Pied gauche
   {
     id: 'left-foot',
     element: 'path',
-    attrs: { d: 'M118 540 L148 540 L148 575 L115 575 Z' },
+    attrs: { d: `M${cx-52},940 L${cx-15},940 L${cx-12},1010 L${cx-55},1010 Z` },
     views: ['face', 'dos'],
   },
   // Pied droit
   {
     id: 'right-foot',
     element: 'path',
-    attrs: { d: 'M155 540 L185 540 L188 575 L155 575 Z' },
+    attrs: { d: `M${cx+15},940 L${cx+52},940 L${cx+55},1010 L${cx+12},1010 Z` },
     views: ['face', 'dos'],
   },
 ];
@@ -210,7 +215,7 @@ export function PainLogBodyMap({
   className,
 }: PainLogBodyMapProps) {
   const [hoveredZone, setHoveredZone] = useState<PainLogZone | null>(null);
-  const [debugMode, setDebugMode] = useState(true); // DEBUG: set to true temporarily
+  const [debugMode, setDebugMode] = useState(false);
 
   const bodyImage = view === 'face' ? bodyFront : bodyBack;
   const zones = ZONE_PATHS.filter(z => z.views.includes(view));
@@ -300,11 +305,11 @@ export function PainLogBodyMap({
           className="w-full h-auto block pointer-events-none select-none"
         />
         <svg
-          viewBox="0 0 300 600"
+          viewBox="0 0 608 1080"
           className="absolute inset-0 w-full h-full"
           style={{ touchAction: 'manipulation' }}
         >
-          {zones.map(({ id, element, attrs }) => {
+          {zones.map(({ id, attrs }) => {
             const commonProps = {
               key: id,
               fill: getFill(id),
@@ -316,10 +321,7 @@ export function PainLogBodyMap({
               onMouseLeave: () => setHoveredZone(null),
             };
 
-            if (element === 'rect') {
-              return <rect {...commonProps} {...(attrs as any)} />;
-            }
-            return <path {...commonProps} {...(attrs as any)} />;
+            return <path {...commonProps} d={attrs.d} />;
           })}
         </svg>
       </div>

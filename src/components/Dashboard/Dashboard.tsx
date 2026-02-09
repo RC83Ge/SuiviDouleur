@@ -3,6 +3,7 @@ import { usePainStore } from '@/hooks/usePainStore';
 import { StatCard } from './StatCard';
 import { BODY_ZONE_LABELS, PAIN_TYPE_LABELS, BodyZone, PainType } from '@/types/pain';
 import { Activity, TrendingUp, MapPin, Flame, Calendar, AlertCircle } from 'lucide-react';
+import { VectorBodyMap } from '@/components/BodyMap/VectorBodyMap';
 
 export function Dashboard() {
   const { entries, getStats } = usePainStore();
@@ -12,16 +13,13 @@ export function Dashboard() {
     return (
       <div className="space-y-6">
         <div className="text-center py-12 px-4">
-          <div className="w-20 h-20 rounded-full bg-primary/10 flex items-center justify-center mx-auto mb-4">
-            <Activity className="w-10 h-10 text-primary" />
-          </div>
-          <h2 className="text-xl font-bold text-foreground mb-2">
-            Bienvenue dans votre suivi de douleur
+        <h2 className="text-xl font-bold text-foreground mb-2">
+            Localisez votre douleur
           </h2>
-          <p className="text-muted-foreground max-w-sm mx-auto">
-            Commencez à enregistrer vos épisodes de douleur pour voir des statistiques 
-            et tendances apparaître ici.
+          <p className="text-muted-foreground max-w-sm mx-auto mb-6">
+            Touchez les zones du corps pour indiquer où vous avez mal.
           </p>
+          <VectorBodyMap />
         </div>
 
         <div className="disclaimer-medical mx-4">

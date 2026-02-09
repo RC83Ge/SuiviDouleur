@@ -15,169 +15,190 @@ interface PainLogBodyMapProps {
   className?: string;
 }
 
-const HIGHLIGHT_COLOR = '#4DA3FF';
-const HIGHLIGHT_FILL = 'rgba(77, 163, 255, 0.35)';
-const HOVER_FILL = 'rgba(77, 163, 255, 0.15)';
+const HIGHLIGHT_FILL = '#4DA3FF55';
+const HIGHLIGHT_STROKE = '#4DA3FF';
 
-// Zones defined as percentages of image dimensions for precise overlay alignment
-// Each zone: { id, points: "x1,y1 x2,y2 ..." as % of width/height }
-interface ZoneDef {
+// SVG viewBox: 300x600 — zones calibrated to body-front.png / body-back.png
+interface ZonePath {
   id: PainLogZone;
-  // polygon points as percentage pairs [x%, y%]
-  points: [number, number][];
+  element: 'path' | 'rect';
+  attrs: Record<string, string | number>;
   views: PainLogView[];
 }
 
-const OVERLAY_ZONES: ZoneDef[] = [
-  // Head
+const ZONE_PATHS: ZonePath[] = [
+  // Tête
   {
     id: 'head',
-    points: [[42,2],[58,2],[62,6],[62,12],[58,16],[42,16],[38,12],[38,6]],
-    views: ['face','dos'],
+    element: 'path',
+    attrs: { d: 'M135 40 C155 40 165 80 150 100 C135 120 115 100 120 80 C125 60 115 40 135 40' },
+    views: ['face', 'dos'],
   },
-  // Neck
+  // Cou
   {
     id: 'neck',
-    points: [[45,16],[55,16],[55,20],[45,20]],
-    views: ['face','dos'],
+    element: 'rect',
+    attrs: { x: 125, y: 100, width: 50, height: 30 },
+    views: ['face', 'dos'],
   },
-  // Left shoulder
+  // Épaule gauche
   {
     id: 'left-shoulder',
-    points: [[30,20],[45,20],[45,25],[35,27],[28,24]],
-    views: ['face','dos'],
+    element: 'path',
+    attrs: { d: 'M85 130 L105 130 L105 150 L85 145 Z' },
+    views: ['face', 'dos'],
   },
-  // Right shoulder
+  // Épaule droite
   {
     id: 'right-shoulder',
-    points: [[55,20],[70,20],[72,24],[65,27],[55,25]],
-    views: ['face','dos'],
+    element: 'path',
+    attrs: { d: 'M195 130 L215 130 L215 145 L195 150 Z' },
+    views: ['face', 'dos'],
   },
-  // Chest (front only)
+  // Thorax (face) / Haut du dos (dos)
   {
     id: 'chest',
-    points: [[35,25],[65,25],[65,40],[50,42],[35,40]],
+    element: 'path',
+    attrs: { d: 'M105 130 L195 130 L195 220 L105 220 Z' },
     views: ['face'],
   },
-  // Upper back (back only)
   {
     id: 'upper-back',
-    points: [[35,25],[65,25],[65,40],[50,42],[35,40]],
+    element: 'path',
+    attrs: { d: 'M105 130 L195 130 L195 220 L105 220 Z' },
     views: ['dos'],
   },
-  // Left arm (upper)
+  // Bras gauche
   {
     id: 'left-arm',
-    points: [[25,24],[35,27],[35,42],[30,44],[22,44],[20,35]],
-    views: ['face','dos'],
+    element: 'path',
+    attrs: { d: 'M85 145 L105 150 L105 220 L85 220 Z' },
+    views: ['face', 'dos'],
   },
-  // Right arm (upper)
+  // Bras droit
   {
     id: 'right-arm',
-    points: [[65,27],[75,24],[80,35],[78,44],[70,44],[65,42]],
-    views: ['face','dos'],
+    element: 'path',
+    attrs: { d: 'M195 150 L215 145 L215 220 L195 220 Z' },
+    views: ['face', 'dos'],
   },
-  // Left forearm
+  // Avant-bras gauche
   {
     id: 'left-forearm',
-    points: [[20,44],[30,44],[28,58],[18,58]],
-    views: ['face','dos'],
+    element: 'path',
+    attrs: { d: 'M80 220 L105 220 L100 310 L75 310 Z' },
+    views: ['face', 'dos'],
   },
-  // Right forearm
+  // Avant-bras droit
   {
     id: 'right-forearm',
-    points: [[70,44],[80,44],[82,58],[72,58]],
-    views: ['face','dos'],
+    element: 'path',
+    attrs: { d: 'M195 220 L220 220 L225 310 L200 310 Z' },
+    views: ['face', 'dos'],
   },
-  // Left hand
+  // Main gauche
   {
     id: 'left-hand',
-    points: [[16,58],[28,58],[28,66],[22,68],[15,65]],
-    views: ['face','dos'],
+    element: 'path',
+    attrs: { d: 'M70 310 L100 310 L98 350 L68 350 Z' },
+    views: ['face', 'dos'],
   },
-  // Right hand
+  // Main droite
   {
     id: 'right-hand',
-    points: [[72,58],[84,58],[85,65],[78,68],[72,66]],
-    views: ['face','dos'],
+    element: 'path',
+    attrs: { d: 'M200 310 L230 310 L232 350 L202 350 Z' },
+    views: ['face', 'dos'],
   },
-  // Abdomen (front only)
+  // Abdomen (face) / Bas du dos (dos)
   {
     id: 'abdomen',
-    points: [[35,40],[65,40],[66,54],[50,56],[34,54]],
+    element: 'path',
+    attrs: { d: 'M110 220 L190 220 L190 310 L110 310 Z' },
     views: ['face'],
   },
-  // Lower back (back only)
   {
     id: 'lower-back',
-    points: [[35,40],[65,40],[66,54],[50,56],[34,54]],
+    element: 'path',
+    attrs: { d: 'M110 220 L190 220 L190 310 L110 310 Z' },
     views: ['dos'],
   },
-  // Pelvis
+  // Bassin
   {
     id: 'pelvis',
-    points: [[34,54],[66,54],[68,62],[32,62]],
-    views: ['face','dos'],
+    element: 'path',
+    attrs: { d: 'M110 310 L190 310 L195 340 L105 340 Z' },
+    views: ['face', 'dos'],
   },
-  // Left hip
+  // Hanche gauche
   {
     id: 'left-hip',
-    points: [[32,58],[44,58],[44,64],[32,64]],
-    views: ['face','dos'],
+    element: 'path',
+    attrs: { d: 'M105 330 L140 330 L140 355 L110 355 Z' },
+    views: ['face', 'dos'],
   },
-  // Right hip
+  // Hanche droite
   {
     id: 'right-hip',
-    points: [[56,58],[68,58],[68,64],[56,64]],
-    views: ['face','dos'],
+    element: 'path',
+    attrs: { d: 'M160 330 L195 330 L190 355 L160 355 Z' },
+    views: ['face', 'dos'],
   },
-  // Left thigh
+  // Cuisse gauche
   {
     id: 'left-thigh',
-    points: [[34,62],[48,62],[46,76],[36,76]],
-    views: ['face','dos'],
+    element: 'path',
+    attrs: { d: 'M115 340 L150 340 L148 430 L118 430 Z' },
+    views: ['face', 'dos'],
   },
-  // Right thigh
+  // Cuisse droite
   {
     id: 'right-thigh',
-    points: [[52,62],[66,62],[64,76],[54,76]],
-    views: ['face','dos'],
+    element: 'path',
+    attrs: { d: 'M155 340 L190 340 L185 430 L155 430 Z' },
+    views: ['face', 'dos'],
   },
-  // Left knee
+  // Genou gauche
   {
     id: 'left-knee',
-    points: [[36,76],[46,76],[45,82],[37,82]],
-    views: ['face','dos'],
+    element: 'path',
+    attrs: { d: 'M118 430 L148 430 L146 460 L120 460 Z' },
+    views: ['face', 'dos'],
   },
-  // Right knee
+  // Genou droit
   {
     id: 'right-knee',
-    points: [[54,76],[64,76],[63,82],[55,82]],
-    views: ['face','dos'],
+    element: 'path',
+    attrs: { d: 'M155 430 L185 430 L183 460 L157 460 Z' },
+    views: ['face', 'dos'],
   },
-  // Left leg (calf)
+  // Jambe gauche
   {
     id: 'left-leg',
-    points: [[37,82],[45,82],[44,93],[38,93]],
-    views: ['face','dos'],
+    element: 'path',
+    attrs: { d: 'M120 460 L146 460 L144 540 L122 540 Z' },
+    views: ['face', 'dos'],
   },
-  // Right leg (calf)
+  // Jambe droite
   {
     id: 'right-leg',
-    points: [[55,82],[63,82],[62,93],[56,93]],
-    views: ['face','dos'],
+    element: 'path',
+    attrs: { d: 'M157 460 L183 460 L180 540 L158 540 Z' },
+    views: ['face', 'dos'],
   },
-  // Left foot
+  // Pied gauche
   {
     id: 'left-foot',
-    points: [[35,93],[45,93],[45,99],[34,99]],
-    views: ['face','dos'],
+    element: 'path',
+    attrs: { d: 'M118 540 L148 540 L148 575 L115 575 Z' },
+    views: ['face', 'dos'],
   },
-  // Right foot
+  // Pied droit
   {
     id: 'right-foot',
-    points: [[55,93],[65,93],[66,99],[55,99]],
-    views: ['face','dos'],
+    element: 'path',
+    attrs: { d: 'M155 540 L185 540 L188 575 L155 575 Z' },
+    views: ['face', 'dos'],
   },
 ];
 
@@ -191,17 +212,16 @@ export function PainLogBodyMap({
   const [hoveredZone, setHoveredZone] = useState<PainLogZone | null>(null);
 
   const bodyImage = view === 'face' ? bodyFront : bodyBack;
-  const zones = OVERLAY_ZONES.filter(z => z.views.includes(view));
+  const zones = ZONE_PATHS.filter(z => z.views.includes(view));
 
-  // Convert percentage points to SVG polygon points string (viewBox 100x100)
-  const toSvgPoints = (points: [number, number][]) =>
-    points.map(([x, y]) => `${x},${y}`).join(' ');
+  const getFill = (id: PainLogZone) =>
+    selectedZone === id ? HIGHLIGHT_FILL : hoveredZone === id ? '#4DA3FF22' : 'transparent';
 
-  const getZoneCenter = (points: [number, number][]) => {
-    const cx = points.reduce((s, [x]) => s + x, 0) / points.length;
-    const cy = points.reduce((s, [, y]) => s + y, 0) / points.length;
-    return { cx, cy };
-  };
+  const getStroke = (id: PainLogZone) =>
+    selectedZone === id ? HIGHLIGHT_STROKE : hoveredZone === id ? '#4DA3FF66' : 'transparent';
+
+  const getStrokeWidth = (id: PainLogZone) =>
+    selectedZone === id ? 2 : hoveredZone === id ? 1.5 : 0;
 
   return (
     <div className={cn('flex flex-col items-center gap-4', className)}>
@@ -235,96 +255,51 @@ export function PainLogBodyMap({
         </div>
       )}
 
-      {/* Body image + SVG overlay container */}
-      <div className="relative w-full max-w-[220px]">
-        {/* Original image – untouched */}
+      {/* Image + SVG overlay */}
+      <div className="relative w-full max-w-[260px]">
         <img
           src={bodyImage}
           alt={`Corps humain - vue ${view === 'face' ? 'de face' : 'de dos'}`}
           draggable={false}
           className="w-full h-auto block pointer-events-none select-none"
         />
-
-        {/* Transparent SVG overlay – positioned exactly on top */}
         <svg
-          viewBox="0 0 100 100"
-          preserveAspectRatio="none"
+          viewBox="0 0 300 600"
           className="absolute inset-0 w-full h-full"
           style={{ touchAction: 'manipulation' }}
         >
-          {zones.map(({ id, points }) => {
-            const isSelected = selectedZone === id;
-            const isHovered = hoveredZone === id;
+          {zones.map(({ id, element, attrs }) => {
+            const commonProps = {
+              key: id,
+              fill: getFill(id),
+              stroke: getStroke(id),
+              strokeWidth: getStrokeWidth(id),
+              style: { cursor: 'pointer' as const, transition: 'all 0.2s ease' },
+              onClick: () => onSelectZone(id),
+              onMouseEnter: () => setHoveredZone(id),
+              onMouseLeave: () => setHoveredZone(null),
+            };
 
-            return (
-              <polygon
-                key={id}
-                points={toSvgPoints(points)}
-                fill={
-                  isSelected
-                    ? HIGHLIGHT_FILL
-                    : isHovered
-                    ? HOVER_FILL
-                    : 'transparent'
-                }
-                stroke={
-                  isSelected
-                    ? HIGHLIGHT_COLOR
-                    : isHovered
-                    ? 'rgba(77,163,255,0.4)'
-                    : 'transparent'
-                }
-                strokeWidth={isSelected ? 0.5 : isHovered ? 0.3 : 0}
-                style={{ cursor: 'pointer', transition: 'all 0.2s ease' }}
-                onClick={() => onSelectZone(id)}
-                onMouseEnter={() => setHoveredZone(id)}
-                onMouseLeave={() => setHoveredZone(null)}
-              />
-            );
+            if (element === 'rect') {
+              return <rect {...commonProps} {...(attrs as any)} />;
+            }
+            return <path {...commonProps} {...(attrs as any)} />;
           })}
-
-          {/* Tooltip */}
-          {hoveredZone && (() => {
-            const zone = zones.find(z => z.id === hoveredZone);
-            if (!zone) return null;
-            const { cx, cy } = getZoneCenter(zone.points);
-            const label = BODY_ZONE_LABELS[hoveredZone];
-
-            return (
-              <g className="pointer-events-none">
-                <rect
-                  x={cx - 12}
-                  y={cy - 5}
-                  width="24"
-                  height="5"
-                  rx="1.5"
-                  fill="hsl(var(--popover))"
-                  stroke="hsl(var(--border))"
-                  strokeWidth="0.15"
-                />
-                <text
-                  x={cx}
-                  y={cy - 1.8}
-                  textAnchor="middle"
-                  fill="hsl(var(--popover-foreground))"
-                  fontSize="2.2"
-                  fontWeight="500"
-                  fontFamily="system-ui, sans-serif"
-                >
-                  {label}
-                </text>
-              </g>
-            );
-          })()}
         </svg>
       </div>
 
       {/* Selected zone label */}
-      {selectedZone && (
-        <div className="text-sm font-medium text-primary animate-in fade-in-0">
-          {BODY_ZONE_LABELS[selectedZone]}
-        </div>
-      )}
+      <div className="text-sm text-center min-h-[20px]">
+        {selectedZone ? (
+          <span className="font-medium text-primary animate-in fade-in-0">
+            Zone sélectionnée : {BODY_ZONE_LABELS[selectedZone]}
+          </span>
+        ) : (
+          <span className="text-muted-foreground">
+            Sélectionnez une zone du corps
+          </span>
+        )}
+      </div>
     </div>
   );
 }

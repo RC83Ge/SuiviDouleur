@@ -1,6 +1,6 @@
 import React from 'react';
-import { BodyView, BodyZone, BODY_ZONE_LABELS } from '@/types/pain';
-import { BodyMapSVG } from './BodyMapSVG';
+import { BodyZone, BODY_ZONE_LABELS } from '@/types/pain';
+import { PainLogBodyMap, PainLogView } from './PainLogBodyMap';
 import { X, Sparkles } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
@@ -13,7 +13,7 @@ export function BodyMapSelector({
   selectedZones,
   onZonesChange,
 }: BodyMapSelectorProps) {
-  const [view, setView] = React.useState<BodyView>('front');
+  const [view, setView] = React.useState<PainLogView>('face');
 
   const handleZoneClick = (zone: BodyZone) => {
     if (selectedZones.includes(zone)) {
@@ -29,45 +29,15 @@ export function BodyMapSelector({
 
   return (
     <div className="space-y-4">
-      {/* View toggle */}
-      <div className="flex bg-muted rounded-lg p-1 w-fit">
-        <button
-          type="button"
-          onClick={() => setView('front')}
-          className={cn(
-            "px-3 py-1.5 text-xs font-medium rounded-md transition-all duration-200",
-            view === 'front' 
-              ? "bg-background text-foreground shadow-sm" 
-              : "text-muted-foreground hover:text-foreground"
-          )}
-        >
-          Face
-        </button>
-        <button
-          type="button"
-          onClick={() => setView('back')}
-          className={cn(
-            "px-3 py-1.5 text-xs font-medium rounded-md transition-all duration-200",
-            view === 'back' 
-              ? "bg-background text-foreground shadow-sm" 
-              : "text-muted-foreground hover:text-foreground"
-          )}
-        >
-          Dos
-        </button>
-      </div>
-
       <div className="flex gap-4">
         {/* Body map */}
         <div className="flex-1 flex justify-center">
-          <div className="w-full max-w-[200px] relative">
-            <div className="absolute inset-0 bg-gradient-to-b from-muted/20 to-transparent rounded-2xl -z-10" />
-            <BodyMapSVG
-              view={view}
-              selectedZones={selectedZones}
-              onZoneClick={handleZoneClick}
-            />
-          </div>
+          <PainLogBodyMap
+            selectedZone={selectedZones.length > 0 ? selectedZones[selectedZones.length - 1] : null}
+            onSelectZone={handleZoneClick}
+            view={view}
+            onViewChange={setView}
+          />
         </div>
         
         {/* Selected zones panel */}

@@ -210,18 +210,41 @@ export function PainLogBodyMap({
   className,
 }: PainLogBodyMapProps) {
   const [hoveredZone, setHoveredZone] = useState<PainLogZone | null>(null);
+  const [debugMode, setDebugMode] = useState(true); // DEBUG: set to true temporarily
 
   const bodyImage = view === 'face' ? bodyFront : bodyBack;
   const zones = ZONE_PATHS.filter(z => z.views.includes(view));
 
-  const getFill = (id: PainLogZone) =>
-    selectedZone === id ? HIGHLIGHT_FILL : hoveredZone === id ? '#4DA3FF22' : 'transparent';
+  const DEBUG_COLORS: Record<string, string> = {
+    head: 'rgba(255,99,132,0.3)', neck: 'rgba(255,159,64,0.3)',
+    'left-shoulder': 'rgba(255,205,86,0.3)', 'right-shoulder': 'rgba(75,192,192,0.3)',
+    chest: 'rgba(54,162,235,0.3)', 'upper-back': 'rgba(54,162,235,0.3)',
+    'left-arm': 'rgba(153,102,255,0.3)', 'right-arm': 'rgba(201,203,207,0.3)',
+    'left-forearm': 'rgba(255,99,132,0.3)', 'right-forearm': 'rgba(255,159,64,0.3)',
+    'left-hand': 'rgba(255,205,86,0.3)', 'right-hand': 'rgba(75,192,192,0.3)',
+    abdomen: 'rgba(54,162,235,0.3)', 'lower-back': 'rgba(54,162,235,0.3)',
+    pelvis: 'rgba(153,102,255,0.3)',
+    'left-hip': 'rgba(201,203,207,0.3)', 'right-hip': 'rgba(255,99,132,0.3)',
+    'left-thigh': 'rgba(255,159,64,0.3)', 'right-thigh': 'rgba(255,205,86,0.3)',
+    'left-knee': 'rgba(75,192,192,0.3)', 'right-knee': 'rgba(54,162,235,0.3)',
+    'left-leg': 'rgba(153,102,255,0.3)', 'right-leg': 'rgba(201,203,207,0.3)',
+    'left-foot': 'rgba(255,99,132,0.3)', 'right-foot': 'rgba(255,159,64,0.3)',
+  };
 
-  const getStroke = (id: PainLogZone) =>
-    selectedZone === id ? HIGHLIGHT_STROKE : hoveredZone === id ? '#4DA3FF66' : 'transparent';
+  const getFill = (id: PainLogZone) => {
+    if (debugMode) return DEBUG_COLORS[id] || 'rgba(128,128,128,0.3)';
+    return selectedZone === id ? HIGHLIGHT_FILL : hoveredZone === id ? '#4DA3FF22' : 'transparent';
+  };
 
-  const getStrokeWidth = (id: PainLogZone) =>
-    selectedZone === id ? 2 : hoveredZone === id ? 1.5 : 0;
+  const getStroke = (id: PainLogZone) => {
+    if (debugMode) return (DEBUG_COLORS[id] || 'rgba(128,128,128,0.5)').replace('0.3', '0.8');
+    return selectedZone === id ? HIGHLIGHT_STROKE : hoveredZone === id ? '#4DA3FF66' : 'transparent';
+  };
+
+  const getStrokeWidth = (id: PainLogZone) => {
+    if (debugMode) return 1.5;
+    return selectedZone === id ? 2 : hoveredZone === id ? 1.5 : 0;
+  };
 
   return (
     <div className={cn('flex flex-col items-center gap-4', className)}>
@@ -254,6 +277,19 @@ export function PainLogBodyMap({
           </button>
         </div>
       )}
+      {/* Debug toggle */}
+      <button
+        type="button"
+        onClick={() => setDebugMode(!debugMode)}
+        className={cn(
+          'px-3 py-1 text-xs rounded-md border transition-all',
+          debugMode
+            ? 'bg-amber-500/20 text-amber-600 border-amber-500/30'
+            : 'bg-muted text-muted-foreground border-transparent'
+        )}
+      >
+        {debugMode ? '🔍 Debug ON' : 'Debug'}
+      </button>
 
       {/* Image + SVG overlay */}
       <div className="relative w-full max-w-[260px]">

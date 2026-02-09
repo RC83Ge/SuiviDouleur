@@ -36,12 +36,12 @@ export const bodyZonePaths: ZonePathData[] = [
   // ===== ÉPAULES =====
   {
     zone: 'left-shoulder',
-    path: ellipse(cx - 72, 190, 30, 22),
+    path: ellipse(cx - 62, 195, 25, 20),
     views: ['front', 'back'],
   },
   {
     zone: 'right-shoulder',
-    path: ellipse(cx + 72, 190, 30, 22),
+    path: ellipse(cx + 62, 195, 25, 20),
     views: ['front', 'back'],
   },
 
@@ -112,19 +112,19 @@ export const bodyZonePaths: ZonePathData[] = [
   // ===== BASSIN =====
   {
     zone: 'pelvis',
-    path: ellipse(cx, 470, 55, 40),
+    path: ellipse(cx, 450, 50, 35),
     views: ['front'],
   },
 
   // ===== HANCHES =====
   {
     zone: 'left-hip',
-    path: ellipse(cx - 55, 500, 22, 30),
+    path: ellipse(cx - 45, 480, 20, 25),
     views: ['front', 'back'],
   },
   {
     zone: 'right-hip',
-    path: ellipse(cx + 55, 500, 22, 30),
+    path: ellipse(cx + 45, 480, 20, 25),
     views: ['front', 'back'],
   },
 

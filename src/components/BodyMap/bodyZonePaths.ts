@@ -62,36 +62,36 @@ export const bodyZonePaths: ZonePathData[] = [
   // ===== BRAS SUPÉRIEURS =====
   {
     zone: 'left-arm',
-    path: ellipse(cx - 105, 290, 16, 55),
+    path: ellipse(cx - 80, 275, 14, 50),
     views: ['front', 'back'],
   },
   {
     zone: 'right-arm',
-    path: ellipse(cx + 105, 290, 16, 55),
+    path: ellipse(cx + 80, 275, 14, 50),
     views: ['front', 'back'],
   },
 
   // ===== AVANT-BRAS =====
   {
     zone: 'left-forearm',
-    path: ellipse(cx - 115, 410, 14, 50),
+    path: ellipse(cx - 88, 390, 12, 45),
     views: ['front', 'back'],
   },
   {
     zone: 'right-forearm',
-    path: ellipse(cx + 115, 410, 14, 50),
+    path: ellipse(cx + 88, 390, 12, 45),
     views: ['front', 'back'],
   },
 
   // ===== MAINS =====
   {
     zone: 'left-hand',
-    path: ellipse(cx - 120, 500, 16, 30),
+    path: ellipse(cx - 92, 475, 14, 25),
     views: ['front', 'back'],
   },
   {
     zone: 'right-hand',
-    path: ellipse(cx + 120, 500, 16, 30),
+    path: ellipse(cx + 92, 475, 14, 25),
     views: ['front', 'back'],
   },
 

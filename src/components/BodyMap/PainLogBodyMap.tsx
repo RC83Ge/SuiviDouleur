@@ -17,7 +17,7 @@ interface PainLogBodyMapProps {
 const HIGHLIGHT_FILL = '#4DA3FF55';
 const HIGHLIGHT_STROKE = '#4DA3FF';
 
-// SVG viewBox: 304x608 — matches one half of the body-front-back.png
+// SVG viewBox: 0 0 100 100 — percentage-based coordinates over one half of the image
 interface ZonePath {
   id: PainLogZone;
   element: 'path';
@@ -25,183 +25,183 @@ interface ZonePath {
   views: PainLogView[];
 }
 
-// cx=152 is the center of each silhouette half
-const cx = 152;
+// cx=50 is the horizontal center of each silhouette half
+const cx = 50;
 
 const ZONE_PATHS: ZonePath[] = [
   // Tête
   {
     id: 'head',
     element: 'path',
-    attrs: { d: `M${cx},18 C${cx+22},18 ${cx+28},32 ${cx+28},48 C${cx+28},62 ${cx+20},72 ${cx},72 C${cx-20},72 ${cx-28},62 ${cx-28},48 C${cx-28},32 ${cx-22},18 ${cx},18 Z` },
+    attrs: { d: `M${cx-7},8 C${cx+7},8 ${cx+9},12 ${cx+9},16 C${cx+9},20 ${cx+6},22 ${cx},22 C${cx-6},22 ${cx-9},20 ${cx-9},16 C${cx-9},12 ${cx-7},8 ${cx},8 Z` },
     views: ['face', 'dos'],
   },
   // Cou
   {
     id: 'neck',
     element: 'path',
-    attrs: { d: `M${cx-11},72 L${cx+11},72 L${cx+12},92 L${cx-12},92 Z` },
+    attrs: { d: `M${cx-3},22 L${cx+3},22 L${cx+3},26 L${cx-3},26 Z` },
     views: ['face', 'dos'],
   },
   // Épaule gauche
   {
     id: 'left-shoulder',
     element: 'path',
-    attrs: { d: `M${cx-12},92 L${cx-38},92 L${cx-55},102 L${cx-52},118 L${cx-35},112 L${cx-12},108 Z` },
+    attrs: { d: `M${cx-3},26 L${cx-12},26 L${cx-18},28 L${cx-17},32 L${cx-11},30 L${cx-3},29 Z` },
     views: ['face', 'dos'],
   },
   // Épaule droite
   {
     id: 'right-shoulder',
     element: 'path',
-    attrs: { d: `M${cx+12},92 L${cx+38},92 L${cx+55},102 L${cx+52},118 L${cx+35},112 L${cx+12},108 Z` },
+    attrs: { d: `M${cx+3},26 L${cx+12},26 L${cx+18},28 L${cx+17},32 L${cx+11},30 L${cx+3},29 Z` },
     views: ['face', 'dos'],
   },
   // Thorax (face)
   {
     id: 'chest',
     element: 'path',
-    attrs: { d: `M${cx-35},108 L${cx+35},108 L${cx+35},182 L${cx},188 L${cx-35},182 Z` },
+    attrs: { d: `M${cx-11},29 L${cx+11},29 L${cx+11},42 L${cx},43 L${cx-11},42 Z` },
     views: ['face'],
   },
-  // Haut du dos (dos)
+  // Haut du dos
   {
     id: 'upper-back',
     element: 'path',
-    attrs: { d: `M${cx-35},108 L${cx+35},108 L${cx+35},182 L${cx},188 L${cx-35},182 Z` },
+    attrs: { d: `M${cx-11},29 L${cx+11},29 L${cx+11},42 L${cx},43 L${cx-11},42 Z` },
     views: ['dos'],
   },
   // Bras gauche
   {
     id: 'left-arm',
     element: 'path',
-    attrs: { d: `M${cx-55},102 L${cx-52},118 L${cx-50},182 L${cx-65},182 L${cx-68},118 Z` },
+    attrs: { d: `M${cx-18},28 L${cx-17},32 L${cx-16},42 L${cx-21},42 L${cx-22},32 Z` },
     views: ['face', 'dos'],
   },
   // Bras droit
   {
     id: 'right-arm',
     element: 'path',
-    attrs: { d: `M${cx+55},102 L${cx+68},118 L${cx+65},182 L${cx+50},182 L${cx+52},118 Z` },
+    attrs: { d: `M${cx+18},28 L${cx+22},32 L${cx+21},42 L${cx+16},42 L${cx+17},32 Z` },
     views: ['face', 'dos'],
   },
   // Avant-bras gauche
   {
     id: 'left-forearm',
     element: 'path',
-    attrs: { d: `M${cx-65},182 L${cx-50},182 L${cx-52},262 L${cx-68},262 Z` },
+    attrs: { d: `M${cx-21},42 L${cx-16},42 L${cx-17},56 L${cx-22},56 Z` },
     views: ['face', 'dos'],
   },
   // Avant-bras droit
   {
     id: 'right-forearm',
     element: 'path',
-    attrs: { d: `M${cx+50},182 L${cx+65},182 L${cx+68},262 L${cx+52},262 Z` },
+    attrs: { d: `M${cx+16},42 L${cx+21},42 L${cx+22},56 L${cx+17},56 Z` },
     views: ['face', 'dos'],
   },
   // Main gauche
   {
     id: 'left-hand',
     element: 'path',
-    attrs: { d: `M${cx-68},262 L${cx-52},262 L${cx-50},298 L${cx-58},302 L${cx-70},296 Z` },
+    attrs: { d: `M${cx-22},56 L${cx-17},56 L${cx-16},63 L${cx-19},64 L${cx-23},62 Z` },
     views: ['face', 'dos'],
   },
   // Main droite
   {
     id: 'right-hand',
     element: 'path',
-    attrs: { d: `M${cx+52},262 L${cx+68},262 L${cx+70},296 L${cx+58},302 L${cx+50},298 Z` },
+    attrs: { d: `M${cx+17},56 L${cx+22},56 L${cx+23},62 L${cx+19},64 L${cx+16},63 Z` },
     views: ['face', 'dos'],
   },
   // Abdomen (face)
   {
     id: 'abdomen',
     element: 'path',
-    attrs: { d: `M${cx-35},182 L${cx+35},182 L${cx+32},248 L${cx},254 L${cx-32},248 Z` },
+    attrs: { d: `M${cx-11},42 L${cx+11},42 L${cx+10},54 L${cx},55 L${cx-10},54 Z` },
     views: ['face'],
   },
-  // Bas du dos (dos)
+  // Bas du dos
   {
     id: 'lower-back',
     element: 'path',
-    attrs: { d: `M${cx-35},182 L${cx+35},182 L${cx+32},248 L${cx},254 L${cx-32},248 Z` },
+    attrs: { d: `M${cx-11},42 L${cx+11},42 L${cx+10},54 L${cx},55 L${cx-10},54 Z` },
     views: ['dos'],
   },
   // Bassin
   {
     id: 'pelvis',
     element: 'path',
-    attrs: { d: `M${cx-32},248 L${cx+32},248 L${cx+30},272 L${cx-30},272 Z` },
+    attrs: { d: `M${cx-10},54 L${cx+10},54 L${cx+9},59 L${cx-9},59 Z` },
     views: ['face', 'dos'],
   },
   // Hanche gauche
   {
     id: 'left-hip',
     element: 'path',
-    attrs: { d: `M${cx-32},262 L${cx-8},262 L${cx-8},282 L${cx-30},282 Z` },
+    attrs: { d: `M${cx-10},57 L${cx-2},57 L${cx-2},61 L${cx-9},61 Z` },
     views: ['face', 'dos'],
   },
   // Hanche droite
   {
     id: 'right-hip',
     element: 'path',
-    attrs: { d: `M${cx+8},262 L${cx+32},262 L${cx+30},282 L${cx+8},282 Z` },
+    attrs: { d: `M${cx+2},57 L${cx+10},57 L${cx+9},61 L${cx+2},61 Z` },
     views: ['face', 'dos'],
   },
   // Cuisse gauche
   {
     id: 'left-thigh',
     element: 'path',
-    attrs: { d: `M${cx-30},272 L${cx-4},272 L${cx-8},378 L${cx-28},378 Z` },
+    attrs: { d: `M${cx-9},59 L${cx-1},59 L${cx-3},75 L${cx-8},75 Z` },
     views: ['face', 'dos'],
   },
   // Cuisse droite
   {
     id: 'right-thigh',
     element: 'path',
-    attrs: { d: `M${cx+4},272 L${cx+30},272 L${cx+28},378 L${cx+8},378 Z` },
+    attrs: { d: `M${cx+1},59 L${cx+9},59 L${cx+8},75 L${cx+3},75 Z` },
     views: ['face', 'dos'],
   },
   // Genou gauche
   {
     id: 'left-knee',
     element: 'path',
-    attrs: { d: `M${cx-28},378 L${cx-8},378 L${cx-9},412 L${cx-26},412 Z` },
+    attrs: { d: `M${cx-8},75 L${cx-3},75 L${cx-3},80 L${cx-8},80 Z` },
     views: ['face', 'dos'],
   },
   // Genou droit
   {
     id: 'right-knee',
     element: 'path',
-    attrs: { d: `M${cx+8},378 L${cx+28},378 L${cx+26},412 L${cx+9},412 Z` },
+    attrs: { d: `M${cx+3},75 L${cx+8},75 L${cx+8},80 L${cx+3},80 Z` },
     views: ['face', 'dos'],
   },
   // Jambe gauche (mollet)
   {
     id: 'left-leg',
     element: 'path',
-    attrs: { d: `M${cx-26},412 L${cx-9},412 L${cx-10},502 L${cx-24},502 Z` },
+    attrs: { d: `M${cx-8},80 L${cx-3},80 L${cx-3},91 L${cx-7},91 Z` },
     views: ['face', 'dos'],
   },
   // Jambe droite (mollet)
   {
     id: 'right-leg',
     element: 'path',
-    attrs: { d: `M${cx+9},412 L${cx+26},412 L${cx+24},502 L${cx+10},502 Z` },
+    attrs: { d: `M${cx+3},80 L${cx+8},80 L${cx+7},91 L${cx+3},91 Z` },
     views: ['face', 'dos'],
   },
   // Pied gauche
   {
     id: 'left-foot',
     element: 'path',
-    attrs: { d: `M${cx-26},502 L${cx-8},502 L${cx-6},542 L${cx-28},542 Z` },
+    attrs: { d: `M${cx-8},91 L${cx-2},91 L${cx-1},96 L${cx-9},96 Z` },
     views: ['face', 'dos'],
   },
   // Pied droit
   {
     id: 'right-foot',
     element: 'path',
-    attrs: { d: `M${cx+8},502 L${cx+26},502 L${cx+28},542 L${cx+6},542 Z` },
+    attrs: { d: `M${cx+2},91 L${cx+8},91 L${cx+9},96 L${cx+1},96 Z` },
     views: ['face', 'dos'],
   },
 ];
@@ -296,22 +296,25 @@ export function PainLogBodyMap({
       </button>
 
       {/* Image + SVG overlay */}
-      <div className="relative w-full max-w-[260px] overflow-hidden">
-        <div className="relative w-full" style={{ aspectRatio: '1/2' }}>
+      <div className="relative w-full max-w-[200px]">
+        {/* Container clips to show only left or right half of the image */}
+        <div 
+          className="relative w-full overflow-hidden"
+        >
           <img
             src={bodyImage}
             alt={`Corps humain - vue ${view === 'face' ? 'de face' : 'de dos'}`}
             draggable={false}
-            className="absolute inset-0 h-full pointer-events-none select-none"
+            className="block pointer-events-none select-none"
             style={{
               width: '200%',
               maxWidth: 'none',
-              objectFit: 'cover',
-              left: view === 'face' ? '0%' : '-100%',
+              marginLeft: view === 'face' ? '0' : '-100%',
             }}
           />
           <svg
-            viewBox="0 0 304 608"
+            viewBox="0 0 100 100"
+            preserveAspectRatio="none"
             className="absolute inset-0 w-full h-full"
             style={{ touchAction: 'manipulation' }}
           >
@@ -320,7 +323,7 @@ export function PainLogBodyMap({
                 key: id,
                 fill: getFill(id),
                 stroke: getStroke(id),
-                strokeWidth: getStrokeWidth(id),
+                strokeWidth: getStrokeWidth(id) * 0.3,
                 style: { cursor: 'pointer' as const, transition: 'all 0.2s ease' },
                 onClick: () => onSelectZone(id),
                 onMouseEnter: () => setHoveredZone(id),

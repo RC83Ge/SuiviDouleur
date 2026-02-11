@@ -33,175 +33,175 @@ const ZONE_PATHS: ZonePath[] = [
   {
     id: 'head',
     element: 'path',
-    attrs: { d: `M${cx-5},4 C${cx-5},1 ${cx+5},1 ${cx+5},4 L${cx+5},13 C${cx+5},17 ${cx-5},17 ${cx-5},13 Z` },
+    attrs: { d: `M${cx-5},7 C${cx-5},4 ${cx+5},4 ${cx+5},7 L${cx+5},13 C${cx+5},16 ${cx-5},16 ${cx-5},13 Z` },
     views: ['face', 'dos'],
   },
   // Cou
   {
     id: 'neck',
     element: 'path',
-    attrs: { d: `M${cx-3},17 L${cx+3},17 L${cx+3},21 L${cx-3},21 Z` },
+    attrs: { d: `M${cx-3},16 L${cx+3},16 L${cx+3},20 L${cx-3},20 Z` },
     views: ['face', 'dos'],
   },
   // Épaule gauche
   {
     id: 'left-shoulder',
     element: 'path',
-    attrs: { d: `M${cx-3},21 L${cx-11},22 L${cx-15},25 L${cx-13},28 L${cx-10},26 L${cx-3},24 Z` },
+    attrs: { d: `M${cx-3},20 L${cx-10},21 L${cx-14},24 L${cx-12},27 L${cx-9},25 L${cx-3},23 Z` },
     views: ['face', 'dos'],
   },
   // Épaule droite
   {
     id: 'right-shoulder',
     element: 'path',
-    attrs: { d: `M${cx+3},21 L${cx+11},22 L${cx+15},25 L${cx+13},28 L${cx+10},26 L${cx+3},24 Z` },
+    attrs: { d: `M${cx+3},20 L${cx+10},21 L${cx+14},24 L${cx+12},27 L${cx+9},25 L${cx+3},23 Z` },
     views: ['face', 'dos'],
   },
   // Thorax (face)
   {
     id: 'chest',
     element: 'path',
-    attrs: { d: `M${cx-10},24 L${cx+10},24 L${cx+9},38 L${cx},39 L${cx-9},38 Z` },
+    attrs: { d: `M${cx-9},23 L${cx+9},23 L${cx+9},37 L${cx},38 L${cx-9},37 Z` },
     views: ['face'],
   },
   // Haut du dos
   {
     id: 'upper-back',
     element: 'path',
-    attrs: { d: `M${cx-10},24 L${cx+10},24 L${cx+9},38 L${cx},39 L${cx-9},38 Z` },
+    attrs: { d: `M${cx-9},23 L${cx+9},23 L${cx+9},37 L${cx},38 L${cx-9},37 Z` },
     views: ['dos'],
   },
   // Bras gauche
   {
     id: 'left-arm',
     element: 'path',
-    attrs: { d: `M${cx-15},25 L${cx-13},28 L${cx-13},40 L${cx-18},40 L${cx-19},28 Z` },
+    attrs: { d: `M${cx-14},24 L${cx-12},27 L${cx-12},39 L${cx-17},39 L${cx-18},27 Z` },
     views: ['face', 'dos'],
   },
   // Bras droit
   {
     id: 'right-arm',
     element: 'path',
-    attrs: { d: `M${cx+15},25 L${cx+19},28 L${cx+18},40 L${cx+13},40 L${cx+13},28 Z` },
+    attrs: { d: `M${cx+14},24 L${cx+18},27 L${cx+17},39 L${cx+12},39 L${cx+12},27 Z` },
     views: ['face', 'dos'],
   },
   // Avant-bras gauche
   {
     id: 'left-forearm',
     element: 'path',
-    attrs: { d: `M${cx-18},40 L${cx-13},40 L${cx-14},54 L${cx-19},54 Z` },
+    attrs: { d: `M${cx-17},39 L${cx-12},39 L${cx-13},53 L${cx-18},53 Z` },
     views: ['face', 'dos'],
   },
   // Avant-bras droit
   {
     id: 'right-forearm',
     element: 'path',
-    attrs: { d: `M${cx+13},40 L${cx+18},40 L${cx+19},54 L${cx+14},54 Z` },
+    attrs: { d: `M${cx+12},39 L${cx+17},39 L${cx+18},53 L${cx+13},53 Z` },
     views: ['face', 'dos'],
   },
   // Main gauche
   {
     id: 'left-hand',
     element: 'path',
-    attrs: { d: `M${cx-19},54 L${cx-14},54 L${cx-13},61 L${cx-16},62 L${cx-20},60 Z` },
+    attrs: { d: `M${cx-18},53 L${cx-13},53 L${cx-12},60 L${cx-15},61 L${cx-19},59 Z` },
     views: ['face', 'dos'],
   },
   // Main droite
   {
     id: 'right-hand',
     element: 'path',
-    attrs: { d: `M${cx+14},54 L${cx+19},54 L${cx+20},60 L${cx+16},62 L${cx+13},61 Z` },
+    attrs: { d: `M${cx+13},53 L${cx+18},53 L${cx+19},59 L${cx+15},61 L${cx+12},60 Z` },
     views: ['face', 'dos'],
   },
   // Abdomen (face)
   {
     id: 'abdomen',
     element: 'path',
-    attrs: { d: `M${cx-9},38 L${cx+9},38 L${cx+8},50 L${cx},51 L${cx-8},50 Z` },
+    attrs: { d: `M${cx-9},37 L${cx+9},37 L${cx+8},49 L${cx},50 L${cx-8},49 Z` },
     views: ['face'],
   },
   // Bas du dos
   {
     id: 'lower-back',
     element: 'path',
-    attrs: { d: `M${cx-9},38 L${cx+9},38 L${cx+8},50 L${cx},51 L${cx-8},50 Z` },
+    attrs: { d: `M${cx-9},37 L${cx+9},37 L${cx+8},49 L${cx},50 L${cx-8},49 Z` },
     views: ['dos'],
   },
   // Bassin
   {
     id: 'pelvis',
     element: 'path',
-    attrs: { d: `M${cx-8},50 L${cx+8},50 L${cx+8},56 L${cx-8},56 Z` },
+    attrs: { d: `M${cx-8},49 L${cx+8},49 L${cx+7},55 L${cx-7},55 Z` },
     views: ['face', 'dos'],
   },
   // Hanche gauche
   {
     id: 'left-hip',
     element: 'path',
-    attrs: { d: `M${cx-8},54 L${cx-1},54 L${cx-1},58 L${cx-8},58 Z` },
+    attrs: { d: `M${cx-8},53 L${cx-1},53 L${cx-1},57 L${cx-7},57 Z` },
     views: ['face', 'dos'],
   },
   // Hanche droite
   {
     id: 'right-hip',
     element: 'path',
-    attrs: { d: `M${cx+1},54 L${cx+8},54 L${cx+8},58 L${cx+1},58 Z` },
+    attrs: { d: `M${cx+1},53 L${cx+8},53 L${cx+7},57 L${cx+1},57 Z` },
     views: ['face', 'dos'],
   },
   // Cuisse gauche
   {
     id: 'left-thigh',
     element: 'path',
-    attrs: { d: `M${cx-8},56 L${cx-1},56 L${cx-2},72 L${cx-7},72 Z` },
+    attrs: { d: `M${cx-7},55 L${cx-1},55 L${cx-2},71 L${cx-7},71 Z` },
     views: ['face', 'dos'],
   },
   // Cuisse droite
   {
     id: 'right-thigh',
     element: 'path',
-    attrs: { d: `M${cx+1},56 L${cx+8},56 L${cx+7},72 L${cx+2},72 Z` },
+    attrs: { d: `M${cx+1},55 L${cx+7},55 L${cx+7},71 L${cx+2},71 Z` },
     views: ['face', 'dos'],
   },
   // Genou gauche
   {
     id: 'left-knee',
     element: 'path',
-    attrs: { d: `M${cx-7},72 L${cx-2},72 L${cx-2},77 L${cx-7},77 Z` },
+    attrs: { d: `M${cx-7},71 L${cx-2},71 L${cx-2},76 L${cx-6},76 Z` },
     views: ['face', 'dos'],
   },
   // Genou droit
   {
     id: 'right-knee',
     element: 'path',
-    attrs: { d: `M${cx+2},72 L${cx+7},72 L${cx+7},77 L${cx+2},77 Z` },
+    attrs: { d: `M${cx+2},71 L${cx+7},71 L${cx+6},76 L${cx+2},76 Z` },
     views: ['face', 'dos'],
   },
   // Jambe gauche (mollet)
   {
     id: 'left-leg',
     element: 'path',
-    attrs: { d: `M${cx-7},77 L${cx-2},77 L${cx-2},89 L${cx-6},89 Z` },
+    attrs: { d: `M${cx-6},76 L${cx-2},76 L${cx-2},88 L${cx-5},88 Z` },
     views: ['face', 'dos'],
   },
   // Jambe droite (mollet)
   {
     id: 'right-leg',
     element: 'path',
-    attrs: { d: `M${cx+2},77 L${cx+7},77 L${cx+6},89 L${cx+2},89 Z` },
+    attrs: { d: `M${cx+2},76 L${cx+6},76 L${cx+5},88 L${cx+2},88 Z` },
     views: ['face', 'dos'],
   },
   // Pied gauche
   {
     id: 'left-foot',
     element: 'path',
-    attrs: { d: `M${cx-7},89 L${cx-1},89 L${cx},95 L${cx-8},95 Z` },
+    attrs: { d: `M${cx-6},88 L${cx-1},88 L${cx},94 L${cx-7},94 Z` },
     views: ['face', 'dos'],
   },
   // Pied droit
   {
     id: 'right-foot',
     element: 'path',
-    attrs: { d: `M${cx+1},89 L${cx+7},89 L${cx+8},95 L${cx},95 Z` },
+    attrs: { d: `M${cx+1},88 L${cx+6},88 L${cx+7},94 L${cx},94 Z` },
     views: ['face', 'dos'],
   },
 ];

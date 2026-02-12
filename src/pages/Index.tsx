@@ -27,7 +27,7 @@ const Index = () => {
   const handleSaveEntry = (entry: Parameters<typeof addEntry>[0]) => {
     addEntry(entry);
     toast.success('Épisode enregistré', {
-      description: 'Votre douleur a été enregistrée dans le journal.',
+      description: 'Votre douleur a été enregistrée dans le journal.'
     });
     setActiveTab('journal');
   };
@@ -48,35 +48,35 @@ const Index = () => {
           <div className="w-12 h-12 rounded-full border-4 border-primary border-t-transparent animate-spin mx-auto mb-4" />
           <p className="text-muted-foreground">Chargement...</p>
         </div>
-      </div>
-    );
+      </div>);
+
   }
 
   return (
-    <div className="min-h-screen bg-background pb-24">
+    <div className="min-h-screen bg-background pb-24 opacity-95 rounded-sm shadow-none">
       <Header title={getTitle()} />
       
       <main className="px-4 py-4 max-w-lg mx-auto">
         {activeTab === 'home' && <Dashboard />}
         
-        {activeTab === 'add' && (
-          <PainEntryForm
-            onSave={handleSaveEntry}
-            onCancel={handleCancel}
-          />
-        )}
+        {activeTab === 'add' &&
+        <PainEntryForm
+          onSave={handleSaveEntry}
+          onCancel={handleCancel} />
+
+        }
         
-        {activeTab === 'journal' && (
-          <PainJournal
-            entries={entries}
-            onDeleteEntry={handleDeleteEntry}
-          />
-        )}
+        {activeTab === 'journal' &&
+        <PainJournal
+          entries={entries}
+          onDeleteEntry={handleDeleteEntry} />
+
+        }
       </main>
 
       <BottomNav activeTab={activeTab} onTabChange={setActiveTab} />
-    </div>
-  );
+    </div>);
+
 };
 
 export default Index;

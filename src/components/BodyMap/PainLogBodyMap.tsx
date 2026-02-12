@@ -219,35 +219,32 @@ export function PainLogBodyMap({
 
   const zones = ZONE_PATHS.filter(z => z.views.includes(view));
 
-  const DEBUG_COLORS: Record<string, string> = {
-    head: 'rgba(255,99,132,0.3)', neck: 'rgba(255,159,64,0.3)',
-    'left-shoulder': 'rgba(255,205,86,0.3)', 'right-shoulder': 'rgba(75,192,192,0.3)',
-    chest: 'rgba(54,162,235,0.3)', 'upper-back': 'rgba(54,162,235,0.3)',
-    'left-arm': 'rgba(153,102,255,0.3)', 'right-arm': 'rgba(201,203,207,0.3)',
-    'left-forearm': 'rgba(255,99,132,0.3)', 'right-forearm': 'rgba(255,159,64,0.3)',
-    'left-hand': 'rgba(255,205,86,0.3)', 'right-hand': 'rgba(75,192,192,0.3)',
-    abdomen: 'rgba(54,162,235,0.3)', 'lower-back': 'rgba(54,162,235,0.3)',
-    pelvis: 'rgba(153,102,255,0.3)',
-    'left-hip': 'rgba(201,203,207,0.3)', 'right-hip': 'rgba(255,99,132,0.3)',
-    'left-thigh': 'rgba(255,159,64,0.3)', 'right-thigh': 'rgba(255,205,86,0.3)',
-    'left-knee': 'rgba(75,192,192,0.3)', 'right-knee': 'rgba(54,162,235,0.3)',
-    'left-leg': 'rgba(153,102,255,0.3)', 'right-leg': 'rgba(201,203,207,0.3)',
-    'left-foot': 'rgba(255,99,132,0.3)', 'right-foot': 'rgba(255,159,64,0.3)',
+  // Compute center of a path's bounding box from d attribute
+  const getPathCenter = (d: string): { x: number; y: number } => {
+    const nums = d.match(/[\d.]+/g)?.map(Number) || [];
+    let minX = Infinity, minY = Infinity, maxX = -Infinity, maxY = -Infinity;
+    for (let i = 0; i < nums.length - 1; i += 2) {
+      if (nums[i] < minX) minX = nums[i];
+      if (nums[i] > maxX) maxX = nums[i];
+      if (nums[i + 1] < minY) minY = nums[i + 1];
+      if (nums[i + 1] > maxY) maxY = nums[i + 1];
+    }
+    return { x: (minX + maxX) / 2, y: (minY + maxY) / 2 };
   };
 
   const getFill = (id: PainLogZone) => {
-    if (debugMode) return DEBUG_COLORS[id] || 'rgba(128,128,128,0.3)';
+    if (debugMode) return 'rgba(255,60,60,0.08)';
     return selectedZone === id ? HIGHLIGHT_FILL : hoveredZone === id ? '#4DA3FF22' : 'transparent';
   };
 
   const getStroke = (id: PainLogZone) => {
-    if (debugMode) return (DEBUG_COLORS[id] || 'rgba(128,128,128,0.5)').replace('0.3', '0.8');
+    if (debugMode) return 'rgba(220,40,40,0.7)';
     return selectedZone === id ? HIGHLIGHT_STROKE : hoveredZone === id ? '#4DA3FF66' : 'transparent';
   };
 
-  const getStrokeWidth = (id: PainLogZone) => {
-    if (debugMode) return 1.5;
-    return selectedZone === id ? 2 : hoveredZone === id ? 1.5 : 0;
+  const getStrokeWidth = (_id: PainLogZone) => {
+    if (debugMode) return 1.2;
+    return selectedZone === _id ? 2 : hoveredZone === _id ? 1.5 : 0;
   };
 
   return (
@@ -331,6 +328,27 @@ export function PainLogBodyMap({
               };
 
               return <path {...commonProps} d={attrs.d} />;
+            })}
+            {/* Debug ID labels */}
+            {debugMode && zones.map(({ id, attrs }) => {
+              const center = getPathCenter(attrs.d);
+              return (
+                <text
+                  key={`label-${id}`}
+                  x={center.x}
+                  y={center.y}
+                  textAnchor="middle"
+                  dominantBaseline="middle"
+                  fill="rgba(220,40,40,0.9)"
+                  fontSize="2.2"
+                  fontWeight="700"
+                  fontFamily="monospace"
+                  className="pointer-events-none select-none"
+                  style={{ textShadow: '0 0 2px rgba(255,255,255,0.9)' }}
+                >
+                  {id}
+                </text>
+              );
             })}
           </svg>
         </div>

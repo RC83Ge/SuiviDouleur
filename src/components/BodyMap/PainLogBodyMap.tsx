@@ -26,8 +26,8 @@ interface ZonePath {
 }
 
 // cx differs per view: face body is right-of-center, dos body is left-of-center
-const CX_FACE = 63;
-const CX_DOS = 37;
+const CX_FACE = 60;
+const CX_DOS = 40;
 
 function buildZonePaths(cx: number): ZonePath[] {
   return [

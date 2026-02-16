@@ -4,6 +4,7 @@ import { Header } from '@/components/Layout/Header';
 import { Dashboard } from '@/components/Dashboard/Dashboard';
 import { PainEntryForm } from '@/components/PainForm/PainEntryForm';
 import { PainJournal } from '@/components/Journal/PainJournal';
+import { BodyZoneSelector } from '@/components/BodyMap/BodyZoneSelector';
 import { usePainStore } from '@/hooks/usePainStore';
 import { toast } from 'sonner';
 
@@ -57,7 +58,7 @@ const Index = () => {
       <Header title={getTitle()} />
       
       <main className="px-4 py-4 max-w-lg mx-auto">
-        {activeTab === 'home' && <Dashboard />}
+        {activeTab === 'home' && <BodyZoneSelector />}
         
         {activeTab === 'add' &&
         <PainEntryForm

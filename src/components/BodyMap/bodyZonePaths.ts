@@ -1,26 +1,9 @@
-import { BodyZone } from "@/types/pain";
-// Exemple de ce qu'il faut modifier dans ton fichier de données (ex: BodyData.ts)
+import { BodyZone } from '@/types/pain';
 
-const bodyZones = [
-  {
-    id: "face-view",
-    // On diminue cx pour aller vers la gauche (ex: de 63 à 60)
-    cx: 60,
-    cy: 50,
-    label: "Face",
-  },
-  {
-    id: "back-view",
-    // On augmente cx pour aller vers la droite (ex: de 37 à 40)
-    cx: 40,
-    cy: 50,
-    label: "Dos",
-  },
-];
 export interface ZonePathData {
   zone: BodyZone;
   path: string;
-  views: ("front" | "back")[];
+  views: ('front' | 'back')[];
 }
 
 // Centre de l'image
@@ -38,165 +21,165 @@ const ellipse = (centerX: number, centerY: number, radiusX: number, radiusY: num
 export const bodyZonePaths: ZonePathData[] = [
   // ===== TÊTE =====
   {
-    zone: "head",
+    zone: 'head',
     path: ellipse(cx, 75, 40, 50),
-    views: ["front", "back"],
+    views: ['front', 'back'],
   },
 
   // ===== COU =====
   {
-    zone: "neck",
+    zone: 'neck',
     path: ellipse(cx, 148, 18, 22),
-    views: ["front", "back"],
+    views: ['front', 'back'],
   },
 
   // ===== ÉPAULES =====
   {
-    zone: "left-shoulder",
+    zone: 'left-shoulder',
     path: ellipse(cx - 72, 190, 30, 22),
-    views: ["front", "back"],
+    views: ['front', 'back'],
   },
   {
-    zone: "right-shoulder",
+    zone: 'right-shoulder',
     path: ellipse(cx + 72, 190, 30, 22),
-    views: ["front", "back"],
+    views: ['front', 'back'],
   },
 
   // ===== THORAX / POITRINE =====
   {
-    zone: "chest",
+    zone: 'chest',
     path: ellipse(cx, 245, 55, 55),
-    views: ["front"],
+    views: ['front'],
   },
 
   // ===== HAUT DU DOS =====
   {
-    zone: "upper-back",
+    zone: 'upper-back',
     path: ellipse(cx, 255, 55, 60),
-    views: ["back"],
+    views: ['back'],
   },
 
   // ===== BRAS SUPÉRIEURS =====
   {
-    zone: "left-arm",
+    zone: 'left-arm',
     path: ellipse(cx - 105, 290, 16, 55),
-    views: ["front", "back"],
+    views: ['front', 'back'],
   },
   {
-    zone: "right-arm",
+    zone: 'right-arm',
     path: ellipse(cx + 105, 290, 16, 55),
-    views: ["front", "back"],
+    views: ['front', 'back'],
   },
 
   // ===== AVANT-BRAS =====
   {
-    zone: "left-forearm",
+    zone: 'left-forearm',
     path: ellipse(cx - 115, 410, 14, 50),
-    views: ["front", "back"],
+    views: ['front', 'back'],
   },
   {
-    zone: "right-forearm",
+    zone: 'right-forearm',
     path: ellipse(cx + 115, 410, 14, 50),
-    views: ["front", "back"],
+    views: ['front', 'back'],
   },
 
   // ===== MAINS =====
   {
-    zone: "left-hand",
+    zone: 'left-hand',
     path: ellipse(cx - 120, 500, 16, 30),
-    views: ["front", "back"],
+    views: ['front', 'back'],
   },
   {
-    zone: "right-hand",
+    zone: 'right-hand',
     path: ellipse(cx + 120, 500, 16, 30),
-    views: ["front", "back"],
+    views: ['front', 'back'],
   },
 
   // ===== ABDOMEN =====
   {
-    zone: "abdomen",
+    zone: 'abdomen',
     path: ellipse(cx, 365, 48, 55),
-    views: ["front"],
+    views: ['front'],
   },
 
   // ===== BAS DU DOS =====
   {
-    zone: "lower-back",
+    zone: 'lower-back',
     path: ellipse(cx, 385, 48, 55),
-    views: ["back"],
+    views: ['back'],
   },
 
   // ===== BASSIN =====
   {
-    zone: "pelvis",
+    zone: 'pelvis',
     path: ellipse(cx, 470, 55, 40),
-    views: ["front"],
+    views: ['front'],
   },
 
   // ===== HANCHES =====
   {
-    zone: "left-hip",
+    zone: 'left-hip',
     path: ellipse(cx - 55, 500, 22, 30),
-    views: ["front", "back"],
+    views: ['front', 'back'],
   },
   {
-    zone: "right-hip",
+    zone: 'right-hip',
     path: ellipse(cx + 55, 500, 22, 30),
-    views: ["front", "back"],
+    views: ['front', 'back'],
   },
 
   // ===== CUISSES =====
   {
-    zone: "left-thigh",
+    zone: 'left-thigh',
     path: ellipse(cx - 48, 620, 28, 80),
-    views: ["front", "back"],
+    views: ['front', 'back'],
   },
   {
-    zone: "right-thigh",
+    zone: 'right-thigh',
     path: ellipse(cx + 48, 620, 28, 80),
-    views: ["front", "back"],
+    views: ['front', 'back'],
   },
 
   // ===== GENOUX =====
   {
-    zone: "left-knee",
+    zone: 'left-knee',
     path: ellipse(cx - 42, 745, 20, 30),
-    views: ["front", "back"],
+    views: ['front', 'back'],
   },
   {
-    zone: "right-knee",
+    zone: 'right-knee',
     path: ellipse(cx + 42, 745, 20, 30),
-    views: ["front", "back"],
+    views: ['front', 'back'],
   },
 
   // ===== MOLLETS =====
   {
-    zone: "left-leg",
+    zone: 'left-leg',
     path: ellipse(cx - 38, 860, 18, 65),
-    views: ["front", "back"],
+    views: ['front', 'back'],
   },
   {
-    zone: "right-leg",
+    zone: 'right-leg',
     path: ellipse(cx + 38, 860, 18, 65),
-    views: ["front", "back"],
+    views: ['front', 'back'],
   },
 
   // ===== PIEDS =====
   {
-    zone: "left-foot",
+    zone: 'left-foot',
     path: ellipse(cx - 35, 985, 22, 35),
-    views: ["front", "back"],
+    views: ['front', 'back'],
   },
   {
-    zone: "right-foot",
+    zone: 'right-foot',
     path: ellipse(cx + 35, 985, 22, 35),
-    views: ["front", "back"],
+    views: ['front', 'back'],
   },
 ];
 
 // Helper pour obtenir les zones par vue
-export const getZonesForView = (view: "front" | "back"): ZonePathData[] => {
-  return bodyZonePaths.filter((zone) => zone.views.includes(view));
+export const getZonesForView = (view: 'front' | 'back'): ZonePathData[] => {
+  return bodyZonePaths.filter(zone => zone.views.includes(view));
 };
 
 // Helper pour obtenir le centre d'une ellipse

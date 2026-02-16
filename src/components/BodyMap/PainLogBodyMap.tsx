@@ -137,11 +137,11 @@ export function PainLogBodyMap({
       <button
         type="button"
         onClick={() => setDebugMode(!debugMode)}
-        className={cn(
-          'px-3 py-1 text-xs rounded-md border transition-all',
-          debugMode ?
-          'bg-amber-500/20 text-amber-600 border-amber-500/30' :
-          'bg-muted text-muted-foreground border-transparent'
+        className={cn("px-3 py-1 rounded-md border transition-all text-base bg-secondary",
+
+        debugMode ?
+        'bg-amber-500/20 text-amber-600 border-amber-500/30' :
+        'bg-muted text-muted-foreground border-transparent'
         )}>
 
         {debugMode ? '🔍 Debug ON' : 'Debug'}
@@ -167,7 +167,7 @@ export function PainLogBodyMap({
           <svg
             viewBox="0 0 100 100"
             preserveAspectRatio="none"
-            className="absolute inset-0 w-full h-full mx-0 mr-0 pl-0 mb-0 pr-[53px] pb-0 pt-0 mt-0"
+            className="absolute inset-0 w-full h-full mr-[3px]"
             style={{ touchAction: 'manipulation' }}>
 
             {zones.map(({ id, attrs }) => {

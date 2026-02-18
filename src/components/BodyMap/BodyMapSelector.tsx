@@ -1,6 +1,6 @@
 import React from 'react';
 import { BodyZone, BODY_ZONE_LABELS } from '@/types/pain';
-import { PainLogBodyMap } from './PainLogBodyMap';
+import { PainLogBodyMap, PainLogView } from './PainLogBodyMap';
 import { X, Sparkles } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
@@ -13,6 +13,8 @@ export function BodyMapSelector({
   selectedZones,
   onZonesChange,
 }: BodyMapSelectorProps) {
+  const [view, setView] = React.useState<PainLogView>('face');
+
   const handleZoneClick = (zone: BodyZone) => {
     if (selectedZones.includes(zone)) {
       onZonesChange(selectedZones.filter(z => z !== zone));
@@ -33,6 +35,8 @@ export function BodyMapSelector({
           <PainLogBodyMap
             selectedZone={selectedZones.length > 0 ? selectedZones[selectedZones.length - 1] : null}
             onSelectZone={handleZoneClick}
+            view={view}
+            onViewChange={setView}
           />
         </div>
         

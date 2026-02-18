@@ -1,91 +1,70 @@
 import React, { useState } from 'react';
 import { BodyZone, BODY_ZONE_LABELS } from '@/types/pain';
 import { cn } from '@/lib/utils';
-import bodyImage from '@/assets/body-front-back.png';
+import bodyFront from '@/assets/body-front.png';
+import bodyBack from '@/assets/body-back.png';
 
 export type PainLogZone = BodyZone;
+export type PainLogView = 'face' | 'dos';
 
 interface PainLogBodyMapProps {
   selectedZone: PainLogZone | null;
   onSelectZone: (zoneId: PainLogZone) => void;
+  view: PainLogView;
+  onViewChange?: (view: PainLogView) => void;
   className?: string;
 }
 
 const HIGHLIGHT_FILL = '#4DA3FF55';
 const HIGHLIGHT_STROKE = '#4DA3FF';
 
-// viewBox="0 0 100 100" — left half = face (cx=25), right half = dos (cx=75)
-const CX_FACE = 25;
-const CX_DOS = 75;
+const CX = 50;
 
 interface ZonePath {
   id: PainLogZone;
   d: string;
+  views: PainLogView[];
 }
 
-const buildPaths = (cx: number): ZonePath[] => [
-  // Tête
-  { id: cx < 50 ? 'head' : 'head', d: `M${cx-2.5},7 C${cx-2.5},4 ${cx+2.5},4 ${cx+2.5},7 L${cx+2.5},13 C${cx+2.5},16 ${cx-2.5},16 ${cx-2.5},13 Z` },
-  // Cou
-  { id: 'neck', d: `M${cx-1.5},16 L${cx+1.5},16 L${cx+1.5},20 L${cx-1.5},20 Z` },
-  // Épaule gauche (miroir de "left" pour face, "right" pour dos)
-  { id: cx < 50 ? 'left-shoulder' : 'right-shoulder', d: `M${cx-1.5},20 L${cx-5},21 L${cx-7},24 L${cx-6},27 L${cx-4.5},25 L${cx-1.5},23 Z` },
-  // Épaule droite
-  { id: cx < 50 ? 'right-shoulder' : 'left-shoulder', d: `M${cx+1.5},20 L${cx+5},21 L${cx+7},24 L${cx+6},27 L${cx+4.5},25 L${cx+1.5},23 Z` },
-  // Thorax
-  { id: cx < 50 ? 'chest' : 'upper-back', d: `M${cx-4.5},23 L${cx+4.5},23 L${cx+4.5},37 L${cx},38 L${cx-4.5},37 Z` },
-  // Bras gauche
-  { id: cx < 50 ? 'left-arm' : 'right-arm', d: `M${cx-7},24 L${cx-6},27 L${cx-6},39 L${cx-8.5},39 L${cx-9},27 Z` },
-  // Bras droit
-  { id: cx < 50 ? 'right-arm' : 'left-arm', d: `M${cx+7},24 L${cx+9},27 L${cx+8.5},39 L${cx+6},39 L${cx+6},27 Z` },
-  // Avant-bras gauche
-  { id: cx < 50 ? 'left-forearm' : 'right-forearm', d: `M${cx-8.5},39 L${cx-6},39 L${cx-6.5},53 L${cx-9},53 Z` },
-  // Avant-bras droit
-  { id: cx < 50 ? 'right-forearm' : 'left-forearm', d: `M${cx+6},39 L${cx+8.5},39 L${cx+9},53 L${cx+6.5},53 Z` },
-  // Main gauche
-  { id: cx < 50 ? 'left-hand' : 'right-hand', d: `M${cx-9},53 L${cx-6.5},53 L${cx-6},60 L${cx-7.5},61 L${cx-9.5},59 Z` },
-  // Main droite
-  { id: cx < 50 ? 'right-hand' : 'left-hand', d: `M${cx+6.5},53 L${cx+9},53 L${cx+9.5},59 L${cx+7.5},61 L${cx+6},60 Z` },
-  // Abdomen / Bas du dos
-  { id: cx < 50 ? 'abdomen' : 'lower-back', d: `M${cx-4.5},37 L${cx+4.5},37 L${cx+4},49 L${cx},50 L${cx-4},49 Z` },
-  // Bassin
-  { id: 'pelvis', d: `M${cx-4},49 L${cx+4},49 L${cx+3.5},55 L${cx-3.5},55 Z` },
-  // Hanche gauche
-  { id: cx < 50 ? 'left-hip' : 'right-hip', d: `M${cx-4},53 L${cx-0.5},53 L${cx-0.5},57 L${cx-3.5},57 Z` },
-  // Hanche droite
-  { id: cx < 50 ? 'right-hip' : 'left-hip', d: `M${cx+0.5},53 L${cx+4},53 L${cx+3.5},57 L${cx+0.5},57 Z` },
-  // Cuisse gauche
-  { id: cx < 50 ? 'left-thigh' : 'right-thigh', d: `M${cx-3.5},55 L${cx-0.5},55 L${cx-1},71 L${cx-3.5},71 Z` },
-  // Cuisse droite
-  { id: cx < 50 ? 'right-thigh' : 'left-thigh', d: `M${cx+0.5},55 L${cx+3.5},55 L${cx+3.5},71 L${cx+1},71 Z` },
-  // Genou gauche
-  { id: cx < 50 ? 'left-knee' : 'right-knee', d: `M${cx-3.5},71 L${cx-1},71 L${cx-1},76 L${cx-3},76 Z` },
-  // Genou droit
-  { id: cx < 50 ? 'right-knee' : 'left-knee', d: `M${cx+1},71 L${cx+3.5},71 L${cx+3},76 L${cx+1},76 Z` },
-  // Jambe gauche
-  { id: cx < 50 ? 'left-leg' : 'right-leg', d: `M${cx-3},76 L${cx-1},76 L${cx-1},88 L${cx-2.5},88 Z` },
-  // Jambe droite
-  { id: cx < 50 ? 'right-leg' : 'left-leg', d: `M${cx+1},76 L${cx+3},76 L${cx+2.5},88 L${cx+1},88 Z` },
-  // Pied gauche
-  { id: cx < 50 ? 'left-foot' : 'right-foot', d: `M${cx-3},88 L${cx-0.5},88 L${cx},94 L${cx-3.5},94 Z` },
-  // Pied droit
-  { id: cx < 50 ? 'right-foot' : 'left-foot', d: `M${cx+0.5},88 L${cx+3},88 L${cx+3.5},94 L${cx},94 Z` },
+const ZONE_PATHS: ZonePath[] = [
+  { id: 'head',          d: `M${CX-5},7 C${CX-5},4 ${CX+5},4 ${CX+5},7 L${CX+5},14 C${CX+5},17 ${CX-5},17 ${CX-5},14 Z`, views: ['face','dos'] },
+  { id: 'neck',          d: `M${CX-3},17 L${CX+3},17 L${CX+3},21 L${CX-3},21 Z`, views: ['face','dos'] },
+  { id: 'left-shoulder', d: `M${CX-3},21 L${CX-11},22 L${CX-15},26 L${CX-13},29 L${CX-10},27 L${CX-3},24 Z`, views: ['face','dos'] },
+  { id: 'right-shoulder',d: `M${CX+3},21 L${CX+11},22 L${CX+15},26 L${CX+13},29 L${CX+10},27 L${CX+3},24 Z`, views: ['face','dos'] },
+  { id: 'chest',         d: `M${CX-10},24 L${CX+10},24 L${CX+10},38 L${CX},39 L${CX-10},38 Z`, views: ['face'] },
+  { id: 'upper-back',    d: `M${CX-10},24 L${CX+10},24 L${CX+10},38 L${CX},39 L${CX-10},38 Z`, views: ['dos'] },
+  { id: 'left-arm',      d: `M${CX-15},26 L${CX-13},29 L${CX-13},41 L${CX-18},41 L${CX-19},29 Z`, views: ['face','dos'] },
+  { id: 'right-arm',     d: `M${CX+15},26 L${CX+19},29 L${CX+18},41 L${CX+13},41 L${CX+13},29 Z`, views: ['face','dos'] },
+  { id: 'left-forearm',  d: `M${CX-18},41 L${CX-13},41 L${CX-14},55 L${CX-19},55 Z`, views: ['face','dos'] },
+  { id: 'right-forearm', d: `M${CX+13},41 L${CX+18},41 L${CX+19},55 L${CX+14},55 Z`, views: ['face','dos'] },
+  { id: 'left-hand',     d: `M${CX-19},55 L${CX-14},55 L${CX-13},62 L${CX-16},63 L${CX-20},61 Z`, views: ['face','dos'] },
+  { id: 'right-hand',    d: `M${CX+14},55 L${CX+19},55 L${CX+20},61 L${CX+16},63 L${CX+13},62 Z`, views: ['face','dos'] },
+  { id: 'abdomen',       d: `M${CX-10},38 L${CX+10},38 L${CX+9},50 L${CX},51 L${CX-9},50 Z`, views: ['face'] },
+  { id: 'lower-back',    d: `M${CX-10},38 L${CX+10},38 L${CX+9},50 L${CX},51 L${CX-9},50 Z`, views: ['dos'] },
+  { id: 'pelvis',        d: `M${CX-9},50 L${CX+9},50 L${CX+8},57 L${CX-8},57 Z`, views: ['face','dos'] },
+  { id: 'left-hip',      d: `M${CX-9},54 L${CX-1},54 L${CX-1},58 L${CX-8},58 Z`, views: ['face','dos'] },
+  { id: 'right-hip',     d: `M${CX+1},54 L${CX+9},54 L${CX+8},58 L${CX+1},58 Z`, views: ['face','dos'] },
+  { id: 'left-thigh',    d: `M${CX-8},57 L${CX-1},57 L${CX-2},73 L${CX-8},73 Z`, views: ['face','dos'] },
+  { id: 'right-thigh',   d: `M${CX+1},57 L${CX+8},57 L${CX+8},73 L${CX+2},73 Z`, views: ['face','dos'] },
+  { id: 'left-knee',     d: `M${CX-8},73 L${CX-2},73 L${CX-2},79 L${CX-7},79 Z`, views: ['face','dos'] },
+  { id: 'right-knee',    d: `M${CX+2},73 L${CX+8},73 L${CX+7},79 L${CX+2},79 Z`, views: ['face','dos'] },
+  { id: 'left-leg',      d: `M${CX-7},79 L${CX-2},79 L${CX-2},91 L${CX-6},91 Z`, views: ['face','dos'] },
+  { id: 'right-leg',     d: `M${CX+2},79 L${CX+7},79 L${CX+6},91 L${CX+2},91 Z`, views: ['face','dos'] },
+  { id: 'left-foot',     d: `M${CX-7},91 L${CX-1},91 L${CX},97 L${CX-8},97 Z`, views: ['face','dos'] },
+  { id: 'right-foot',    d: `M${CX+1},91 L${CX+7},91 L${CX+8},97 L${CX},97 Z`, views: ['face','dos'] },
 ];
-
-// Tête séparée car buildPaths génère un doublon pour head — on la crée manuellement
-const FACE_PATHS: ZonePath[] = buildPaths(CX_FACE);
-const DOS_PATHS: ZonePath[] = buildPaths(CX_DOS);
-
-// Corriger le head du côté dos (même id 'head' mais cx différent)
-DOS_PATHS[0] = { id: 'head', d: `M${CX_DOS-2.5},7 C${CX_DOS-2.5},4 ${CX_DOS+2.5},4 ${CX_DOS+2.5},7 L${CX_DOS+2.5},13 C${CX_DOS+2.5},16 ${CX_DOS-2.5},16 ${CX_DOS-2.5},13 Z` };
-DOS_PATHS[1] = { id: 'neck', d: `M${CX_DOS-1.5},16 L${CX_DOS+1.5},16 L${CX_DOS+1.5},20 L${CX_DOS-1.5},20 Z` };
 
 export function PainLogBodyMap({
   selectedZone,
   onSelectZone,
+  view,
+  onViewChange,
   className,
 }: PainLogBodyMapProps) {
   const [hoveredZone, setHoveredZone] = useState<PainLogZone | null>(null);
+
+  const zones = ZONE_PATHS.filter(z => z.views.includes(view));
+  const bodyImage = view === 'face' ? bodyFront : bodyBack;
 
   const getFill = (id: PainLogZone) =>
     selectedZone === id ? HIGHLIGHT_FILL : hoveredZone === id ? '#4DA3FF22' : 'transparent';
@@ -94,36 +73,45 @@ export function PainLogBodyMap({
     selectedZone === id ? HIGHLIGHT_STROKE : hoveredZone === id ? '#4DA3FF66' : 'transparent';
 
   const getStrokeWidth = (id: PainLogZone) =>
-    selectedZone === id ? 0.6 : hoveredZone === id ? 0.45 : 0;
-
-  const renderZones = (paths: ZonePath[]) =>
-    paths.map(({ id, d }) => (
-      <path
-        key={`${id}-${d.slice(0, 8)}`}
-        d={d}
-        fill={getFill(id)}
-        stroke={getStroke(id)}
-        strokeWidth={getStrokeWidth(id)}
-        style={{ cursor: 'pointer', transition: 'all 0.15s ease' }}
-        onClick={() => onSelectZone(id)}
-        onMouseEnter={() => setHoveredZone(id)}
-        onMouseLeave={() => setHoveredZone(null)}
-      />
-    ));
+    selectedZone === id ? 2 : hoveredZone === id ? 1.5 : 0;
 
   return (
     <div className={cn('flex flex-col items-center gap-3', className)}>
-      {/* Labels Face / Dos */}
-      <div className="flex w-full max-w-xs justify-around text-xs font-medium text-muted-foreground select-none">
-        <span>Face</span>
-        <span>Dos</span>
-      </div>
+      {/* Toggle Face / Dos */}
+      {onViewChange && (
+        <div className="flex bg-muted rounded-lg p-1 w-fit">
+          <button
+            type="button"
+            onClick={() => onViewChange('face')}
+            className={cn(
+              'px-4 py-1.5 text-xs font-medium rounded-md transition-all duration-200',
+              view === 'face'
+                ? 'bg-background text-foreground shadow-sm'
+                : 'text-muted-foreground hover:text-foreground'
+            )}
+          >
+            Face
+          </button>
+          <button
+            type="button"
+            onClick={() => onViewChange('dos')}
+            className={cn(
+              'px-4 py-1.5 text-xs font-medium rounded-md transition-all duration-200',
+              view === 'dos'
+                ? 'bg-background text-foreground shadow-sm'
+                : 'text-muted-foreground hover:text-foreground'
+            )}
+          >
+            Dos
+          </button>
+        </div>
+      )}
 
-      {/* Image + SVG overlay — full composite side by side */}
-      <div className="relative w-full max-w-xs">
+      {/* Image + SVG overlay */}
+      <div className="relative w-full max-w-[220px] mx-auto">
         <img
           src={bodyImage}
-          alt="Corps humain face et dos"
+          alt={`Corps humain vue ${view === 'face' ? 'de face' : 'de dos'}`}
           draggable={false}
           className="block w-full pointer-events-none select-none"
         />
@@ -133,10 +121,19 @@ export function PainLogBodyMap({
           className="absolute inset-0 w-full h-full"
           style={{ touchAction: 'manipulation' }}
         >
-          {/* Zones face (gauche) */}
-          {renderZones(FACE_PATHS)}
-          {/* Zones dos (droite) */}
-          {renderZones(DOS_PATHS)}
+          {zones.map(({ id, d }) => (
+            <path
+              key={id}
+              d={d}
+              fill={getFill(id)}
+              stroke={getStroke(id)}
+              strokeWidth={getStrokeWidth(id) * 0.3}
+              style={{ cursor: 'pointer', transition: 'all 0.15s ease' }}
+              onClick={() => onSelectZone(id)}
+              onMouseEnter={() => setHoveredZone(id)}
+              onMouseLeave={() => setHoveredZone(null)}
+            />
+          ))}
         </svg>
       </div>
 

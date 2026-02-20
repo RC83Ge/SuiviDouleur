@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 import { BodyZone, BODY_ZONE_LABELS } from '@/types/pain';
 import { cn } from '@/lib/utils';
-import bodyCombined from '@/assets/body-combined.png';
+import bodyFront from '@/assets/body-front.png';
+import bodyBack from '@/assets/body-back.png';
 
 export type PainLogZone = BodyZone;
 export type PainLogView = 'face' | 'dos';
@@ -15,70 +16,44 @@ interface PainLogBodyMapProps {
 const HIGHLIGHT_FILL = '#4DA3FF55';
 const HIGHLIGHT_STROKE = '#4DA3FF';
 
-// viewBox="0 0 100 100"
-// Image is 2:1 landscape — face occupies ~x:5-48, dos ~x:52-95
-// Each silhouette center: CX_FACE≈26, CX_DOS≈74
-const CX_F = 26; // face center x
-const CX_D = 74; // dos center x
-const S = 0.5;   // scale factor (half the width of a single-body map)
+const CX = 50;
 
-function zone(id: PainLogZone, cx: number, d: string): { id: PainLogZone; d: string } {
+function zone(id: PainLogZone, d: string): { id: PainLogZone; d: string } {
   return { id, d };
 }
 
-// Helper to mirror x relative to a center
-const f = (base: number, offset: number) => base + offset * S;
-
-const FACE_ZONES: { id: PainLogZone; d: string }[] = [
-  zone('head',           CX_F, `M${f(CX_F,-5)},8 C${f(CX_F,-5)},5 ${f(CX_F,5)},5 ${f(CX_F,5)},8 L${f(CX_F,5)},15 C${f(CX_F,5)},18 ${f(CX_F,-5)},18 ${f(CX_F,-5)},15 Z`),
-  zone('neck',           CX_F, `M${f(CX_F,-3)},18 L${f(CX_F,3)},18 L${f(CX_F,3)},22 L${f(CX_F,-3)},22 Z`),
-  zone('left-shoulder',  CX_F, `M${f(CX_F,-3)},22 L${f(CX_F,-11)},23 L${f(CX_F,-14)},27 L${f(CX_F,-12)},30 L${f(CX_F,-9)},28 L${f(CX_F,-3)},25 Z`),
-  zone('right-shoulder', CX_F, `M${f(CX_F,3)},22 L${f(CX_F,11)},23 L${f(CX_F,14)},27 L${f(CX_F,12)},30 L${f(CX_F,9)},28 L${f(CX_F,3)},25 Z`),
-  zone('chest',          CX_F, `M${f(CX_F,-9)},25 L${f(CX_F,9)},25 L${f(CX_F,9)},39 L${f(CX_F,0)},40 L${f(CX_F,-9)},39 Z`),
-  zone('left-arm',       CX_F, `M${f(CX_F,-14)},27 L${f(CX_F,-12)},30 L${f(CX_F,-12)},42 L${f(CX_F,-17)},42 L${f(CX_F,-18)},30 Z`),
-  zone('right-arm',      CX_F, `M${f(CX_F,14)},27 L${f(CX_F,18)},30 L${f(CX_F,17)},42 L${f(CX_F,12)},42 L${f(CX_F,12)},30 Z`),
-  zone('left-forearm',   CX_F, `M${f(CX_F,-17)},42 L${f(CX_F,-12)},42 L${f(CX_F,-13)},55 L${f(CX_F,-18)},55 Z`),
-  zone('right-forearm',  CX_F, `M${f(CX_F,12)},42 L${f(CX_F,17)},42 L${f(CX_F,18)},55 L${f(CX_F,13)},55 Z`),
-  zone('left-hand',      CX_F, `M${f(CX_F,-18)},55 L${f(CX_F,-13)},55 L${f(CX_F,-12)},62 L${f(CX_F,-15)},63 L${f(CX_F,-19)},61 Z`),
-  zone('right-hand',     CX_F, `M${f(CX_F,13)},55 L${f(CX_F,18)},55 L${f(CX_F,19)},61 L${f(CX_F,15)},63 L${f(CX_F,12)},62 Z`),
-  zone('abdomen',        CX_F, `M${f(CX_F,-9)},39 L${f(CX_F,9)},39 L${f(CX_F,8)},51 L${f(CX_F,0)},52 L${f(CX_F,-8)},51 Z`),
-  zone('pelvis',         CX_F, `M${f(CX_F,-8)},51 L${f(CX_F,8)},51 L${f(CX_F,7)},57 L${f(CX_F,-7)},57 Z`),
-  zone('left-hip',       CX_F, `M${f(CX_F,-8)},55 L${f(CX_F,-1)},55 L${f(CX_F,-1)},59 L${f(CX_F,-7)},59 Z`),
-  zone('right-hip',      CX_F, `M${f(CX_F,1)},55 L${f(CX_F,8)},55 L${f(CX_F,7)},59 L${f(CX_F,1)},59 Z`),
-  zone('left-thigh',     CX_F, `M${f(CX_F,-7)},57 L${f(CX_F,-1)},57 L${f(CX_F,-2)},73 L${f(CX_F,-7)},73 Z`),
-  zone('right-thigh',    CX_F, `M${f(CX_F,1)},57 L${f(CX_F,7)},57 L${f(CX_F,7)},73 L${f(CX_F,2)},73 Z`),
-  zone('left-knee',      CX_F, `M${f(CX_F,-7)},73 L${f(CX_F,-2)},73 L${f(CX_F,-2)},79 L${f(CX_F,-6)},79 Z`),
-  zone('right-knee',     CX_F, `M${f(CX_F,2)},73 L${f(CX_F,7)},73 L${f(CX_F,6)},79 L${f(CX_F,2)},79 Z`),
-  zone('left-leg',       CX_F, `M${f(CX_F,-6)},79 L${f(CX_F,-2)},79 L${f(CX_F,-2)},91 L${f(CX_F,-5)},91 Z`),
-  zone('right-leg',      CX_F, `M${f(CX_F,2)},79 L${f(CX_F,6)},79 L${f(CX_F,5)},91 L${f(CX_F,2)},91 Z`),
-  zone('left-foot',      CX_F, `M${f(CX_F,-6)},91 L${f(CX_F,-1)},91 L${f(CX_F,0)},97 L${f(CX_F,-7)},97 Z`),
-  zone('right-foot',     CX_F, `M${f(CX_F,1)},91 L${f(CX_F,6)},91 L${f(CX_F,7)},97 L${f(CX_F,0)},97 Z`),
+const COMMON_ZONES: { id: PainLogZone; d: string }[] = [
+  zone('head',           `M${CX-10},8 C${CX-10},2 ${CX+10},2 ${CX+10},8 L${CX+10},16 C${CX+10},20 ${CX-10},20 ${CX-10},16 Z`),
+  zone('neck',           `M${CX-5},20 L${CX+5},20 L${CX+5},25 L${CX-5},25 Z`),
+  zone('left-shoulder',  `M${CX-5},25 L${CX-18},26 L${CX-22},30 L${CX-20},34 L${CX-16},32 L${CX-5},28 Z`),
+  zone('right-shoulder', `M${CX+5},25 L${CX+18},26 L${CX+22},30 L${CX+20},34 L${CX+16},32 L${CX+5},28 Z`),
+  zone('left-arm',       `M${CX-22},30 L${CX-20},34 L${CX-20},46 L${CX-26},46 L${CX-28},34 Z`),
+  zone('right-arm',      `M${CX+22},30 L${CX+28},34 L${CX+26},46 L${CX+20},46 L${CX+20},34 Z`),
+  zone('left-forearm',   `M${CX-26},46 L${CX-20},46 L${CX-21},58 L${CX-28},58 Z`),
+  zone('right-forearm',  `M${CX+20},46 L${CX+26},46 L${CX+28},58 L${CX+21},58 Z`),
+  zone('left-hand',      `M${CX-28},58 L${CX-21},58 L${CX-20},65 L${CX-24},66 L${CX-30},64 Z`),
+  zone('right-hand',     `M${CX+21},58 L${CX+28},58 L${CX+30},64 L${CX+24},66 L${CX+20},65 Z`),
+  zone('pelvis',         `M${CX-14},53 L${CX+14},53 L${CX+12},60 L${CX-12},60 Z`),
+  zone('left-hip',       `M${CX-14},58 L${CX-2},58 L${CX-2},63 L${CX-12},63 Z`),
+  zone('right-hip',      `M${CX+2},58 L${CX+14},58 L${CX+12},63 L${CX+2},63 Z`),
+  zone('left-thigh',     `M${CX-12},60 L${CX-2},60 L${CX-3},76 L${CX-11},76 Z`),
+  zone('right-thigh',    `M${CX+2},60 L${CX+12},60 L${CX+11},76 L${CX+3},76 Z`),
+  zone('left-knee',      `M${CX-11},76 L${CX-3},76 L${CX-3},81 L${CX-10},81 Z`),
+  zone('right-knee',     `M${CX+3},76 L${CX+11},76 L${CX+10},81 L${CX+3},81 Z`),
+  zone('left-leg',       `M${CX-10},81 L${CX-3},81 L${CX-3},92 L${CX-9},92 Z`),
+  zone('right-leg',      `M${CX+3},81 L${CX+10},81 L${CX+9},92 L${CX+3},92 Z`),
+  zone('left-foot',      `M${CX-9},92 L${CX-2},92 L${CX-1},98 L${CX-11},98 Z`),
+  zone('right-foot',     `M${CX+2},92 L${CX+9},92 L${CX+11},98 L${CX+1},98 Z`),
 ];
 
-const DOS_ZONES: { id: PainLogZone; d: string }[] = [
-  zone('head',           CX_D, `M${f(CX_D,-5)},8 C${f(CX_D,-5)},5 ${f(CX_D,5)},5 ${f(CX_D,5)},8 L${f(CX_D,5)},15 C${f(CX_D,5)},18 ${f(CX_D,-5)},18 ${f(CX_D,-5)},15 Z`),
-  zone('neck',           CX_D, `M${f(CX_D,-3)},18 L${f(CX_D,3)},18 L${f(CX_D,3)},22 L${f(CX_D,-3)},22 Z`),
-  zone('left-shoulder',  CX_D, `M${f(CX_D,-3)},22 L${f(CX_D,-11)},23 L${f(CX_D,-14)},27 L${f(CX_D,-12)},30 L${f(CX_D,-9)},28 L${f(CX_D,-3)},25 Z`),
-  zone('right-shoulder', CX_D, `M${f(CX_D,3)},22 L${f(CX_D,11)},23 L${f(CX_D,14)},27 L${f(CX_D,12)},30 L${f(CX_D,9)},28 L${f(CX_D,3)},25 Z`),
-  zone('upper-back',     CX_D, `M${f(CX_D,-9)},25 L${f(CX_D,9)},25 L${f(CX_D,9)},39 L${f(CX_D,0)},40 L${f(CX_D,-9)},39 Z`),
-  zone('left-arm',       CX_D, `M${f(CX_D,-14)},27 L${f(CX_D,-12)},30 L${f(CX_D,-12)},42 L${f(CX_D,-17)},42 L${f(CX_D,-18)},30 Z`),
-  zone('right-arm',      CX_D, `M${f(CX_D,14)},27 L${f(CX_D,18)},30 L${f(CX_D,17)},42 L${f(CX_D,12)},42 L${f(CX_D,12)},30 Z`),
-  zone('left-forearm',   CX_D, `M${f(CX_D,-17)},42 L${f(CX_D,-12)},42 L${f(CX_D,-13)},55 L${f(CX_D,-18)},55 Z`),
-  zone('right-forearm',  CX_D, `M${f(CX_D,12)},42 L${f(CX_D,17)},42 L${f(CX_D,18)},55 L${f(CX_D,13)},55 Z`),
-  zone('left-hand',      CX_D, `M${f(CX_D,-18)},55 L${f(CX_D,-13)},55 L${f(CX_D,-12)},62 L${f(CX_D,-15)},63 L${f(CX_D,-19)},61 Z`),
-  zone('right-hand',     CX_D, `M${f(CX_D,13)},55 L${f(CX_D,18)},55 L${f(CX_D,19)},61 L${f(CX_D,15)},63 L${f(CX_D,12)},62 Z`),
-  zone('lower-back',     CX_D, `M${f(CX_D,-9)},39 L${f(CX_D,9)},39 L${f(CX_D,8)},51 L${f(CX_D,0)},52 L${f(CX_D,-8)},51 Z`),
-  zone('pelvis',         CX_D, `M${f(CX_D,-8)},51 L${f(CX_D,8)},51 L${f(CX_D,7)},57 L${f(CX_D,-7)},57 Z`),
-  zone('left-hip',       CX_D, `M${f(CX_D,-8)},55 L${f(CX_D,-1)},55 L${f(CX_D,-1)},59 L${f(CX_D,-7)},59 Z`),
-  zone('right-hip',      CX_D, `M${f(CX_D,1)},55 L${f(CX_D,8)},55 L${f(CX_D,7)},59 L${f(CX_D,1)},59 Z`),
-  zone('left-thigh',     CX_D, `M${f(CX_D,-7)},57 L${f(CX_D,-1)},57 L${f(CX_D,-2)},73 L${f(CX_D,-7)},73 Z`),
-  zone('right-thigh',    CX_D, `M${f(CX_D,1)},57 L${f(CX_D,7)},57 L${f(CX_D,7)},73 L${f(CX_D,2)},73 Z`),
-  zone('left-knee',      CX_D, `M${f(CX_D,-7)},73 L${f(CX_D,-2)},73 L${f(CX_D,-2)},79 L${f(CX_D,-6)},79 Z`),
-  zone('right-knee',     CX_D, `M${f(CX_D,2)},73 L${f(CX_D,7)},73 L${f(CX_D,6)},79 L${f(CX_D,2)},79 Z`),
-  zone('left-leg',       CX_D, `M${f(CX_D,-6)},79 L${f(CX_D,-2)},79 L${f(CX_D,-2)},91 L${f(CX_D,-5)},91 Z`),
-  zone('right-leg',      CX_D, `M${f(CX_D,2)},79 L${f(CX_D,6)},79 L${f(CX_D,5)},91 L${f(CX_D,2)},91 Z`),
-  zone('left-foot',      CX_D, `M${f(CX_D,-6)},91 L${f(CX_D,-1)},91 L${f(CX_D,0)},97 L${f(CX_D,-7)},97 Z`),
-  zone('right-foot',     CX_D, `M${f(CX_D,1)},91 L${f(CX_D,6)},91 L${f(CX_D,7)},97 L${f(CX_D,0)},97 Z`),
+const FACE_ONLY_ZONES: { id: PainLogZone; d: string }[] = [
+  zone('chest',   `M${CX-16},28 L${CX+16},28 L${CX+16},42 L${CX},43 L${CX-16},42 Z`),
+  zone('abdomen', `M${CX-16},42 L${CX+16},42 L${CX+14},53 L${CX},54 L${CX-14},53 Z`),
+];
+
+const DOS_ONLY_ZONES: { id: PainLogZone; d: string }[] = [
+  zone('upper-back', `M${CX-16},28 L${CX+16},28 L${CX+16},42 L${CX},43 L${CX-16},42 Z`),
+  zone('lower-back', `M${CX-16},42 L${CX+16},42 L${CX+14},53 L${CX},54 L${CX-14},53 Z`),
 ];
 
 export function PainLogBodyMap({
@@ -87,6 +62,12 @@ export function PainLogBodyMap({
   className,
 }: PainLogBodyMapProps) {
   const [hoveredZone, setHoveredZone] = useState<PainLogZone | null>(null);
+  const [view, setView] = useState<PainLogView>('face');
+
+  const zones = [
+    ...COMMON_ZONES,
+    ...(view === 'face' ? FACE_ONLY_ZONES : DOS_ONLY_ZONES),
+  ];
 
   const getFill = (id: PainLogZone) =>
     selectedZone === id ? HIGHLIGHT_FILL : hoveredZone === id ? '#4DA3FF22' : 'transparent';
@@ -97,34 +78,41 @@ export function PainLogBodyMap({
   const getStrokeWidth = (id: PainLogZone) =>
     selectedZone === id ? 0.5 : hoveredZone === id ? 0.4 : 0;
 
-  const renderZones = (zones: { id: PainLogZone; d: string }[]) =>
-    zones.map(({ id, d }, i) => (
-      <path
-        key={`${id}-${i}`}
-        d={d}
-        fill={getFill(id)}
-        stroke={getStroke(id)}
-        strokeWidth={getStrokeWidth(id)}
-        style={{ cursor: 'pointer', transition: 'all 0.15s ease' }}
-        onClick={() => onSelectZone(id)}
-        onMouseEnter={() => setHoveredZone(id)}
-        onMouseLeave={() => setHoveredZone(null)}
-      />
-    ));
-
   return (
     <div className={cn('flex flex-col items-center gap-2', className)}>
-      {/* Labels */}
-      <div className="flex w-full justify-around text-[11px] font-medium text-muted-foreground select-none px-2">
-        <span>Face</span>
-        <span>Dos</span>
+      {/* Toggle Face / Dos */}
+      <div className="flex items-center gap-1 bg-muted rounded-lg p-0.5 select-none">
+        <button
+          type="button"
+          onClick={() => setView('face')}
+          className={cn(
+            'px-4 py-1.5 rounded-md text-xs font-medium transition-all duration-200',
+            view === 'face'
+              ? 'bg-background text-foreground shadow-sm'
+              : 'text-muted-foreground hover:text-foreground'
+          )}
+        >
+          Face
+        </button>
+        <button
+          type="button"
+          onClick={() => setView('dos')}
+          className={cn(
+            'px-4 py-1.5 rounded-md text-xs font-medium transition-all duration-200',
+            view === 'dos'
+              ? 'bg-background text-foreground shadow-sm'
+              : 'text-muted-foreground hover:text-foreground'
+          )}
+        >
+          Dos
+        </button>
       </div>
 
-      {/* Single combined image with SVG overlay */}
-      <div className="relative w-full">
+      {/* Single silhouette with SVG overlay */}
+      <div className="relative w-full max-w-[260px]">
         <img
-          src={bodyCombined}
-          alt="Corps humain face et dos"
+          src={view === 'face' ? bodyFront : bodyBack}
+          alt={view === 'face' ? 'Corps humain face' : 'Corps humain dos'}
           draggable={false}
           className="block w-full pointer-events-none select-none"
         />
@@ -134,8 +122,19 @@ export function PainLogBodyMap({
           className="absolute inset-0 w-full h-full"
           style={{ touchAction: 'manipulation' }}
         >
-          {renderZones(FACE_ZONES)}
-          {renderZones(DOS_ZONES)}
+          {zones.map(({ id, d }, i) => (
+            <path
+              key={`${id}-${i}`}
+              d={d}
+              fill={getFill(id)}
+              stroke={getStroke(id)}
+              strokeWidth={getStrokeWidth(id)}
+              style={{ cursor: 'pointer', transition: 'all 0.15s ease' }}
+              onClick={() => onSelectZone(id)}
+              onMouseEnter={() => setHoveredZone(id)}
+              onMouseLeave={() => setHoveredZone(null)}
+            />
+          ))}
         </svg>
       </div>
 

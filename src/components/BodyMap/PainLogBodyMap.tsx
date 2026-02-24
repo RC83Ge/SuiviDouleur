@@ -32,14 +32,14 @@ const COMMON_ZONES: { id: PainLogZone; d: string }[] = [
   zone('left-shoulder',  `M${CX-3},17 L${CX-14},17 L${CX-16},20 L${CX-14},22 L${CX-3},20 Z`),
   zone('right-shoulder', `M${CX+3},17 L${CX+14},17 L${CX+16},20 L${CX+14},22 L${CX+3},20 Z`),
   // Arms: tight along body sides
-  zone('left-arm',       `M${CX-16},20 L${CX-14},22 L${CX-14},35 L${CX-18},35 L${CX-18},20 Z`),
-  zone('right-arm',      `M${CX+16},20 L${CX+18},20 L${CX+18},35 L${CX+14},35 L${CX+14},22 Z`),
+  zone('left-arm',       `M${CX-14},20 L${CX-12},22 L${CX-12},35 L${CX-15},35 L${CX-15},20 Z`),
+  zone('right-arm',      `M${CX+14},20 L${CX+15},20 L${CX+15},35 L${CX+12},35 L${CX+12},22 Z`),
   // Forearms: slightly narrower, continue along sides
-  zone('left-forearm',   `M${CX-18},35 L${CX-14},35 L${CX-15},48 L${CX-19},48 Z`),
-  zone('right-forearm',  `M${CX+14},35 L${CX+18},35 L${CX+19},48 L${CX+15},48 Z`),
+  zone('left-forearm',   `M${CX-15},35 L${CX-12},35 L${CX-12},48 L${CX-15},48 Z`),
+  zone('right-forearm',  `M${CX+12},35 L${CX+15},35 L${CX+15},48 L${CX+12},48 Z`),
   // Hands: small at bottom of arms
-  zone('left-hand',      `M${CX-19},48 L${CX-15},48 L${CX-14},55 L${CX-20},55 Z`),
-  zone('right-hand',     `M${CX+15},48 L${CX+19},48 L${CX+20},55 L${CX+14},55 Z`),
+  zone('left-hand',      `M${CX-15},48 L${CX-12},48 L${CX-11},55 L${CX-16},55 Z`),
+  zone('right-hand',     `M${CX+12},48 L${CX+15},48 L${CX+16},55 L${CX+11},55 Z`),
   // Pelvis: below abdomen
   zone('pelvis',         `M${CX-12},50 L${CX+12},50 L${CX+11},56 L${CX-11},56 Z`),
   // Hips

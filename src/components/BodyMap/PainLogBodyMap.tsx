@@ -24,37 +24,49 @@ function zone(id: PainLogZone, d: string): { id: PainLogZone; d: string } {
 }
 
 const COMMON_ZONES: { id: PainLogZone; d: string }[] = [
-  zone('head',           `M${CX-10},8 C${CX-10},2 ${CX+10},2 ${CX+10},8 L${CX+10},16 C${CX+10},20 ${CX-10},20 ${CX-10},16 Z`),
-  zone('neck',           `M${CX-5},20 L${CX+5},20 L${CX+5},25 L${CX-5},25 Z`),
-  zone('left-shoulder',  `M${CX-5},25 L${CX-18},26 L${CX-22},30 L${CX-20},34 L${CX-16},32 L${CX-5},28 Z`),
-  zone('right-shoulder', `M${CX+5},25 L${CX+18},26 L${CX+22},30 L${CX+20},34 L${CX+16},32 L${CX+5},28 Z`),
-  zone('left-arm',       `M${CX-22},30 L${CX-20},34 L${CX-20},46 L${CX-26},46 L${CX-28},34 Z`),
-  zone('right-arm',      `M${CX+22},30 L${CX+28},34 L${CX+26},46 L${CX+20},46 L${CX+20},34 Z`),
-  zone('left-forearm',   `M${CX-26},46 L${CX-20},46 L${CX-21},58 L${CX-28},58 Z`),
-  zone('right-forearm',  `M${CX+20},46 L${CX+26},46 L${CX+28},58 L${CX+21},58 Z`),
-  zone('left-hand',      `M${CX-28},58 L${CX-21},58 L${CX-20},65 L${CX-24},66 L${CX-30},64 Z`),
-  zone('right-hand',     `M${CX+21},58 L${CX+28},58 L${CX+30},64 L${CX+24},66 L${CX+20},65 Z`),
-  zone('pelvis',         `M${CX-14},53 L${CX+14},53 L${CX+12},60 L${CX-12},60 Z`),
-  zone('left-hip',       `M${CX-14},58 L${CX-2},58 L${CX-2},63 L${CX-12},63 Z`),
-  zone('right-hip',      `M${CX+2},58 L${CX+14},58 L${CX+12},63 L${CX+2},63 Z`),
-  zone('left-thigh',     `M${CX-12},60 L${CX-2},60 L${CX-3},76 L${CX-11},76 Z`),
-  zone('right-thigh',    `M${CX+2},60 L${CX+12},60 L${CX+11},76 L${CX+3},76 Z`),
-  zone('left-knee',      `M${CX-11},76 L${CX-3},76 L${CX-3},81 L${CX-10},81 Z`),
-  zone('right-knee',     `M${CX+3},76 L${CX+11},76 L${CX+10},81 L${CX+3},81 Z`),
-  zone('left-leg',       `M${CX-10},81 L${CX-3},81 L${CX-3},92 L${CX-9},92 Z`),
-  zone('right-leg',      `M${CX+3},81 L${CX+10},81 L${CX+9},92 L${CX+3},92 Z`),
-  zone('left-foot',      `M${CX-9},92 L${CX-2},92 L${CX-1},98 L${CX-11},98 Z`),
-  zone('right-foot',     `M${CX+2},92 L${CX+9},92 L${CX+11},98 L${CX+1},98 Z`),
+  // Head: oval at top
+  zone('head',           `M${CX-7},5 C${CX-7},1 ${CX+7},1 ${CX+7},5 L${CX+7},10 C${CX+7},13 ${CX-7},13 ${CX-7},10 Z`),
+  // Neck: narrow strip
+  zone('neck',           `M${CX-3},13 L${CX+3},13 L${CX+3},17 L${CX-3},17 Z`),
+  // Shoulders: connect neck to arms
+  zone('left-shoulder',  `M${CX-3},17 L${CX-14},17 L${CX-16},20 L${CX-14},22 L${CX-3},20 Z`),
+  zone('right-shoulder', `M${CX+3},17 L${CX+14},17 L${CX+16},20 L${CX+14},22 L${CX+3},20 Z`),
+  // Arms: tight along body sides
+  zone('left-arm',       `M${CX-16},20 L${CX-14},22 L${CX-14},35 L${CX-18},35 L${CX-18},20 Z`),
+  zone('right-arm',      `M${CX+16},20 L${CX+18},20 L${CX+18},35 L${CX+14},35 L${CX+14},22 Z`),
+  // Forearms: slightly narrower, continue along sides
+  zone('left-forearm',   `M${CX-18},35 L${CX-14},35 L${CX-15},48 L${CX-19},48 Z`),
+  zone('right-forearm',  `M${CX+14},35 L${CX+18},35 L${CX+19},48 L${CX+15},48 Z`),
+  // Hands: small at bottom of arms
+  zone('left-hand',      `M${CX-19},48 L${CX-15},48 L${CX-14},55 L${CX-20},55 Z`),
+  zone('right-hand',     `M${CX+15},48 L${CX+19},48 L${CX+20},55 L${CX+14},55 Z`),
+  // Pelvis: below abdomen
+  zone('pelvis',         `M${CX-12},50 L${CX+12},50 L${CX+11},56 L${CX-11},56 Z`),
+  // Hips
+  zone('left-hip',       `M${CX-12},54 L${CX-1},54 L${CX-1},59 L${CX-11},59 Z`),
+  zone('right-hip',      `M${CX+1},54 L${CX+12},54 L${CX+11},59 L${CX+1},59 Z`),
+  // Thighs
+  zone('left-thigh',     `M${CX-11},59 L${CX-2},59 L${CX-3},74 L${CX-10},74 Z`),
+  zone('right-thigh',    `M${CX+2},59 L${CX+11},59 L${CX+10},74 L${CX+3},74 Z`),
+  // Knees
+  zone('left-knee',      `M${CX-10},74 L${CX-3},74 L${CX-3},79 L${CX-9},79 Z`),
+  zone('right-knee',     `M${CX+3},74 L${CX+10},74 L${CX+9},79 L${CX+3},79 Z`),
+  // Lower legs
+  zone('left-leg',       `M${CX-9},79 L${CX-3},79 L${CX-3},90 L${CX-8},90 Z`),
+  zone('right-leg',      `M${CX+3},79 L${CX+9},79 L${CX+8},90 L${CX+3},90 Z`),
+  // Feet
+  zone('left-foot',      `M${CX-9},90 L${CX-2},90 L${CX-1},97 L${CX-10},97 Z`),
+  zone('right-foot',     `M${CX+2},90 L${CX+9},90 L${CX+10},97 L${CX+1},97 Z`),
 ];
 
 const FACE_ONLY_ZONES: { id: PainLogZone; d: string }[] = [
-  zone('chest',   `M${CX-16},28 L${CX+16},28 L${CX+16},42 L${CX},43 L${CX-16},42 Z`),
-  zone('abdomen', `M${CX-16},42 L${CX+16},42 L${CX+14},53 L${CX},54 L${CX-14},53 Z`),
+  zone('chest',   `M${CX-14},20 L${CX+14},20 L${CX+13},36 L${CX},37 L${CX-13},36 Z`),
+  zone('abdomen', `M${CX-13},36 L${CX+13},36 L${CX+12},50 L${CX},51 L${CX-12},50 Z`),
 ];
 
 const DOS_ONLY_ZONES: { id: PainLogZone; d: string }[] = [
-  zone('upper-back', `M${CX-16},28 L${CX+16},28 L${CX+16},42 L${CX},43 L${CX-16},42 Z`),
-  zone('lower-back', `M${CX-16},42 L${CX+16},42 L${CX+14},53 L${CX},54 L${CX-14},53 Z`),
+  zone('upper-back', `M${CX-14},20 L${CX+14},20 L${CX+13},36 L${CX},37 L${CX-13},36 Z`),
+  zone('lower-back', `M${CX-13},36 L${CX+13},36 L${CX+12},50 L${CX},51 L${CX-12},50 Z`),
 ];
 
 export function PainLogBodyMap({

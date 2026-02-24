@@ -3,6 +3,7 @@ import { BodyZone, BODY_ZONE_LABELS } from '@/types/pain';
 import { cn } from '@/lib/utils';
 import bodyFront from '@/assets/body-front.png';
 import bodyBack from '@/assets/body-back.png';
+import { Eye, EyeOff } from 'lucide-react';
 
 export type PainLogZone = BodyZone;
 export type PainLogView = 'face' | 'dos';
@@ -63,48 +64,88 @@ export function PainLogBodyMap({
 }: PainLogBodyMapProps) {
   const [hoveredZone, setHoveredZone] = useState<PainLogZone | null>(null);
   const [view, setView] = useState<PainLogView>('face');
+  const [debugMode, setDebugMode] = useState(false);
 
   const zones = [
     ...COMMON_ZONES,
     ...(view === 'face' ? FACE_ONLY_ZONES : DOS_ONLY_ZONES),
   ];
 
-  const getFill = (id: PainLogZone) =>
-    selectedZone === id ? HIGHLIGHT_FILL : hoveredZone === id ? '#4DA3FF22' : 'transparent';
+  const DEBUG_COLORS = [
+    '#FF6384', '#FF9F40', '#FFCD56', '#4BC0C0', '#36A2EB',
+    '#9966FF', '#C9CBCF', '#FF6384', '#FF9F40', '#FFCD56',
+    '#4BC0C0', '#36A2EB', '#9966FF', '#C9CBCF', '#FF6384',
+    '#FF9F40', '#FFCD56', '#4BC0C0', '#36A2EB', '#9966FF',
+    '#C9CBCF', '#FF6384', '#FF9F40',
+  ];
 
-  const getStroke = (id: PainLogZone) =>
-    selectedZone === id ? HIGHLIGHT_STROKE : hoveredZone === id ? '#4DA3FF88' : 'transparent';
+  const getFill = (id: PainLogZone, idx: number) => {
+    if (debugMode) return `${DEBUG_COLORS[idx % DEBUG_COLORS.length]}55`;
+    return selectedZone === id ? HIGHLIGHT_FILL : hoveredZone === id ? '#4DA3FF22' : 'transparent';
+  };
 
-  const getStrokeWidth = (id: PainLogZone) =>
-    selectedZone === id ? 0.5 : hoveredZone === id ? 0.4 : 0;
+  const getStroke = (id: PainLogZone, idx: number) => {
+    if (debugMode) return DEBUG_COLORS[idx % DEBUG_COLORS.length];
+    return selectedZone === id ? HIGHLIGHT_STROKE : hoveredZone === id ? '#4DA3FF88' : 'transparent';
+  };
+
+  const getStrokeWidth = (id: PainLogZone) => {
+    if (debugMode) return 0.4;
+    return selectedZone === id ? 0.5 : hoveredZone === id ? 0.4 : 0;
+  };
+
+  // Get center of a path for label positioning
+  const getPathCenter = (d: string) => {
+    const nums = d.match(/[\d.]+/g)?.map(Number) || [];
+    let sumX = 0, sumY = 0, count = 0;
+    for (let i = 0; i < nums.length - 1; i += 2) {
+      sumX += nums[i]; sumY += nums[i + 1]; count++;
+    }
+    return { x: count ? sumX / count : 50, y: count ? sumY / count : 50 };
+  };
 
   return (
     <div className={cn('flex flex-col items-center gap-2', className)}>
-      {/* Toggle Face / Dos */}
-      <div className="flex items-center gap-1 bg-muted rounded-lg p-0.5 select-none">
+      {/* Toggle Face / Dos + Debug */}
+      <div className="flex items-center gap-2">
+        <div className="flex items-center gap-1 bg-muted rounded-lg p-0.5 select-none">
+          <button
+            type="button"
+            onClick={() => setView('face')}
+            className={cn(
+              'px-4 py-1.5 rounded-md text-xs font-medium transition-all duration-200',
+              view === 'face'
+                ? 'bg-background text-foreground shadow-sm'
+                : 'text-muted-foreground hover:text-foreground'
+            )}
+          >
+            Face
+          </button>
+          <button
+            type="button"
+            onClick={() => setView('dos')}
+            className={cn(
+              'px-4 py-1.5 rounded-md text-xs font-medium transition-all duration-200',
+              view === 'dos'
+                ? 'bg-background text-foreground shadow-sm'
+                : 'text-muted-foreground hover:text-foreground'
+            )}
+          >
+            Dos
+          </button>
+        </div>
         <button
           type="button"
-          onClick={() => setView('face')}
+          onClick={() => setDebugMode(!debugMode)}
           className={cn(
-            'px-4 py-1.5 rounded-md text-xs font-medium transition-all duration-200',
-            view === 'face'
-              ? 'bg-background text-foreground shadow-sm'
-              : 'text-muted-foreground hover:text-foreground'
+            'p-1.5 rounded-lg transition-all duration-200 text-xs',
+            debugMode
+              ? 'bg-amber-500/20 text-amber-600 border border-amber-500/30'
+              : 'bg-muted text-muted-foreground hover:bg-muted/80'
           )}
+          title={debugMode ? 'Désactiver debug' : 'Activer debug'}
         >
-          Face
-        </button>
-        <button
-          type="button"
-          onClick={() => setView('dos')}
-          className={cn(
-            'px-4 py-1.5 rounded-md text-xs font-medium transition-all duration-200',
-            view === 'dos'
-              ? 'bg-background text-foreground shadow-sm'
-              : 'text-muted-foreground hover:text-foreground'
-          )}
-        >
-          Dos
+          {debugMode ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
         </button>
       </div>
 
@@ -126,8 +167,8 @@ export function PainLogBodyMap({
             <path
               key={`${id}-${i}`}
               d={d}
-              fill={getFill(id)}
-              stroke={getStroke(id)}
+              fill={getFill(id, i)}
+              stroke={getStroke(id, i)}
               strokeWidth={getStrokeWidth(id)}
               style={{ cursor: 'pointer', transition: 'all 0.15s ease' }}
               onClick={() => onSelectZone(id)}
@@ -135,8 +176,36 @@ export function PainLogBodyMap({
               onMouseLeave={() => setHoveredZone(null)}
             />
           ))}
+          {/* Debug labels */}
+          {debugMode && zones.map(({ id, d }) => {
+            const center = getPathCenter(d);
+            return (
+              <text
+                key={`label-${id}`}
+                x={center.x}
+                y={center.y}
+                textAnchor="middle"
+                dominantBaseline="middle"
+                fill="#333"
+                fontSize="2.5"
+                fontWeight="600"
+                className="pointer-events-none"
+              >
+                {BODY_ZONE_LABELS[id]}
+              </text>
+            );
+          })}
         </svg>
       </div>
+
+      {/* Debug legend */}
+      {debugMode && (
+        <div className="p-2 bg-amber-50 dark:bg-amber-950/30 border border-amber-200 dark:border-amber-800 rounded-lg w-full">
+          <p className="text-xs text-amber-700 dark:text-amber-300 text-center">
+            🔍 Mode debug — Contours des zones visibles
+          </p>
+        </div>
+      )}
 
       {/* Zone sélectionnée */}
       <div className="text-sm text-center min-h-[20px]">

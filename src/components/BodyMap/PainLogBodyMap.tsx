@@ -29,17 +29,17 @@ zone('head', `M${CX - 7},5 C${CX - 7},1 ${CX + 7},1 ${CX + 7},5 L${CX + 7},10 C$
 // Neck: narrow strip
 zone('neck', `M${CX - 3},13 L${CX + 3},13 L${CX + 3},17 L${CX - 3},17 Z`),
 // Shoulders: connect neck to arms
-zone('left-shoulder', `M${CX - 3},17 L${CX - 14},17 L${CX - 16},20 L${CX - 14},22 L${CX - 3},20 Z`),
-zone('right-shoulder', `M${CX + 3},17 L${CX + 14},17 L${CX + 16},20 L${CX + 14},22 L${CX + 3},20 Z`),
+zone('left-shoulder', `M${CX - 3},17 L${CX - 12},17 L${CX - 13},20 L${CX - 12},22 L${CX - 3},20 Z`),
+zone('right-shoulder', `M${CX + 3},17 L${CX + 12},17 L${CX + 13},20 L${CX + 12},22 L${CX + 3},20 Z`),
 // Arms: tight along body sides
-zone('left-arm', `M${CX - 16},20 L${CX - 14},22 L${CX - 14},35 L${CX - 18},35 L${CX - 18},20 Z`),
-zone('right-arm', `M${CX + 16},20 L${CX + 18},20 L${CX + 18},35 L${CX + 14},35 L${CX + 14},22 Z`),
-// Forearms: slightly narrower, continue along sides
-zone('left-forearm', `M${CX - 18},35 L${CX - 14},35 L${CX - 15},48 L${CX - 19},48 Z`),
-zone('right-forearm', `M${CX + 14},35 L${CX + 18},35 L${CX + 19},48 L${CX + 15},48 Z`),
+zone('left-arm', `M${CX - 13},20 L${CX - 11},22 L${CX - 11},35 L${CX - 13},35 Z`),
+zone('right-arm', `M${CX + 11},22 L${CX + 13},20 L${CX + 13},35 L${CX + 11},35 Z`),
+// Forearms: continue along sides
+zone('left-forearm', `M${CX - 13},35 L${CX - 11},35 L${CX - 11},48 L${CX - 13},48 Z`),
+zone('right-forearm', `M${CX + 11},35 L${CX + 13},35 L${CX + 13},48 L${CX + 11},48 Z`),
 // Hands: small at bottom of arms
-zone('left-hand', `M${CX - 19},48 L${CX - 15},48 L${CX - 14},55 L${CX - 20},55 Z`),
-zone('right-hand', `M${CX + 15},48 L${CX + 19},48 L${CX + 20},55 L${CX + 14},55 Z`),
+zone('left-hand', `M${CX - 13},48 L${CX - 11},48 L${CX - 10},54 L${CX - 14},54 Z`),
+zone('right-hand', `M${CX + 11},48 L${CX + 13},48 L${CX + 14},54 L${CX + 10},54 Z`),
 // Pelvis: below abdomen
 zone('pelvis', `M${CX - 12},50 L${CX + 12},50 L${CX + 11},56 L${CX - 11},56 Z`),
 // Hips

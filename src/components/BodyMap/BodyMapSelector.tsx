@@ -1,23 +1,56 @@
-import React from 'react';
-import { BodyZone, BODY_ZONE_LABELS } from '@/types/pain';
+import React, { useState } from 'react';
+import { BodyZone, BODY_ZONE_LABELS, PainType, PainDuration } from '@/types/pain';
 import { PainLogBodyMap } from './PainLogBodyMap';
-import { X, Sparkles } from 'lucide-react';
+import { IntensitySlider } from '@/components/PainForm/IntensitySlider';
+import { PainTypeSelector } from '@/components/PainForm/PainTypeSelector';
+import { DurationSelector } from '@/components/PainForm/DurationSelector';
+import { X, Sparkles, Check } from 'lucide-react';
 import { cn } from '@/lib/utils';
+import {
+  Drawer,
+  DrawerContent,
+  DrawerHeader,
+  DrawerTitle,
+  DrawerFooter,
+  DrawerClose,
+} from '@/components/ui/drawer';
+import { Button } from '@/components/ui/button';
 
 interface BodyMapSelectorProps {
   selectedZones: BodyZone[];
   onZonesChange: (zones: BodyZone[]) => void;
+  intensity: number;
+  onIntensityChange: (v: number) => void;
+  painTypes: PainType[];
+  onPainTypesChange: (t: PainType[]) => void;
+  duration: PainDuration;
+  onDurationChange: (d: PainDuration) => void;
+  otherDescription?: string;
+  onOtherDescriptionChange?: (v: string) => void;
 }
 
 export function BodyMapSelector({
   selectedZones,
   onZonesChange,
+  intensity,
+  onIntensityChange,
+  painTypes,
+  onPainTypesChange,
+  duration,
+  onDurationChange,
+  otherDescription = '',
+  onOtherDescriptionChange,
 }: BodyMapSelectorProps) {
+  const [drawerOpen, setDrawerOpen] = useState(false);
+  const [lastClickedZone, setLastClickedZone] = useState<BodyZone | null>(null);
+
   const handleZoneClick = (zone: BodyZone) => {
     if (selectedZones.includes(zone)) {
       onZonesChange(selectedZones.filter(z => z !== zone));
     } else {
       onZonesChange([...selectedZones, zone]);
+      setLastClickedZone(zone);
+      setDrawerOpen(true);
     }
   };
 
@@ -95,6 +128,38 @@ export function BodyMapSelector({
           )}
         </div>
       </div>
+
+      {/* Mini form drawer on zone click */}
+      <Drawer open={drawerOpen} onOpenChange={setDrawerOpen}>
+        <DrawerContent>
+          <DrawerHeader className="pb-2">
+            <DrawerTitle className="text-base">
+              {lastClickedZone ? BODY_ZONE_LABELS[lastClickedZone] : 'Détails de la douleur'}
+            </DrawerTitle>
+            <p className="text-xs text-muted-foreground">
+              Ces valeurs s'appliquent à toutes les zones sélectionnées
+            </p>
+          </DrawerHeader>
+          <div className="px-4 space-y-5 pb-2 max-h-[60vh] overflow-y-auto">
+            <IntensitySlider value={intensity} onChange={onIntensityChange} />
+            <PainTypeSelector
+              selectedTypes={painTypes}
+              onChange={onPainTypesChange}
+              otherDescription={otherDescription}
+              onOtherDescriptionChange={onOtherDescriptionChange}
+            />
+            <DurationSelector value={duration} onChange={onDurationChange} />
+          </div>
+          <DrawerFooter className="pt-2">
+            <DrawerClose asChild>
+              <Button className="w-full gap-2">
+                <Check className="w-4 h-4" />
+                Confirmer
+              </Button>
+            </DrawerClose>
+          </DrawerFooter>
+        </DrawerContent>
+      </Drawer>
     </div>
   );
 }

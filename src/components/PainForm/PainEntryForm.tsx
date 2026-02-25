@@ -85,6 +85,14 @@ export function PainEntryForm({ onSave, onCancel }: PainEntryFormProps) {
         <BodyMapSelector
           selectedZones={selectedZones}
           onZonesChange={setSelectedZones}
+          intensity={intensity}
+          onIntensityChange={setIntensity}
+          painTypes={painTypes}
+          onPainTypesChange={setPainTypes}
+          duration={duration}
+          onDurationChange={setDuration}
+          otherDescription={otherDescription}
+          onOtherDescriptionChange={setOtherDescription}
         />
       </div>
 

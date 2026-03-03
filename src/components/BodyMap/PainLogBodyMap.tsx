@@ -35,8 +35,8 @@ zone('right-shoulder', `M${CX + 3},17 L${CX + 15},17 L${CX + 16},20 L${CX + 15},
 zone('left-arm', `M${CX - 23},20 L${CX - 20},22 L${CX - 19},35 L${CX - 22},35 Z`),
 zone('right-arm', `M${CX + 20},22 L${CX + 23},20 L${CX + 22},35 L${CX + 19},35 Z`),
 // Forearms: continue outward, slight taper
-zone('left-forearm', `M${CX - 24},35 L${CX - 21},35 L${CX - 20},48 L${CX - 23},48 Z`),
-zone('right-forearm', `M${CX + 19},35 L${CX + 22},35 L${CX + 21},48 L${CX + 18},48 Z`),
+zone('left-forearm', `M${CX - 25},35 L${CX - 22},35 L${CX - 21},48 L${CX - 24},48 Z`),
+zone('right-forearm', `M${CX + 22},35 L${CX + 25},35 L${CX + 24},48 L${CX + 21},48 Z`),
 // Hands: centered on palms, below forearms, not overlapping pelvis
 zone('left-hand', `M${CX - 16},48 L${CX - 13},48 L${CX - 12},54 L${CX - 17},54 Z`),
 zone('right-hand', `M${CX + 13},48 L${CX + 16},48 L${CX + 17},54 L${CX + 12},54 Z`),

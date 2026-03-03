@@ -32,8 +32,8 @@ zone('neck', `M${CX - 3},13 L${CX + 3},13 L${CX + 3},17 L${CX - 3},17 Z`),
 zone('left-shoulder', `M${CX - 3},17 L${CX - 15},17 L${CX - 16},20 L${CX - 15},22 L${CX - 3},20 Z`),
 zone('right-shoulder', `M${CX + 3},17 L${CX + 15},17 L${CX + 16},20 L${CX + 15},22 L${CX + 3},20 Z`),
 // Arms: pushed outward to hug the silhouette arms
-zone('left-arm', `M${CX - 18},20 L${CX - 15},22 L${CX - 14},35 L${CX - 17},35 Z`),
-zone('right-arm', `M${CX + 15},22 L${CX + 18},20 L${CX + 17},35 L${CX + 14},35 Z`),
+zone('left-arm', `M${CX - 23},20 L${CX - 20},22 L${CX - 19},35 L${CX - 22},35 Z`),
+zone('right-arm', `M${CX + 20},22 L${CX + 23},20 L${CX + 22},35 L${CX + 19},35 Z`),
 // Forearms: continue outward, slight taper
 zone('left-forearm', `M${CX - 17},35 L${CX - 14},35 L${CX - 13},48 L${CX - 16},48 Z`),
 zone('right-forearm', `M${CX + 14},35 L${CX + 17},35 L${CX + 16},48 L${CX + 13},48 Z`),

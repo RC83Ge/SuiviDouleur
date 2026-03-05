@@ -4,6 +4,7 @@ import { cn } from '@/lib/utils';
 import bodyFront from '@/assets/body-front.png';
 import bodyBack from '@/assets/body-back.png';
 import { Eye, EyeOff } from 'lucide-react';
+import { COMMON_ELLIPSES, FACE_ELLIPSES, DOS_ELLIPSES, EllipseZone } from './bodyZoneEllipses';
 
 export type PainLogZone = BodyZone;
 export type PainLogView = 'face' | 'dos';
@@ -16,57 +17,6 @@ interface PainLogBodyMapProps {
 
 const HIGHLIGHT_FILL = '#4DA3FF55';
 const HIGHLIGHT_STROKE = '#4DA3FF';
-
-const CX = 50;
-
-function zone(id: PainLogZone, d: string): {id: PainLogZone;d: string;} {
-  return { id, d };
-}
-
-const COMMON_ZONES: {id: PainLogZone;d: string;}[] = [
-// Head: oval at top
-zone('head', `M${CX - 7},5 C${CX - 7},1 ${CX + 7},1 ${CX + 7},5 L${CX + 7},10 C${CX + 7},13 ${CX - 7},13 ${CX - 7},10 Z`),
-// Neck: narrow strip
-zone('neck', `M${CX - 3},13 L${CX + 3},13 L${CX + 3},17 L${CX - 3},17 Z`),
-// Shoulders: connect neck to arms — wider to reach arm start
-zone('left-shoulder', `M${CX - 3},17 L${CX - 15},17 L${CX - 16},20 L${CX - 15},22 L${CX - 3},20 Z`),
-zone('right-shoulder', `M${CX + 3},17 L${CX + 15},17 L${CX + 16},20 L${CX + 15},22 L${CX + 3},20 Z`),
-// Arms: pushed outward to hug the silhouette arms
-zone('left-arm', `M${CX - 23},20 L${CX - 20},22 L${CX - 19},35 L${CX - 22},35 Z`),
-zone('right-arm', `M${CX + 20},22 L${CX + 23},20 L${CX + 22},35 L${CX + 19},35 Z`),
-// Forearms: continue outward, slight taper
-zone('left-forearm', `M${CX - 25},35 L${CX - 22},35 L${CX - 21},48 L${CX - 24},48 Z`),
-zone('right-forearm', `M${CX + 22},35 L${CX + 25},35 L${CX + 24},48 L${CX + 21},48 Z`),
-// Hands: centered on palms, below forearms, not overlapping pelvis
-zone('left-hand', `M${CX - 24},48 L${CX - 21},48 L${CX - 20},54 L${CX - 25},54 Z`),
-zone('right-hand', `M${CX + 21},48 L${CX + 24},48 L${CX + 25},54 L${CX + 20},54 Z`),
-// Pelvis: below abdomen — narrower to avoid hands
-zone('pelvis', `M${CX - 11},50 L${CX + 11},50 L${CX + 10},56 L${CX - 10},56 Z`),
-// Hips
-zone('left-hip', `M${CX - 11},54 L${CX - 1},54 L${CX - 1},59 L${CX - 10},59 Z`),
-zone('right-hip', `M${CX + 1},54 L${CX + 11},54 L${CX + 10},59 L${CX + 1},59 Z`),
-// Thighs
-zone('left-thigh', `M${CX - 10},59 L${CX - 2},59 L${CX - 3},74 L${CX - 9},74 Z`),
-zone('right-thigh', `M${CX + 2},59 L${CX + 10},59 L${CX + 9},74 L${CX + 3},74 Z`),
-// Knees
-zone('left-knee', `M${CX - 9},74 L${CX - 3},74 L${CX - 3},79 L${CX - 8},79 Z`),
-zone('right-knee', `M${CX + 3},74 L${CX + 9},74 L${CX + 8},79 L${CX + 3},79 Z`),
-// Lower legs
-zone('left-leg', `M${CX - 8},79 L${CX - 3},79 L${CX - 3},90 L${CX - 7},90 Z`),
-zone('right-leg', `M${CX + 3},79 L${CX + 8},79 L${CX + 7},90 L${CX + 3},90 Z`),
-// Feet
-zone('left-foot', `M${CX - 8},90 L${CX - 2},90 L${CX - 1},97 L${CX - 9},97 Z`),
-zone('right-foot', `M${CX + 2},90 L${CX + 8},90 L${CX + 9},97 L${CX + 1},97 Z`)];
-
-
-const FACE_ONLY_ZONES: {id: PainLogZone;d: string;}[] = [
-zone('chest', `M${CX - 14},20 L${CX + 14},20 L${CX + 13},36 L${CX},37 L${CX - 13},36 Z`),
-zone('abdomen', `M${CX - 13},36 L${CX + 13},36 L${CX + 12},50 L${CX},51 L${CX - 12},50 Z`)];
-
-
-const DOS_ONLY_ZONES: {id: PainLogZone;d: string;}[] = [
-zone('upper-back', `M${CX - 14},20 L${CX + 14},20 L${CX + 13},36 L${CX},37 L${CX - 13},36 Z`),
-zone('lower-back', `M${CX - 13},36 L${CX + 13},36 L${CX + 12},50 L${CX},51 L${CX - 12},50 Z`)];
 
 
 export function PainLogBodyMap({

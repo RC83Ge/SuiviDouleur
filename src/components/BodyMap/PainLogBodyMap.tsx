@@ -115,13 +115,13 @@ export function PainLogBodyMap({
           className="absolute inset-0 w-full h-full mx-px px-0 pr-px pt-0 mt-0 mb-[6px] rounded-3xl opacity-100 shadow-2xl"
           style={{ touchAction: 'manipulation' }}>
 
-          {zones.map(({ id, d }, i) => {
-            const center = getPathCenter(d);
-            const bounds = getPathBounds(d);
-            return (
-              <path
+          {zones.map(({ id, cx, cy, rx, ry }, i) => (
+              <ellipse
                 key={`${id}-${i}`}
-                d={d}
+                cx={cx}
+                cy={cy}
+                rx={rx}
+                ry={ry}
                 fill={getFill(id, i)}
                 stroke={getStroke(id, i)}
                 strokeWidth={getStrokeWidth(id)}
@@ -129,29 +129,23 @@ export function PainLogBodyMap({
                 onClick={() => {
                   onSelectZone(id);
                   if (debugMode) {
-                    console.log(`[Zone] ${BODY_ZONE_LABELS[id]} (${id})`, {
-                      center: { x: center.x.toFixed(1), y: center.y.toFixed(1) },
-                      bounds: { x: bounds.minX.toFixed(1), y: bounds.minY.toFixed(1), w: (bounds.maxX - bounds.minX).toFixed(1), h: (bounds.maxY - bounds.minY).toFixed(1) },
-                    });
+                    console.log(`[Zone] ${BODY_ZONE_LABELS[id]} (${id})`, { cx, cy, rx, ry });
                   }
                 }}
                 onMouseEnter={() => setHoveredZone(id)}
                 onMouseLeave={() => setHoveredZone(null)}
               >
                 {debugMode && (
-                  <title>{`${BODY_ZONE_LABELS[id]}\nX:${center.x.toFixed(1)} Y:${center.y.toFixed(1)}\nW:${(bounds.maxX - bounds.minX).toFixed(1)} H:${(bounds.maxY - bounds.minY).toFixed(1)}`}</title>
+                  <title>{`${BODY_ZONE_LABELS[id]}\nCX:${cx} CY:${cy}\nRX:${rx} RY:${ry}`}</title>
                 )}
-              </path>
-            );
-          })}
+              </ellipse>
+            ))}
           {/* Debug labels */}
-          {debugMode && zones.map(({ id, d }) => {
-            const center = getPathCenter(d);
-            return (
+          {debugMode && zones.map(({ id, cx, cy }) => (
               <text
                 key={`label-${id}`}
-                x={center.x}
-                y={center.y}
+                x={cx}
+                y={cy}
                 textAnchor="middle"
                 dominantBaseline="middle"
                 fill="#333"
@@ -160,8 +154,7 @@ export function PainLogBodyMap({
                 className="pointer-events-none">
                 {BODY_ZONE_LABELS[id]}
               </text>
-            );
-          })}
+            ))}
         </svg>
       </div>
 

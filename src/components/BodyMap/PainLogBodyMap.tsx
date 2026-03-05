@@ -38,8 +38,8 @@ zone('right-arm', `M${CX + 20},22 L${CX + 23},20 L${CX + 22},35 L${CX + 19},35 Z
 zone('left-forearm', `M${CX - 25},35 L${CX - 22},35 L${CX - 21},48 L${CX - 24},48 Z`),
 zone('right-forearm', `M${CX + 22},35 L${CX + 25},35 L${CX + 24},48 L${CX + 21},48 Z`),
 // Hands: centered on palms, below forearms, not overlapping pelvis
-zone('left-hand', `M${CX - 24},48 L${CX - 21},48 L${CX - 20},54 L${CX - 25},54 Z`),
-zone('right-hand', `M${CX + 21},48 L${CX + 24},48 L${CX + 25},54 L${CX + 20},54 Z`),
+zone('left-hand', `M${CX - 32},48 L${CX - 29},48 L${CX - 28},54 L${CX - 33},54 Z`),
+zone('right-hand', `M${CX + 29},48 L${CX + 32},48 L${CX + 33},54 L${CX + 28},54 Z`),
 // Pelvis: below abdomen — narrower to avoid hands
 zone('pelvis', `M${CX - 11},50 L${CX + 11},50 L${CX + 10},56 L${CX - 10},56 Z`),
 // Hips

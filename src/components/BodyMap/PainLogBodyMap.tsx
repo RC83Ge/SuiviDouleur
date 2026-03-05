@@ -28,9 +28,9 @@ export function PainLogBodyMap({
   const [view, setView] = useState<PainLogView>('face');
   const [debugMode, setDebugMode] = useState(false);
 
-  const zones = [
-  ...COMMON_ZONES,
-  ...(view === 'face' ? FACE_ONLY_ZONES : DOS_ONLY_ZONES)];
+  const zones: EllipseZone[] = [
+  ...COMMON_ELLIPSES,
+  ...(view === 'face' ? FACE_ELLIPSES : DOS_ELLIPSES)];
 
 
   const DEBUG_COLORS = [
@@ -54,27 +54,6 @@ export function PainLogBodyMap({
   const getStrokeWidth = (id: PainLogZone) => {
     if (debugMode) return 0.4;
     return selectedZone === id ? 0.5 : hoveredZone === id ? 0.4 : 0;
-  };
-
-  // Get center of a path for label positioning
-  const getPathCenter = (d: string) => {
-    const nums = d.match(/[\d.]+/g)?.map(Number) || [];
-    let sumX = 0,sumY = 0,count = 0;
-    for (let i = 0; i < nums.length - 1; i += 2) {
-      sumX += nums[i];sumY += nums[i + 1];count++;
-    }
-    return { x: count ? sumX / count : 50, y: count ? sumY / count : 50 };
-  };
-
-  // Get bounding box of a path
-  const getPathBounds = (d: string) => {
-    const nums = d.match(/[\d.]+/g)?.map(Number) || [];
-    let minX = Infinity, minY = Infinity, maxX = -Infinity, maxY = -Infinity;
-    for (let i = 0; i < nums.length - 1; i += 2) {
-      minX = Math.min(minX, nums[i]); maxX = Math.max(maxX, nums[i]);
-      minY = Math.min(minY, nums[i + 1]); maxY = Math.max(maxY, nums[i + 1]);
-    }
-    return { minX, minY, maxX, maxY };
   };
 
   return (

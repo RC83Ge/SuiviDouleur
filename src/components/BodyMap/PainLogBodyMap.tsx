@@ -73,19 +73,6 @@ export function PainLogBodyMap({
             Dos
           </button>
         </div>
-        <button
-          type="button"
-          onClick={() => setDebugMode(!debugMode)}
-          className={cn(
-            'p-1.5 rounded-lg transition-all duration-200 text-xs',
-            debugMode ?
-            'bg-amber-500/20 text-amber-600 border border-amber-500/30' :
-            'bg-muted text-muted-foreground hover:bg-muted/80'
-          )}
-          title={debugMode ? 'Désactiver debug' : 'Activer debug'}>
-
-          {debugMode ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
-        </button>
       </div>
 
       {/* Single silhouette with SVG overlay */}

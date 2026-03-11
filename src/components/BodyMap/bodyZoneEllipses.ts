@@ -43,7 +43,7 @@ export const COMMON_ELLIPSES: EllipseZone[] = [
   { id: 'right-leg', cx: CX + 6.9, cy: 84.5, rx: 2.5, ry: 5.5 },
   // Feet
   { id: 'left-foot', cx: CX - 6.4, cy: 93.5, rx: 3.5, ry: 3.5 },
-  { id: 'right-foot', cx: CX + 4.5, cy: 93.5, rx: 3.5, ry: 3.5 },
+  { id: 'right-foot', cx: CX + 6.4, cy: 93.5, rx: 3.5, ry: 3.5 },
 ];
 
 export const FACE_ELLIPSES: EllipseZone[] = [

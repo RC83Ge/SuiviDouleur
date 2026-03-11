@@ -17,162 +17,162 @@ const ellipse = (centerX: number, centerY: number, radiusX: number, radiusY: num
 };
 
 // Zones définies avec des ellipses simples (cx, cy, rx, ry)
-// Calibrées pour image 608x1080 - silhouette bleue
+// Calibrées pour image 608x1080
 export const bodyZonePaths: ZonePathData[] = [
-  // ===== TÊTE =====
+  // ===== TÊTE - Centrée en haut =====
   {
     zone: 'head',
-    path: ellipse(cx, 75, 40, 50),
+    path: ellipse(cx, 65, 38, 48),
     views: ['front', 'back'],
   },
 
-  // ===== COU =====
+  // ===== COU - Juste sous la tête =====
   {
     zone: 'neck',
-    path: ellipse(cx, 148, 18, 22),
+    path: ellipse(cx, 138, 16, 20),
     views: ['front', 'back'],
   },
 
-  // ===== ÉPAULES =====
+  // ===== ÉPAULES - Collées au torse =====
   {
     zone: 'left-shoulder',
-    path: ellipse(cx - 72, 190, 30, 22),
+    path: ellipse(cx - 48, 175, 22, 22),
     views: ['front', 'back'],
   },
   {
     zone: 'right-shoulder',
-    path: ellipse(cx + 72, 190, 30, 22),
+    path: ellipse(cx + 48, 175, 22, 22),
     views: ['front', 'back'],
   },
 
   // ===== THORAX / POITRINE =====
   {
     zone: 'chest',
-    path: ellipse(cx, 245, 55, 55),
+    path: ellipse(cx, 230, 42, 50),
     views: ['front'],
   },
 
   // ===== HAUT DU DOS =====
   {
     zone: 'upper-back',
-    path: ellipse(cx, 255, 55, 60),
+    path: ellipse(cx, 245, 42, 60),
     views: ['back'],
   },
 
-  // ===== BRAS SUPÉRIEURS =====
+  // ===== BRAS SUPÉRIEURS - Proches du corps =====
   {
     zone: 'left-arm',
-    path: ellipse(cx - 105, 290, 16, 55),
+    path: ellipse(cx - 54, 270, 11, 48),
     views: ['front', 'back'],
   },
   {
     zone: 'right-arm',
-    path: ellipse(cx + 105, 290, 16, 55),
+    path: ellipse(cx + 54, 270, 11, 48),
     views: ['front', 'back'],
   },
 
-  // ===== AVANT-BRAS =====
+  // ===== AVANT-BRAS - Dans le prolongement =====
   {
     zone: 'left-forearm',
-    path: ellipse(cx - 115, 410, 14, 50),
+    path: ellipse(cx - 56, 395, 9, 48),
     views: ['front', 'back'],
   },
   {
     zone: 'right-forearm',
-    path: ellipse(cx + 115, 410, 14, 50),
+    path: ellipse(cx + 56, 395, 9, 48),
     views: ['front', 'back'],
   },
 
-  // ===== MAINS =====
+  // ===== MAINS - Au bout des avant-bras =====
   {
     zone: 'left-hand',
-    path: ellipse(cx - 120, 500, 16, 30),
+    path: ellipse(cx - 58, 495, 9, 28),
     views: ['front', 'back'],
   },
   {
     zone: 'right-hand',
-    path: ellipse(cx + 120, 500, 16, 30),
+    path: ellipse(cx + 58, 495, 9, 28),
     views: ['front', 'back'],
   },
 
   // ===== ABDOMEN =====
   {
     zone: 'abdomen',
-    path: ellipse(cx, 365, 48, 55),
+    path: ellipse(cx, 345, 38, 50),
     views: ['front'],
   },
 
   // ===== BAS DU DOS =====
   {
     zone: 'lower-back',
-    path: ellipse(cx, 385, 48, 55),
+    path: ellipse(cx, 380, 38, 55),
     views: ['back'],
   },
 
   // ===== BASSIN =====
   {
     zone: 'pelvis',
-    path: ellipse(cx, 470, 55, 40),
+    path: ellipse(cx, 460, 42, 40),
     views: ['front'],
   },
 
-  // ===== HANCHES =====
+  // ===== HANCHES - Plus proches du centre =====
   {
     zone: 'left-hip',
-    path: ellipse(cx - 55, 500, 22, 30),
+    path: ellipse(cx - 42, 510, 18, 30),
     views: ['front', 'back'],
   },
   {
     zone: 'right-hip',
-    path: ellipse(cx + 55, 500, 22, 30),
+    path: ellipse(cx + 42, 510, 18, 30),
     views: ['front', 'back'],
   },
 
   // ===== CUISSES =====
   {
     zone: 'left-thigh',
-    path: ellipse(cx - 48, 620, 28, 80),
+    path: ellipse(cx - 34, 630, 22, 80),
     views: ['front', 'back'],
   },
   {
     zone: 'right-thigh',
-    path: ellipse(cx + 48, 620, 28, 80),
+    path: ellipse(cx + 34, 630, 22, 80),
     views: ['front', 'back'],
   },
 
   // ===== GENOUX =====
   {
     zone: 'left-knee',
-    path: ellipse(cx - 42, 745, 20, 30),
+    path: ellipse(cx - 30, 770, 16, 32),
     views: ['front', 'back'],
   },
   {
     zone: 'right-knee',
-    path: ellipse(cx + 42, 745, 20, 30),
+    path: ellipse(cx + 30, 770, 16, 32),
     views: ['front', 'back'],
   },
 
   // ===== MOLLETS =====
   {
     zone: 'left-leg',
-    path: ellipse(cx - 38, 860, 18, 65),
+    path: ellipse(cx - 26, 880, 14, 65),
     views: ['front', 'back'],
   },
   {
     zone: 'right-leg',
-    path: ellipse(cx + 38, 860, 18, 65),
+    path: ellipse(cx + 26, 880, 14, 65),
     views: ['front', 'back'],
   },
 
   // ===== PIEDS =====
   {
     zone: 'left-foot',
-    path: ellipse(cx - 35, 985, 22, 35),
+    path: ellipse(cx - 24, 1010, 16, 32),
     views: ['front', 'back'],
   },
   {
     zone: 'right-foot',
-    path: ellipse(cx + 35, 985, 22, 35),
+    path: ellipse(cx + 24, 1010, 16, 32),
     views: ['front', 'back'],
   },
 ];

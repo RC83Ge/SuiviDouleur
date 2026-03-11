@@ -96,50 +96,17 @@ export function PainLogBodyMap({
                 cy={cy}
                 rx={rx}
                 ry={ry}
-                fill={getFill(id, i)}
-                stroke={getStroke(id, i)}
+                fill={getFill(id)}
+                stroke={getStroke(id)}
                 strokeWidth={getStrokeWidth(id)}
                 style={{ cursor: 'pointer', transition: 'all 0.15s ease' }}
-                onClick={() => {
-                  onSelectZone(id);
-                  if (debugMode) {
-                    console.log(`[Zone] ${BODY_ZONE_LABELS[id]} (${id})`, { cx, cy, rx, ry });
-                  }
-                }}
+                onClick={() => onSelectZone(id)}
                 onMouseEnter={() => setHoveredZone(id)}
                 onMouseLeave={() => setHoveredZone(null)}
-              >
-                {debugMode && (
-                  <title>{`${BODY_ZONE_LABELS[id]}\nCX:${cx} CY:${cy}\nRX:${rx} RY:${ry}`}</title>
-                )}
-              </ellipse>
-            ))}
-          {/* Debug labels */}
-          {debugMode && zones.map(({ id, cx, cy }) => (
-              <text
-                key={`label-${id}`}
-                x={cx}
-                y={cy}
-                textAnchor="middle"
-                dominantBaseline="middle"
-                fill="#333"
-                fontSize="2.2"
-                fontWeight="600"
-                className="pointer-events-none">
-                {BODY_ZONE_LABELS[id]}
-              </text>
+              />
             ))}
         </svg>
       </div>
-
-      {/* Debug legend */}
-      {debugMode &&
-      <div className="p-2 bg-amber-50 dark:bg-amber-950/30 border border-amber-200 dark:border-amber-800 rounded-lg w-full">
-          <p className="text-xs text-amber-700 dark:text-amber-300 text-center">
-            🔍 Mode debug — Contours des zones visibles
-          </p>
-        </div>
-      }
 
       {/* Zone sélectionnée */}
       <div className="text-sm text-center min-h-[20px]">

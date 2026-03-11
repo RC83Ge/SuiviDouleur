@@ -31,16 +31,16 @@ export const COMMON_ELLIPSES: EllipseZone[] = [
   { id: 'pelvis', cx: CX, cy: 53, rx: 11, ry: 3 },
   // Hips
   { id: 'left-hip', cx: CX - 7.4, cy: 56.5, rx: 5, ry: 2.5 },
-  { id: 'right-hip', cx: CX + 5.5, cy: 56.5, rx: 5, ry: 2.5 },
+  { id: 'right-hip', cx: CX + 7.4, cy: 56.5, rx: 5, ry: 2.5 },
   // Thighs
   { id: 'left-thigh', cx: CX - 7.9, cy: 66.5, rx: 4, ry: 7.5 },
-  { id: 'right-thigh', cx: CX + 6, cy: 66.5, rx: 4, ry: 7.5 },
+  { id: 'right-thigh', cx: CX + 7.9, cy: 66.5, rx: 4, ry: 7.5 },
   // Knees
   { id: 'left-knee', cx: CX - 7.4, cy: 76.5, rx: 3, ry: 2.5 },
-  { id: 'right-knee', cx: CX + 5.5, cy: 76.5, rx: 3, ry: 2.5 },
+  { id: 'right-knee', cx: CX + 7.4, cy: 76.5, rx: 3, ry: 2.5 },
   // Lower legs
   { id: 'left-leg', cx: CX - 6.9, cy: 84.5, rx: 2.5, ry: 5.5 },
-  { id: 'right-leg', cx: CX + 5, cy: 84.5, rx: 2.5, ry: 5.5 },
+  { id: 'right-leg', cx: CX + 6.9, cy: 84.5, rx: 2.5, ry: 5.5 },
   // Feet
   { id: 'left-foot', cx: CX - 6.4, cy: 93.5, rx: 3.5, ry: 3.5 },
   { id: 'right-foot', cx: CX + 4.5, cy: 93.5, rx: 3.5, ry: 3.5 },

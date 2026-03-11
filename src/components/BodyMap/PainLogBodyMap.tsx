@@ -3,7 +3,6 @@ import { BodyZone, BODY_ZONE_LABELS } from '@/types/pain';
 import { cn } from '@/lib/utils';
 import bodyFront from '@/assets/body-front.png';
 import bodyBack from '@/assets/body-back.png';
-import { Eye, EyeOff } from 'lucide-react';
 import { COMMON_ELLIPSES, FACE_ELLIPSES, DOS_ELLIPSES, EllipseZone } from './bodyZoneEllipses';
 
 export type PainLogZone = BodyZone;

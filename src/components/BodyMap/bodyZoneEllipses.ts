@@ -25,8 +25,8 @@ export const COMMON_ELLIPSES: EllipseZone[] = [
   { id: 'left-forearm', cx: CX - 23, cy: 41.5, rx: 2, ry: 6.5 },
   { id: 'right-forearm', cx: CX + 23, cy: 41.5, rx: 2, ry: 6.5 },
   // Hands
-  { id: 'left-hand', cx: CX - 26.7, cy: 51, rx: 2.5, ry: 3 },
-  { id: 'right-hand', cx: CX + 26.7, cy: 51, rx: 2.5, ry: 3 },
+  { id: 'left-hand', cx: CX - 28.2, cy: 51, rx: 2.5, ry: 3 },
+  { id: 'right-hand', cx: CX + 28.2, cy: 51, rx: 2.5, ry: 3 },
   // Pelvis
   { id: 'pelvis', cx: CX, cy: 53, rx: 11, ry: 3 },
   // Hips

@@ -25,33 +25,21 @@ export function PainLogBodyMap({
 }: PainLogBodyMapProps) {
   const [hoveredZone, setHoveredZone] = useState<PainLogZone | null>(null);
   const [view, setView] = useState<PainLogView>('face');
-  const [debugMode] = useState(false);
 
   const zones: EllipseZone[] = [
-  ...COMMON_ELLIPSES,
-  ...(view === 'face' ? FACE_ELLIPSES : DOS_ELLIPSES)];
+    ...COMMON_ELLIPSES,
+    ...(view === 'face' ? FACE_ELLIPSES : DOS_ELLIPSES)
+  ];
 
-
-  const DEBUG_COLORS = [
-  '#FF6384', '#FF9F40', '#FFCD56', '#4BC0C0', '#36A2EB',
-  '#9966FF', '#C9CBCF', '#FF6384', '#FF9F40', '#FFCD56',
-  '#4BC0C0', '#36A2EB', '#9966FF', '#C9CBCF', '#FF6384',
-  '#FF9F40', '#FFCD56', '#4BC0C0', '#36A2EB', '#9966FF',
-  '#C9CBCF', '#FF6384', '#FF9F40'];
-
-
-  const getFill = (id: PainLogZone, idx: number) => {
-    if (debugMode) return `${DEBUG_COLORS[idx % DEBUG_COLORS.length]}55`;
+  const getFill = (id: PainLogZone) => {
     return selectedZone === id ? HIGHLIGHT_FILL : hoveredZone === id ? '#4DA3FF22' : 'transparent';
   };
 
-  const getStroke = (id: PainLogZone, idx: number) => {
-    if (debugMode) return DEBUG_COLORS[idx % DEBUG_COLORS.length];
+  const getStroke = (id: PainLogZone) => {
     return selectedZone === id ? HIGHLIGHT_STROKE : hoveredZone === id ? '#4DA3FF88' : 'transparent';
   };
 
   const getStrokeWidth = (id: PainLogZone) => {
-    if (debugMode) return 0.4;
     return selectedZone === id ? 0.5 : hoveredZone === id ? 0.4 : 0;
   };
 

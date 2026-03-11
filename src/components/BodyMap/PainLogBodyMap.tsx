@@ -3,7 +3,6 @@ import { BodyZone, BODY_ZONE_LABELS } from '@/types/pain';
 import { cn } from '@/lib/utils';
 import bodyFront from '@/assets/body-front.png';
 import bodyBack from '@/assets/body-back.png';
-import { Eye, EyeOff } from 'lucide-react';
 import { COMMON_ELLIPSES, FACE_ELLIPSES, DOS_ELLIPSES, EllipseZone } from './bodyZoneEllipses';
 
 export type PainLogZone = BodyZone;
@@ -26,33 +25,21 @@ export function PainLogBodyMap({
 }: PainLogBodyMapProps) {
   const [hoveredZone, setHoveredZone] = useState<PainLogZone | null>(null);
   const [view, setView] = useState<PainLogView>('face');
-  const [debugMode, setDebugMode] = useState(false);
 
   const zones: EllipseZone[] = [
-  ...COMMON_ELLIPSES,
-  ...(view === 'face' ? FACE_ELLIPSES : DOS_ELLIPSES)];
+    ...COMMON_ELLIPSES,
+    ...(view === 'face' ? FACE_ELLIPSES : DOS_ELLIPSES)
+  ];
 
-
-  const DEBUG_COLORS = [
-  '#FF6384', '#FF9F40', '#FFCD56', '#4BC0C0', '#36A2EB',
-  '#9966FF', '#C9CBCF', '#FF6384', '#FF9F40', '#FFCD56',
-  '#4BC0C0', '#36A2EB', '#9966FF', '#C9CBCF', '#FF6384',
-  '#FF9F40', '#FFCD56', '#4BC0C0', '#36A2EB', '#9966FF',
-  '#C9CBCF', '#FF6384', '#FF9F40'];
-
-
-  const getFill = (id: PainLogZone, idx: number) => {
-    if (debugMode) return `${DEBUG_COLORS[idx % DEBUG_COLORS.length]}55`;
+  const getFill = (id: PainLogZone) => {
     return selectedZone === id ? HIGHLIGHT_FILL : hoveredZone === id ? '#4DA3FF22' : 'transparent';
   };
 
-  const getStroke = (id: PainLogZone, idx: number) => {
-    if (debugMode) return DEBUG_COLORS[idx % DEBUG_COLORS.length];
+  const getStroke = (id: PainLogZone) => {
     return selectedZone === id ? HIGHLIGHT_STROKE : hoveredZone === id ? '#4DA3FF88' : 'transparent';
   };
 
   const getStrokeWidth = (id: PainLogZone) => {
-    if (debugMode) return 0.4;
     return selectedZone === id ? 0.5 : hoveredZone === id ? 0.4 : 0;
   };
 
@@ -86,19 +73,6 @@ export function PainLogBodyMap({
             Dos
           </button>
         </div>
-        <button
-          type="button"
-          onClick={() => setDebugMode(!debugMode)}
-          className={cn(
-            'p-1.5 rounded-lg transition-all duration-200 text-xs',
-            debugMode ?
-            'bg-amber-500/20 text-amber-600 border border-amber-500/30' :
-            'bg-muted text-muted-foreground hover:bg-muted/80'
-          )}
-          title={debugMode ? 'Désactiver debug' : 'Activer debug'}>
-
-          {debugMode ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
-        </button>
       </div>
 
       {/* Single silhouette with SVG overlay */}
@@ -122,50 +96,17 @@ export function PainLogBodyMap({
                 cy={cy}
                 rx={rx}
                 ry={ry}
-                fill={getFill(id, i)}
-                stroke={getStroke(id, i)}
+                fill={getFill(id)}
+                stroke={getStroke(id)}
                 strokeWidth={getStrokeWidth(id)}
                 style={{ cursor: 'pointer', transition: 'all 0.15s ease' }}
-                onClick={() => {
-                  onSelectZone(id);
-                  if (debugMode) {
-                    console.log(`[Zone] ${BODY_ZONE_LABELS[id]} (${id})`, { cx, cy, rx, ry });
-                  }
-                }}
+                onClick={() => onSelectZone(id)}
                 onMouseEnter={() => setHoveredZone(id)}
                 onMouseLeave={() => setHoveredZone(null)}
-              >
-                {debugMode && (
-                  <title>{`${BODY_ZONE_LABELS[id]}\nCX:${cx} CY:${cy}\nRX:${rx} RY:${ry}`}</title>
-                )}
-              </ellipse>
-            ))}
-          {/* Debug labels */}
-          {debugMode && zones.map(({ id, cx, cy }) => (
-              <text
-                key={`label-${id}`}
-                x={cx}
-                y={cy}
-                textAnchor="middle"
-                dominantBaseline="middle"
-                fill="#333"
-                fontSize="2.2"
-                fontWeight="600"
-                className="pointer-events-none">
-                {BODY_ZONE_LABELS[id]}
-              </text>
+              />
             ))}
         </svg>
       </div>
-
-      {/* Debug legend */}
-      {debugMode &&
-      <div className="p-2 bg-amber-50 dark:bg-amber-950/30 border border-amber-200 dark:border-amber-800 rounded-lg w-full">
-          <p className="text-xs text-amber-700 dark:text-amber-300 text-center">
-            🔍 Mode debug — Contours des zones visibles
-          </p>
-        </div>
-      }
 
       {/* Zone sélectionnée */}
       <div className="text-sm text-center min-h-[20px]">

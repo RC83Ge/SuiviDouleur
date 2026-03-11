@@ -26,7 +26,7 @@ export function PainLogBodyMap({
 }: PainLogBodyMapProps) {
   const [hoveredZone, setHoveredZone] = useState<PainLogZone | null>(null);
   const [view, setView] = useState<PainLogView>('face');
-  const [debugMode, setDebugMode] = useState(false);
+  const [debugMode] = useState(false);
 
   const zones: EllipseZone[] = [
   ...COMMON_ELLIPSES,

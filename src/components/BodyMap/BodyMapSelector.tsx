@@ -1,5 +1,5 @@
 import React, { useState, useCallback } from 'react';
-import Model, { type IExerciseData, type IMuscleStats, type Muscle } from 'react-body-highlighter';
+import Model from '@mjcdev/react-body-highlighter';
 import { BodyView, BodyZone, BODY_ZONE_LABELS } from '@/types/pain';
 import { X, Sparkles } from 'lucide-react';
 import { cn } from '@/lib/utils';
@@ -10,26 +10,30 @@ interface BodyMapSelectorProps {
   onZonesChange: (zones: BodyZone[]) => void;
 }
 
-// Map react-body-highlighter muscle slugs → our BodyZone types
+// Map library muscle slugs → our BodyZone types
 const MUSCLE_TO_ZONE: Record<string, BodyZone> = {
   'head': 'head',
   'neck': 'neck',
+  'deltoids': 'left-shoulder',
   'front-deltoids': 'left-shoulder',
   'back-deltoids': 'right-shoulder',
   'chest': 'chest',
   'biceps': 'left-arm',
   'triceps': 'right-arm',
   'forearm': 'left-forearm',
+  'hands': 'left-hand',
   'abs': 'abdomen',
   'obliques': 'pelvis',
+  'adductors': 'left-hip',
   'adductor': 'left-hip',
   'quadriceps': 'left-thigh',
   'hamstring': 'right-thigh',
   'abductors': 'right-hip',
   'knees': 'left-knee',
   'calves': 'left-leg',
-  'left-soleus': 'left-leg',
-  'right-soleus': 'right-leg',
+  'tibialis': 'left-leg',
+  'ankles': 'left-ankle',
+  'feet': 'left-foot',
   'gluteal': 'pelvis',
   'trapezius': 'upper-back',
   'upper-back': 'upper-back',
@@ -37,10 +41,10 @@ const MUSCLE_TO_ZONE: Record<string, BodyZone> = {
 };
 
 // Reverse: zone → muscles for highlighting
-const ZONE_TO_MUSCLES: Record<string, Muscle[]> = {};
+const ZONE_TO_MUSCLES: Record<string, string[]> = {};
 Object.entries(MUSCLE_TO_ZONE).forEach(([muscle, zone]) => {
   if (!ZONE_TO_MUSCLES[zone]) ZONE_TO_MUSCLES[zone] = [];
-  ZONE_TO_MUSCLES[zone].push(muscle as Muscle);
+  ZONE_TO_MUSCLES[zone].push(muscle);
 });
 
 export function BodyMapSelector({
@@ -50,7 +54,7 @@ export function BodyMapSelector({
   const [view, setView] = useState<BodyView>('front');
 
   const handleClick = useCallback(
-    (data: IMuscleStats) => {
+    (data: { muscle: string }) => {
       const muscle = data.muscle;
       const zone = MUSCLE_TO_ZONE[muscle];
       if (!zone) return;
@@ -69,7 +73,7 @@ export function BodyMapSelector({
   };
 
   // Build data for the highlighter from selected zones
-  const highlightData: IExerciseData[] = selectedZones
+  const highlightData = selectedZones
     .flatMap(zone => {
       const muscles = ZONE_TO_MUSCLES[zone] || [];
       if (muscles.length === 0) return [];

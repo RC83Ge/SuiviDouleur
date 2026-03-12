@@ -9,6 +9,14 @@ interface BodyMapSVGProps {
   zoneIntensities?: Partial<Record<BodyZone, number>>;
 }
 
+// Skin-tone palette matching reference
+const BODY_FILL = '#F9DCC4';
+const BODY_STROKE = '#D4A574';
+const SELECTED_FILL = '#F97316';
+const SELECTED_STROKE = '#EA580C';
+const HOVER_FILL = '#FBBF7A';
+const HOVER_STROKE = '#E8A44E';
+
 export function BodyMapSVG({
   view,
   selectedZones,
@@ -16,7 +24,6 @@ export function BodyMapSVG({
   zoneIntensities = {},
 }: BodyMapSVGProps) {
   const [hoveredZone, setHoveredZone] = useState<BodyZone | null>(null);
-
   const zones = getZonesForView(view === 'front' ? 'front' : 'back');
 
   const getZoneStyle = (zone: BodyZone) => {
@@ -27,28 +34,28 @@ export function BodyMapSVG({
     if (isSelected) {
       return {
         fill: intensity !== undefined
-          ? `hsl(${Math.max(0, 30 - intensity * 3)}, ${60 + intensity * 4}%, ${55 - intensity * 2}%)`
-          : '#4DA3FF',
-        stroke: '#2563EB',
-        strokeWidth: 1.5,
-        fillOpacity: 0.7,
+          ? `hsl(${Math.max(0, 30 - intensity * 3)}, ${70 + intensity * 3}%, ${55 - intensity * 2}%)`
+          : SELECTED_FILL,
+        stroke: SELECTED_STROKE,
+        strokeWidth: 2,
+        fillOpacity: 0.75,
       };
     }
 
     if (isHovered) {
       return {
-        fill: '#93C5FD',
-        stroke: '#60A5FA',
+        fill: HOVER_FILL,
+        stroke: HOVER_STROKE,
         strokeWidth: 1,
-        fillOpacity: 0.55,
+        fillOpacity: 0.7,
       };
     }
 
     return {
-      fill: '#93C5FD',
-      stroke: '#93C5FD',
+      fill: BODY_FILL,
+      stroke: BODY_STROKE,
       strokeWidth: 0.5,
-      fillOpacity: 0.38,
+      fillOpacity: 0.85,
     };
   };
 
@@ -58,17 +65,17 @@ export function BodyMapSVG({
         const zoneData = zones.find(z => z.zone === tooltipZone);
         if (!zoneData) return null;
         const center = getPathCenter(zoneData.path);
-        return { x: center.x, y: center.y - 18 };
+        return { x: center.x, y: center.y - 20 };
       })()
     : null;
 
   return (
     <svg
-      viewBox="0 0 220 500"
+      viewBox="0 0 220 510"
       className="w-full h-auto select-none"
-      style={{ touchAction: 'manipulation', maxHeight: '460px' }}
+      style={{ touchAction: 'manipulation', maxHeight: '480px' }}
     >
-      {/* Body zones — seamless puzzle pieces forming a unified silhouette */}
+      {/* Body zones — seamless anatomical silhouette */}
       {zones.map(({ zone, path }) => {
         const style = getZoneStyle(zone);
         return (
@@ -93,14 +100,14 @@ export function BodyMapSVG({
         );
       })}
 
-      {/* Tooltip on hover */}
+      {/* Tooltip */}
       {tooltipZone && tooltipPos && (
         <g className="pointer-events-none">
           <rect
-            x={tooltipPos.x - 46}
-            y={tooltipPos.y - 11}
-            width="92"
-            height="17"
+            x={tooltipPos.x - 48}
+            y={tooltipPos.y - 12}
+            width="96"
+            height="18"
             rx="4"
             fill="hsl(var(--popover))"
             stroke="hsl(var(--border))"
@@ -112,7 +119,7 @@ export function BodyMapSVG({
             y={tooltipPos.y + 2}
             textAnchor="middle"
             fill="hsl(var(--popover-foreground))"
-            fontSize="7.5"
+            fontSize="8"
             fontWeight="500"
             fontFamily="system-ui, sans-serif"
           >

@@ -156,10 +156,10 @@ export function BodyMapSelector({
                   height: `${zone.h}%`,
                   backgroundColor: isSelected
                     ? intensityColor(level)
-                    : 'rgba(0,100,255,0.15)',
+                    : 'transparent',
                   border: isSelected
                     ? '1px solid rgba(239,68,68,0.7)'
-                    : '1px solid rgba(0,100,255,0.3)',
+                    : 'none',
                 }}
               />
             );

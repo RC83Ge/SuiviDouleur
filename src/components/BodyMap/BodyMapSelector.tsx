@@ -10,39 +10,72 @@ interface BodyMapSelectorProps {
   onZonesChange: (zones: BodyZone[]) => void;
 }
 
-// Map library body part slugs → our BodyZone types
-const SLUG_TO_ZONE: Record<string, BodyZone> = {
-  'head': 'head',
-  'neck': 'neck',
-  'deltoids': 'left-shoulder',
-  'chest': 'chest',
-  'biceps': 'left-arm',
-  'triceps': 'right-arm',
-  'forearm': 'left-forearm',
-  'hands': 'left-hand',
-  'abs': 'abdomen',
-  'obliques': 'pelvis',
-  'adductors': 'left-hip',
-  'quadriceps': 'left-thigh',
-  'hamstring': 'right-thigh',
-  'abductors': 'right-hip',
-  'knees': 'left-knee',
-  'calves': 'left-leg',
-  'tibialis': 'left-leg',
-  'ankles': 'left-foot',
-  'feet': 'left-foot',
-  'gluteal': 'pelvis',
-  'trapezius': 'upper-back',
-  'upper-back': 'upper-back',
-  'lower-back': 'lower-back',
-};
+// Map (slug, side) → BodyZone
+function slugToZone(slug: string, side?: 'left' | 'right'): BodyZone | null {
+  const s = side || 'left';
+  const map: Record<string, BodyZone | Record<string, BodyZone>> = {
+    'head': 'head',
+    'neck': 'neck',
+    'deltoids': { left: 'left-shoulder', right: 'right-shoulder' },
+    'chest': 'chest',
+    'biceps': { left: 'left-arm', right: 'right-arm' },
+    'triceps': { left: 'left-arm', right: 'right-arm' },
+    'forearm': { left: 'left-forearm', right: 'right-forearm' },
+    'hands': { left: 'left-hand', right: 'right-hand' },
+    'abs': 'abdomen',
+    'obliques': 'pelvis',
+    'adductors': { left: 'left-hip', right: 'right-hip' },
+    'quadriceps': { left: 'left-thigh', right: 'right-thigh' },
+    'hamstring': { left: 'left-thigh', right: 'right-thigh' },
+    'abductors': { left: 'left-hip', right: 'right-hip' },
+    'knees': { left: 'left-knee', right: 'right-knee' },
+    'calves': { left: 'left-leg', right: 'right-leg' },
+    'tibialis': { left: 'left-leg', right: 'right-leg' },
+    'ankles': { left: 'left-foot', right: 'right-foot' },
+    'feet': { left: 'left-foot', right: 'right-foot' },
+    'gluteal': 'pelvis',
+    'trapezius': 'upper-back',
+    'upper-back': 'upper-back',
+    'lower-back': 'lower-back',
+  };
+  const entry = map[slug];
+  if (!entry) return null;
+  if (typeof entry === 'string') return entry;
+  return entry[s] || null;
+}
 
-// Reverse: zone → slugs for highlighting
-const ZONE_TO_SLUGS: Record<string, string[]> = {};
-Object.entries(SLUG_TO_ZONE).forEach(([slug, zone]) => {
-  if (!ZONE_TO_SLUGS[zone]) ZONE_TO_SLUGS[zone] = [];
-  ZONE_TO_SLUGS[zone].push(slug);
-});
+// Reverse: zone → highlight data
+function zoneToHighlightData(zone: BodyZone): ExtendedBodyPart[] {
+  const mapping: Record<string, { slug: string; side?: 'left' | 'right' }[]> = {
+    'head': [{ slug: 'head' }],
+    'neck': [{ slug: 'neck' }],
+    'left-shoulder': [{ slug: 'deltoids', side: 'left' }],
+    'right-shoulder': [{ slug: 'deltoids', side: 'right' }],
+    'chest': [{ slug: 'chest' }],
+    'left-arm': [{ slug: 'biceps', side: 'left' }, { slug: 'triceps', side: 'left' }],
+    'right-arm': [{ slug: 'biceps', side: 'right' }, { slug: 'triceps', side: 'right' }],
+    'left-forearm': [{ slug: 'forearm', side: 'left' }],
+    'right-forearm': [{ slug: 'forearm', side: 'right' }],
+    'left-hand': [{ slug: 'hands', side: 'left' }],
+    'right-hand': [{ slug: 'hands', side: 'right' }],
+    'abdomen': [{ slug: 'abs' }],
+    'left-hip': [{ slug: 'adductors', side: 'left' }, { slug: 'abductors', side: 'left' }],
+    'right-hip': [{ slug: 'adductors', side: 'right' }, { slug: 'abductors', side: 'right' }],
+    'pelvis': [{ slug: 'obliques' }, { slug: 'gluteal' }],
+    'left-thigh': [{ slug: 'quadriceps', side: 'left' }, { slug: 'hamstring', side: 'left' }],
+    'right-thigh': [{ slug: 'quadriceps', side: 'right' }, { slug: 'hamstring', side: 'right' }],
+    'left-knee': [{ slug: 'knees', side: 'left' }],
+    'right-knee': [{ slug: 'knees', side: 'right' }],
+    'left-leg': [{ slug: 'calves', side: 'left' }, { slug: 'tibialis', side: 'left' }],
+    'right-leg': [{ slug: 'calves', side: 'right' }, { slug: 'tibialis', side: 'right' }],
+    'left-foot': [{ slug: 'feet', side: 'left' }, { slug: 'ankles', side: 'left' }],
+    'right-foot': [{ slug: 'feet', side: 'right' }, { slug: 'ankles', side: 'right' }],
+    'upper-back': [{ slug: 'trapezius' }, { slug: 'upper-back' }],
+    'lower-back': [{ slug: 'lower-back' }],
+  };
+  const entries = mapping[zone] || [];
+  return entries.map(e => ({ slug: e.slug, intensity: 1, side: e.side } as ExtendedBodyPart));
+}
 
 export function BodyMapSelector({
   selectedZones,
@@ -51,8 +84,8 @@ export function BodyMapSelector({
   const [view, setView] = useState<BodyView>('front');
 
   const handleClick = useCallback(
-    (part: ExtendedBodyPart) => {
-      const zone = SLUG_TO_ZONE[part.slug];
+    (part: ExtendedBodyPart, side?: 'left' | 'right') => {
+      const zone = slugToZone(part.slug, side);
       if (!zone) return;
 
       if (selectedZones.includes(zone)) {
@@ -68,42 +101,34 @@ export function BodyMapSelector({
     onZonesChange([]);
   };
 
-  // Build data for the highlighter from selected zones
-  const highlightData: ExtendedBodyPart[] = selectedZones.flatMap(zone => {
-    const slugs = ZONE_TO_SLUGS[zone] || [];
-    return slugs.map(slug => ({
-      slug,
-      intensity: 1,
-    } as ExtendedBodyPart));
-  });
+  const highlightData: ExtendedBodyPart[] = selectedZones.flatMap(zoneToHighlightData);
 
   return (
-    <div className="space-y-4">
-      <div className="flex gap-4">
+    <div className="space-y-3">
+      <div className="flex gap-3">
         {/* Body model */}
         <div className="flex-1 flex flex-col items-center">
-          <div className="w-full max-w-[220px]">
+          <div className="w-full max-w-[160px] [&_svg]:!p-0 [&_svg]:!m-0">
             <Body
               data={highlightData}
               gender="male"
               side={view === 'front' ? 'front' : 'back'}
-              scale={1.5}
+              scale={1.2}
               border="#D4A574"
               onBodyPartClick={handleClick}
             />
           </div>
 
-          {/* View tabs centered below */}
           <Tabs
             value={view}
             onValueChange={(v) => setView(v as BodyView)}
-            className="mt-3"
+            className="mt-2"
           >
-            <TabsList className="h-9">
-              <TabsTrigger value="front" className="text-xs px-5">
+            <TabsList className="h-8">
+              <TabsTrigger value="front" className="text-xs px-4">
                 Avant
               </TabsTrigger>
-              <TabsTrigger value="back" className="text-xs px-5">
+              <TabsTrigger value="back" className="text-xs px-4">
                 Arrière
               </TabsTrigger>
             </TabsList>
@@ -111,11 +136,11 @@ export function BodyMapSelector({
         </div>
 
         {/* Selected zones panel */}
-        <div className="flex-1 min-w-[140px]">
-          <div className="flex items-center justify-between mb-3">
-            <div className="flex items-center gap-2">
-              <Sparkles className="w-4 h-4 text-primary" />
-              <span className="text-sm font-semibold text-foreground">
+        <div className="flex-1 min-w-[130px]">
+          <div className="flex items-center justify-between mb-2">
+            <div className="flex items-center gap-1.5">
+              <Sparkles className="w-3.5 h-3.5 text-primary" />
+              <span className="text-xs font-semibold text-foreground">
                 Zones sélectionnées
               </span>
             </div>
@@ -123,7 +148,7 @@ export function BodyMapSelector({
               <button
                 type="button"
                 onClick={clearSelection}
-                className="text-xs text-muted-foreground hover:text-destructive transition-colors duration-200 flex items-center gap-1"
+                className="text-xs text-muted-foreground hover:text-destructive transition-colors duration-200 flex items-center gap-0.5"
               >
                 <X className="w-3 h-3" />
                 Effacer
@@ -132,22 +157,22 @@ export function BodyMapSelector({
           </div>
 
           {selectedZones.length === 0 ? (
-            <div className="flex flex-col items-center justify-center py-6 px-3 bg-muted/30 rounded-xl border border-dashed border-muted-foreground/20">
-              <p className="text-sm text-muted-foreground text-center leading-relaxed">
+            <div className="flex flex-col items-center justify-center py-4 px-2 bg-muted/30 rounded-xl border border-dashed border-muted-foreground/20">
+              <p className="text-xs text-muted-foreground text-center leading-relaxed">
                 Touchez le corps pour sélectionner les zones douloureuses
               </p>
             </div>
           ) : (
-            <div className="space-y-2">
-              <div className="text-xs text-muted-foreground mb-2">
+            <div className="space-y-1.5">
+              <div className="text-xs text-muted-foreground">
                 {selectedZones.length} zone{selectedZones.length > 1 ? 's' : ''} sélectionnée{selectedZones.length > 1 ? 's' : ''}
               </div>
-              <div className="flex flex-wrap gap-2">
+              <div className="flex flex-wrap gap-1.5">
                 {selectedZones.map((zone, index) => (
                   <span
                     key={zone}
                     className={cn(
-                      "inline-flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg text-xs font-medium",
+                      "inline-flex items-center gap-1 px-2 py-1 rounded-md text-xs font-medium",
                       "bg-primary/10 text-primary border border-primary/20",
                       "hover:bg-primary/15 transition-all duration-200",
                       "animate-in fade-in-0 zoom-in-95"
@@ -160,9 +185,9 @@ export function BodyMapSelector({
                       onClick={() => {
                         onZonesChange(selectedZones.filter(z => z !== zone));
                       }}
-                      className="hover:bg-primary/20 rounded-full p-0.5 transition-colors duration-200 -mr-0.5"
+                      className="hover:bg-primary/20 rounded-full p-0.5 transition-colors duration-200"
                     >
-                      <X className="w-3 h-3" />
+                      <X className="w-2.5 h-2.5" />
                     </button>
                   </span>
                 ))}

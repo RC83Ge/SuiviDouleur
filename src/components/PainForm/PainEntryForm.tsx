@@ -46,7 +46,7 @@ export function PainEntryForm({ onSave, onCancel }: PainEntryFormProps) {
     
     onSave({
       date: dateTime,
-      zones: selectedZones,
+      zones: selectedZones as BodyZone[],
       painTypes: painTypes,
       intensity,
       duration,

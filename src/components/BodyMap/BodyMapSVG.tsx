@@ -30,25 +30,25 @@ export function BodyMapSVG({
           ? `hsl(${Math.max(0, 30 - intensity * 3)}, ${60 + intensity * 4}%, ${55 - intensity * 2}%)`
           : '#4DA3FF',
         stroke: '#2563EB',
-        strokeWidth: 1.8,
-        fillOpacity: 0.65,
+        strokeWidth: 1.5,
+        fillOpacity: 0.7,
       };
     }
 
     if (isHovered) {
       return {
-        fill: '#BFDBFE',
+        fill: '#93C5FD',
         stroke: '#60A5FA',
-        strokeWidth: 1.2,
-        fillOpacity: 0.5,
+        strokeWidth: 1,
+        fillOpacity: 0.55,
       };
     }
 
     return {
       fill: '#93C5FD',
-      stroke: '#64748B',
-      strokeWidth: 0.6,
-      fillOpacity: 0.3,
+      stroke: '#93C5FD',
+      strokeWidth: 0.5,
+      fillOpacity: 0.38,
     };
   };
 
@@ -64,20 +64,11 @@ export function BodyMapSVG({
 
   return (
     <svg
-      viewBox="0 0 200 470"
+      viewBox="0 0 220 500"
       className="w-full h-auto select-none"
-      style={{ touchAction: 'manipulation', maxHeight: '440px' }}
+      style={{ touchAction: 'manipulation', maxHeight: '460px' }}
     >
-      {/* Subtle center guide */}
-      <line
-        x1="100" y1="60" x2="100" y2="465"
-        stroke="hsl(var(--border))"
-        strokeWidth="0.25"
-        strokeDasharray="3,5"
-        opacity="0.25"
-      />
-
-      {/* Body zones — each is a fluid bezier path */}
+      {/* Body zones — seamless puzzle pieces forming a unified silhouette */}
       {zones.map(({ zone, path }) => {
         const style = getZoneStyle(zone);
         return (

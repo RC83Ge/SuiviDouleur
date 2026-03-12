@@ -15,64 +15,64 @@ interface HotspotZone {
   shape?: 'circle' | 'ellipse';
 }
 
-// FRONT hotspots — positioned over the LEFT silhouette of the image
+// FRONT hotspots — calibrated to body-front.png (% relative to image)
 const FRONT_ZONES: HotspotZone[] = [
   // Head & neck
-  { id: 'head', label: 'Tête', x: 50, y: 5.5, w: 12, h: 7, shape: 'ellipse' },
-  { id: 'neck', label: 'Cou', x: 50, y: 11, w: 6, h: 3 },
+  { id: 'head', label: 'Tête', x: 50, y: 6, w: 14, h: 7, shape: 'ellipse' },
+  { id: 'neck', label: 'Cou', x: 50, y: 12, w: 7, h: 3 },
   // Shoulders
-  { id: 'right-shoulder', label: 'Épaule droite', x: 37, y: 14.5, w: 8, h: 4 },
-  { id: 'left-shoulder', label: 'Épaule gauche', x: 63, y: 14.5, w: 8, h: 4 },
+  { id: 'right-shoulder', label: 'Épaule droite', x: 38, y: 16, w: 9, h: 4 },
+  { id: 'left-shoulder', label: 'Épaule gauche', x: 62, y: 16, w: 9, h: 4 },
   // Chest & torso
-  { id: 'chest', label: 'Thorax', x: 50, y: 19, w: 18, h: 7 },
-  { id: 'abdomen', label: 'Abdomen', x: 50, y: 28, w: 16, h: 7 },
-  { id: 'pelvis', label: 'Bassin', x: 50, y: 36, w: 16, h: 5 },
+  { id: 'chest', label: 'Thorax', x: 50, y: 21, w: 17, h: 6 },
+  { id: 'abdomen', label: 'Abdomen', x: 50, y: 29, w: 14, h: 6 },
+  { id: 'pelvis', label: 'Bassin', x: 50, y: 36, w: 14, h: 5 },
   // Arms — right side of patient (screen left)
-  { id: 'right-upper-arm', label: 'Bras droit', x: 30, y: 21, w: 6, h: 8 },
-  { id: 'right-elbow', label: 'Coude droit', x: 27, y: 28, w: 5, h: 3 },
-  { id: 'right-forearm', label: 'Avant-bras droit', x: 25, y: 33, w: 5, h: 7 },
-  { id: 'right-hand', label: 'Main droite', x: 23, y: 41, w: 5, h: 4, shape: 'ellipse' },
+  { id: 'right-upper-arm', label: 'Bras droit', x: 32, y: 22, w: 6, h: 7 },
+  { id: 'right-elbow', label: 'Coude droit', x: 30, y: 29, w: 5, h: 3 },
+  { id: 'right-forearm', label: 'Avant-bras droit', x: 27, y: 34, w: 5, h: 6 },
+  { id: 'right-hand', label: 'Main droite', x: 25, y: 41, w: 5, h: 4, shape: 'ellipse' },
   // Arms — left side of patient (screen right)
-  { id: 'left-upper-arm', label: 'Bras gauche', x: 70, y: 21, w: 6, h: 8 },
-  { id: 'left-elbow', label: 'Coude gauche', x: 73, y: 28, w: 5, h: 3 },
-  { id: 'left-forearm', label: 'Avant-bras gauche', x: 75, y: 33, w: 5, h: 7 },
-  { id: 'left-hand', label: 'Main gauche', x: 77, y: 41, w: 5, h: 4, shape: 'ellipse' },
+  { id: 'left-upper-arm', label: 'Bras gauche', x: 68, y: 22, w: 6, h: 7 },
+  { id: 'left-elbow', label: 'Coude gauche', x: 70, y: 29, w: 5, h: 3 },
+  { id: 'left-forearm', label: 'Avant-bras gauche', x: 73, y: 34, w: 5, h: 6 },
+  { id: 'left-hand', label: 'Main gauche', x: 75, y: 41, w: 5, h: 4, shape: 'ellipse' },
   // Legs — right (screen left)
-  { id: 'right-thigh', label: 'Cuisse droite', x: 43, y: 46, w: 9, h: 10 },
-  { id: 'right-knee', label: 'Genou droit', x: 43, y: 57, w: 7, h: 4 },
-  { id: 'right-shin', label: 'Tibia droit', x: 43, y: 65, w: 6, h: 11 },
-  { id: 'right-ankle', label: 'Cheville droite', x: 43, y: 78, w: 5, h: 3 },
-  { id: 'right-foot', label: 'Pied droit', x: 43, y: 83, w: 6, h: 4, shape: 'ellipse' },
+  { id: 'right-thigh', label: 'Cuisse droite', x: 44, y: 47, w: 9, h: 9 },
+  { id: 'right-knee', label: 'Genou droit', x: 44, y: 57, w: 7, h: 4 },
+  { id: 'right-shin', label: 'Tibia droit', x: 44, y: 66, w: 6, h: 10 },
+  { id: 'right-ankle', label: 'Cheville droite', x: 44, y: 78, w: 5, h: 3 },
+  { id: 'right-foot', label: 'Pied droit', x: 43, y: 84, w: 7, h: 4, shape: 'ellipse' },
   // Legs — left (screen right)
-  { id: 'left-thigh', label: 'Cuisse gauche', x: 57, y: 46, w: 9, h: 10 },
-  { id: 'left-knee', label: 'Genou gauche', x: 57, y: 57, w: 7, h: 4 },
-  { id: 'left-shin', label: 'Tibia gauche', x: 57, y: 65, w: 6, h: 11 },
-  { id: 'left-ankle', label: 'Cheville gauche', x: 57, y: 78, w: 5, h: 3 },
-  { id: 'left-foot', label: 'Pied gauche', x: 57, y: 83, w: 6, h: 4, shape: 'ellipse' },
+  { id: 'left-thigh', label: 'Cuisse gauche', x: 56, y: 47, w: 9, h: 9 },
+  { id: 'left-knee', label: 'Genou gauche', x: 56, y: 57, w: 7, h: 4 },
+  { id: 'left-shin', label: 'Tibia gauche', x: 56, y: 66, w: 6, h: 10 },
+  { id: 'left-ankle', label: 'Cheville gauche', x: 56, y: 78, w: 5, h: 3 },
+  { id: 'left-foot', label: 'Pied gauche', x: 57, y: 84, w: 7, h: 4, shape: 'ellipse' },
 ];
 
-// BACK hotspots
+// BACK hotspots — calibrated to body-back.png
 const BACK_ZONES: HotspotZone[] = [
-  { id: 'head-back', label: 'Tête (dos)', x: 50, y: 5.5, w: 12, h: 7, shape: 'ellipse' },
-  { id: 'neck-back', label: 'Nuque', x: 50, y: 11, w: 6, h: 3 },
-  { id: 'right-shoulder-blade', label: 'Omoplate droite', x: 40, y: 17, w: 8, h: 6 },
-  { id: 'left-shoulder-blade', label: 'Omoplate gauche', x: 60, y: 17, w: 8, h: 6 },
-  { id: 'upper-back', label: 'Haut du dos', x: 50, y: 19, w: 12, h: 5 },
-  { id: 'middle-back', label: 'Milieu du dos', x: 50, y: 25, w: 14, h: 5 },
-  { id: 'lower-back', label: 'Bas du dos', x: 50, y: 32, w: 14, h: 5 },
+  { id: 'head-back', label: 'Tête (dos)', x: 50, y: 6, w: 14, h: 7, shape: 'ellipse' },
+  { id: 'neck-back', label: 'Nuque', x: 50, y: 12, w: 7, h: 3 },
+  { id: 'right-shoulder-blade', label: 'Omoplate droite', x: 42, y: 19, w: 8, h: 6 },
+  { id: 'left-shoulder-blade', label: 'Omoplate gauche', x: 58, y: 19, w: 8, h: 6 },
+  { id: 'upper-back', label: 'Haut du dos', x: 50, y: 21, w: 12, h: 5 },
+  { id: 'middle-back', label: 'Milieu du dos', x: 50, y: 27, w: 14, h: 5 },
+  { id: 'lower-back', label: 'Bas du dos', x: 50, y: 33, w: 14, h: 5 },
   // Arms back
-  { id: 'right-arm-back', label: 'Bras droit (dos)', x: 28, y: 26, w: 6, h: 14 },
-  { id: 'left-arm-back', label: 'Bras gauche (dos)', x: 72, y: 26, w: 6, h: 14 },
+  { id: 'right-arm-back', label: 'Bras droit (dos)', x: 30, y: 28, w: 6, h: 13 },
+  { id: 'left-arm-back', label: 'Bras gauche (dos)', x: 70, y: 28, w: 6, h: 13 },
   // Buttocks
-  { id: 'right-buttock', label: 'Fessier droit', x: 44, y: 38, w: 8, h: 5 },
-  { id: 'left-buttock', label: 'Fessier gauche', x: 56, y: 38, w: 8, h: 5 },
+  { id: 'right-buttock', label: 'Fessier droit', x: 44, y: 39, w: 8, h: 5 },
+  { id: 'left-buttock', label: 'Fessier gauche', x: 56, y: 39, w: 8, h: 5 },
   // Legs back
-  { id: 'right-hamstring', label: 'Ischio-jambier droit', x: 43, y: 48, w: 9, h: 10 },
-  { id: 'left-hamstring', label: 'Ischio-jambier gauche', x: 57, y: 48, w: 9, h: 10 },
-  { id: 'right-calf', label: 'Mollet droit', x: 43, y: 65, w: 7, h: 11 },
-  { id: 'left-calf', label: 'Mollet gauche', x: 57, y: 65, w: 7, h: 11 },
-  { id: 'right-ankle-back', label: 'Cheville droite (dos)', x: 43, y: 78, w: 5, h: 3 },
-  { id: 'left-ankle-back', label: 'Cheville gauche (dos)', x: 57, y: 78, w: 5, h: 3 },
+  { id: 'right-hamstring', label: 'Ischio-jambier droit', x: 44, y: 49, w: 9, h: 10 },
+  { id: 'left-hamstring', label: 'Ischio-jambier gauche', x: 56, y: 49, w: 9, h: 10 },
+  { id: 'right-calf', label: 'Mollet droit', x: 44, y: 66, w: 7, h: 10 },
+  { id: 'left-calf', label: 'Mollet gauche', x: 56, y: 66, w: 7, h: 10 },
+  { id: 'right-ankle-back', label: 'Cheville droite (dos)', x: 44, y: 78, w: 5, h: 3 },
+  { id: 'left-ankle-back', label: 'Cheville gauche (dos)', x: 56, y: 78, w: 5, h: 3 },
 ];
 
 const ALL_ZONES_MAP = [...FRONT_ZONES, ...BACK_ZONES].reduce(
@@ -125,48 +125,46 @@ export function BodyMapSelector({
   return (
     <div className="flex flex-col items-center gap-4">
       {/* Body image with hotspot overlay */}
-      <div className="relative w-[200px] aspect-[1/2.2] mx-auto">
-        {/* Background image */}
+      <div className="relative w-[160px] mx-auto">
+        {/* Background image — defines the container size */}
         <img
           src={bgImage}
           alt={view === 'front' ? 'Corps de face' : 'Corps de dos'}
-          className="w-full h-full object-contain select-none pointer-events-none"
+          className="w-full h-auto block select-none pointer-events-none"
           draggable={false}
         />
 
-        {/* Hotspot overlay */}
-        <svg
-          className="absolute inset-0 w-full h-full"
-          viewBox="0 0 100 100"
-          preserveAspectRatio="none"
-          style={{ zIndex: 2 }}
-        >
+        {/* Hotspot overlay — same size as the image, percentage-based positions */}
+        <div className="absolute inset-0" style={{ zIndex: 2 }}>
           {zones.map((zone) => {
             const isSelected = selectedZones.includes(zone.id);
             const level = zoneIntensities[zone.id] ?? intensity;
             return (
-              <ellipse
+              <div
                 key={zone.id}
-                cx={zone.x}
-                cy={zone.y}
-                rx={zone.w / 2}
-                ry={zone.h / 2}
-                fill={isSelected ? intensityColor(level) : 'transparent'}
-                stroke={isSelected ? 'rgba(239, 68, 68, 0.7)' : 'transparent'}
-                strokeWidth="0.3"
-                className="cursor-pointer transition-all duration-200"
+                title={zone.label}
                 onClick={() => handleZoneClick(zone.id)}
                 onTouchEnd={(e) => {
                   e.preventDefault();
                   handleZoneClick(zone.id);
                 }}
-                style={{ pointerEvents: 'all' }}
-              >
-                <title>{zone.label}</title>
-              </ellipse>
+                className="absolute rounded-full cursor-pointer transition-all duration-200"
+                style={{
+                  left: `${zone.x - zone.w / 2}%`,
+                  top: `${zone.y - zone.h / 2}%`,
+                  width: `${zone.w}%`,
+                  height: `${zone.h}%`,
+                  backgroundColor: isSelected
+                    ? intensityColor(level)
+                    : 'transparent',
+                  border: isSelected
+                    ? '1px solid rgba(239,68,68,0.7)'
+                    : 'none',
+                }}
+              />
             );
           })}
-        </svg>
+        </div>
       </div>
 
       {/* View label */}

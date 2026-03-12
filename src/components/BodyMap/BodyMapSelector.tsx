@@ -34,7 +34,7 @@ export function BodyMapSelector({
   // Build data array for the highlighter
   const data: IExerciseData[] = selectedZones.map((muscle) => ({
     name: muscle,
-    muscles: [muscle],
+    muscles: [muscle as Muscle],
   }));
 
   return (

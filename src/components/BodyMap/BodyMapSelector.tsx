@@ -31,7 +31,7 @@ export function BodyMapSelector({
   return (
     <div className="space-y-4">
       <div className="flex gap-4">
-        {/* Body map */}
+        {/* Body map — centered */}
         <div className="flex-1 flex flex-col items-center">
           <div className="w-full max-w-[200px]">
             <BodyMapSVG
@@ -41,7 +41,7 @@ export function BodyMapSelector({
             />
           </div>
 
-          {/* View tabs below the body */}
+          {/* View tabs centered below */}
           <Tabs
             value={view}
             onValueChange={(v) => setView(v as BodyView)}

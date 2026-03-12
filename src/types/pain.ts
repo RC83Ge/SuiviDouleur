@@ -3,73 +3,48 @@ export type BodyView = 'front' | 'back';
 
 export type BodyZone =
   // Front zones
-  | 'head-front'
-  | 'neck-front'
-  | 'left-shoulder'
-  | 'right-shoulder'
-  | 'left-pectoral'
-  | 'right-pectoral'
-  | 'upper-abdomen'
-  | 'lower-abdomen'
-  | 'left-bicep'
-  | 'right-bicep'
-  | 'left-forearm-front'
-  | 'right-forearm-front'
-  | 'left-hand-palm'
-  | 'right-hand-palm'
-  | 'left-thigh-front'
-  | 'right-thigh-front'
-  | 'left-knee'
-  | 'right-knee'
-  | 'left-shin'
-  | 'right-shin'
-  | 'left-foot-top'
-  | 'right-foot-top'
-  // Back zones
-  | 'head-back'
-  | 'nape'
-  | 'left-scapula'
-  | 'right-scapula'
-  | 'left-lower-back'
-  | 'right-lower-back'
-  | 'left-glute'
-  | 'right-glute'
-  | 'left-tricep'
-  | 'right-tricep'
-  | 'left-forearm-back'
-  | 'right-forearm-back'
-  | 'left-hand-back'
-  | 'right-hand-back'
-  | 'left-hamstring'
-  | 'right-hamstring'
-  | 'left-popliteal'
-  | 'right-popliteal'
-  | 'left-calf'
-  | 'right-calf'
-  | 'left-heel'
-  | 'right-heel'
-  // Legacy compat
   | 'head'
   | 'neck'
+  | 'left-shoulder'
+  | 'right-shoulder'
   | 'chest'
-  | 'left-arm'
-  | 'right-arm'
+  | 'abdomen'
+  | 'pelvis'
+  | 'left-upper-arm'
+  | 'right-upper-arm'
+  | 'left-elbow'
+  | 'right-elbow'
   | 'left-forearm'
   | 'right-forearm'
   | 'left-hand'
   | 'right-hand'
-  | 'abdomen'
-  | 'left-hip'
-  | 'right-hip'
-  | 'pelvis'
   | 'left-thigh'
   | 'right-thigh'
-  | 'left-leg'
-  | 'right-leg'
+  | 'left-knee'
+  | 'right-knee'
+  | 'left-shin'
+  | 'right-shin'
+  | 'left-ankle'
+  | 'right-ankle'
   | 'left-foot'
   | 'right-foot'
+  // Back zones
+  | 'neck-back'
+  | 'left-shoulder-blade'
+  | 'right-shoulder-blade'
   | 'upper-back'
-  | 'lower-back';
+  | 'middle-back'
+  | 'lower-back'
+  | 'left-arm-back'
+  | 'right-arm-back'
+  | 'left-buttock'
+  | 'right-buttock'
+  | 'left-hamstring'
+  | 'right-hamstring'
+  | 'left-calf'
+  | 'right-calf'
+  | 'left-ankle-back'
+  | 'right-ankle-back';
 
 export type PainType =
   | 'burning'
@@ -109,73 +84,48 @@ export const PAIN_DURATION_LABELS: Record<PainDuration, string> = {
 
 export const BODY_ZONE_LABELS: Record<BodyZone, string> = {
   // Front
-  'head-front': 'Tête (Face)',
-  'neck-front': 'Cou (Avant)',
+  'head': 'Tête',
+  'neck': 'Cou',
   'left-shoulder': 'Épaule gauche',
   'right-shoulder': 'Épaule droite',
-  'left-pectoral': 'Pectoral gauche',
-  'right-pectoral': 'Pectoral droit',
-  'upper-abdomen': 'Abdomen haut',
-  'lower-abdomen': 'Abdomen bas',
-  'left-bicep': 'Biceps gauche',
-  'right-bicep': 'Biceps droit',
-  'left-forearm-front': 'Avant-bras gauche',
-  'right-forearm-front': 'Avant-bras droit',
-  'left-hand-palm': 'Main gauche (Paume)',
-  'right-hand-palm': 'Main droite (Paume)',
-  'left-thigh-front': 'Cuisse gauche (Avant)',
-  'right-thigh-front': 'Cuisse droite (Avant)',
-  'left-knee': 'Genou gauche',
-  'right-knee': 'Genou droit',
-  'left-shin': 'Tibia gauche',
-  'right-shin': 'Tibia droit',
-  'left-foot-top': 'Pied gauche (Dessus)',
-  'right-foot-top': 'Pied droit (Dessus)',
-  // Back
-  'head-back': 'Tête (Arrière)',
-  'nape': 'Nuque',
-  'left-scapula': 'Omoplate gauche',
-  'right-scapula': 'Omoplate droite',
-  'left-lower-back': 'Lombaire gauche',
-  'right-lower-back': 'Lombaire droite',
-  'left-glute': 'Fessier gauche',
-  'right-glute': 'Fessier droit',
-  'left-tricep': 'Triceps gauche',
-  'right-tricep': 'Triceps droit',
-  'left-forearm-back': 'Arrière avant-bras gauche',
-  'right-forearm-back': 'Arrière avant-bras droit',
-  'left-hand-back': 'Main gauche (Dos)',
-  'right-hand-back': 'Main droite (Dos)',
-  'left-hamstring': 'Ischio-jambier gauche',
-  'right-hamstring': 'Ischio-jambier droit',
-  'left-popliteal': 'Creux poplité gauche',
-  'right-popliteal': 'Creux poplité droit',
-  'left-calf': 'Mollet gauche',
-  'right-calf': 'Mollet droit',
-  'left-heel': 'Talon gauche',
-  'right-heel': 'Talon droit',
-  // Legacy
-  head: 'Tête',
-  neck: 'Cou',
-  chest: 'Thorax',
-  'left-arm': 'Bras gauche',
-  'right-arm': 'Bras droit',
+  'chest': 'Thorax',
+  'abdomen': 'Abdomen',
+  'pelvis': 'Bassin',
+  'left-upper-arm': 'Bras gauche',
+  'right-upper-arm': 'Bras droit',
+  'left-elbow': 'Coude gauche',
+  'right-elbow': 'Coude droit',
   'left-forearm': 'Avant-bras gauche',
   'right-forearm': 'Avant-bras droit',
   'left-hand': 'Main gauche',
   'right-hand': 'Main droite',
-  abdomen: 'Abdomen',
-  'left-hip': 'Hanche gauche',
-  'right-hip': 'Hanche droite',
-  pelvis: 'Bassin',
   'left-thigh': 'Cuisse gauche',
   'right-thigh': 'Cuisse droite',
-  'left-leg': 'Jambe gauche',
-  'right-leg': 'Jambe droite',
+  'left-knee': 'Genou gauche',
+  'right-knee': 'Genou droit',
+  'left-shin': 'Tibia gauche',
+  'right-shin': 'Tibia droit',
+  'left-ankle': 'Cheville gauche',
+  'right-ankle': 'Cheville droite',
   'left-foot': 'Pied gauche',
   'right-foot': 'Pied droit',
+  // Back
+  'neck-back': 'Nuque',
+  'left-shoulder-blade': 'Omoplate gauche',
+  'right-shoulder-blade': 'Omoplate droite',
   'upper-back': 'Haut du dos',
+  'middle-back': 'Milieu du dos',
   'lower-back': 'Bas du dos',
+  'left-arm-back': 'Bras gauche (arrière)',
+  'right-arm-back': 'Bras droit (arrière)',
+  'left-buttock': 'Fessier gauche',
+  'right-buttock': 'Fessier droit',
+  'left-hamstring': 'Ischio-jambier gauche',
+  'right-hamstring': 'Ischio-jambier droit',
+  'left-calf': 'Mollet gauche',
+  'right-calf': 'Mollet droit',
+  'left-ankle-back': 'Cheville gauche (arrière)',
+  'right-ankle-back': 'Cheville droite (arrière)',
 };
 
 export interface TriggerFactor {

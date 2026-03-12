@@ -1,5 +1,5 @@
 import React, { useState, useCallback } from 'react';
-import Model, { type IExerciseData, type IMuscleStats, type Muscle } from 'react-body-highlighter';
+import Body, { type ExtendedBodyPart } from '@mjcdev/react-body-highlighter';
 import { BodyView, BodyZone, BODY_ZONE_LABELS } from '@/types/pain';
 import { X, Sparkles } from 'lucide-react';
 import { cn } from '@/lib/utils';
@@ -10,37 +10,38 @@ interface BodyMapSelectorProps {
   onZonesChange: (zones: BodyZone[]) => void;
 }
 
-// Map react-body-highlighter muscle slugs → our BodyZone types
-const MUSCLE_TO_ZONE: Record<string, BodyZone> = {
+// Map library body part slugs → our BodyZone types
+const SLUG_TO_ZONE: Record<string, BodyZone> = {
   'head': 'head',
   'neck': 'neck',
-  'front-deltoids': 'left-shoulder',
-  'back-deltoids': 'right-shoulder',
+  'deltoids': 'left-shoulder',
   'chest': 'chest',
   'biceps': 'left-arm',
   'triceps': 'right-arm',
   'forearm': 'left-forearm',
+  'hands': 'left-hand',
   'abs': 'abdomen',
   'obliques': 'pelvis',
-  'adductor': 'left-hip',
+  'adductors': 'left-hip',
   'quadriceps': 'left-thigh',
   'hamstring': 'right-thigh',
   'abductors': 'right-hip',
   'knees': 'left-knee',
   'calves': 'left-leg',
-  'left-soleus': 'left-leg',
-  'right-soleus': 'right-leg',
+  'tibialis': 'left-leg',
+  'ankles': 'left-foot',
+  'feet': 'left-foot',
   'gluteal': 'pelvis',
   'trapezius': 'upper-back',
   'upper-back': 'upper-back',
   'lower-back': 'lower-back',
 };
 
-// Reverse: zone → muscles for highlighting
-const ZONE_TO_MUSCLES: Record<string, Muscle[]> = {};
-Object.entries(MUSCLE_TO_ZONE).forEach(([muscle, zone]) => {
-  if (!ZONE_TO_MUSCLES[zone]) ZONE_TO_MUSCLES[zone] = [];
-  ZONE_TO_MUSCLES[zone].push(muscle as Muscle);
+// Reverse: zone → slugs for highlighting
+const ZONE_TO_SLUGS: Record<string, string[]> = {};
+Object.entries(SLUG_TO_ZONE).forEach(([slug, zone]) => {
+  if (!ZONE_TO_SLUGS[zone]) ZONE_TO_SLUGS[zone] = [];
+  ZONE_TO_SLUGS[zone].push(slug);
 });
 
 export function BodyMapSelector({
@@ -50,9 +51,8 @@ export function BodyMapSelector({
   const [view, setView] = useState<BodyView>('front');
 
   const handleClick = useCallback(
-    (data: IMuscleStats) => {
-      const muscle = data.muscle;
-      const zone = MUSCLE_TO_ZONE[muscle];
+    (part: ExtendedBodyPart) => {
+      const zone = SLUG_TO_ZONE[part.slug];
       if (!zone) return;
 
       if (selectedZones.includes(zone)) {
@@ -69,15 +69,13 @@ export function BodyMapSelector({
   };
 
   // Build data for the highlighter from selected zones
-  const highlightData: IExerciseData[] = selectedZones
-    .flatMap(zone => {
-      const muscles = ZONE_TO_MUSCLES[zone] || [];
-      if (muscles.length === 0) return [];
-      return [{
-        name: BODY_ZONE_LABELS[zone],
-        muscles: muscles,
-      }];
-    });
+  const highlightData: ExtendedBodyPart[] = selectedZones.flatMap(zone => {
+    const slugs = ZONE_TO_SLUGS[zone] || [];
+    return slugs.map(slug => ({
+      slug,
+      intensity: 1,
+    } as ExtendedBodyPart));
+  });
 
   return (
     <div className="space-y-4">
@@ -85,13 +83,13 @@ export function BodyMapSelector({
         {/* Body model */}
         <div className="flex-1 flex flex-col items-center">
           <div className="w-full max-w-[220px]">
-            <Model
+            <Body
               data={highlightData}
-              style={{ width: '100%', padding: '0' }}
-              bodyColor="#F9DCC4"
-              highlightedColors={['#F97316', '#EA580C', '#DC2626']}
-              onClick={handleClick}
-              type={view === 'front' ? 'anterior' : 'posterior'}
+              gender="male"
+              side={view === 'front' ? 'front' : 'back'}
+              scale={1.5}
+              border="#D4A574"
+              onBodyPartClick={handleClick}
             />
           </div>
 

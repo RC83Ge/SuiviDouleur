@@ -2,10 +2,55 @@ export type Gender = 'male' | 'female';
 export type BodyView = 'front' | 'back';
 
 export type BodyZone =
-  | 'head'
-  | 'neck'
+  // Front zones
+  | 'head-front'
+  | 'neck-front'
   | 'left-shoulder'
   | 'right-shoulder'
+  | 'left-pectoral'
+  | 'right-pectoral'
+  | 'upper-abdomen'
+  | 'lower-abdomen'
+  | 'left-bicep'
+  | 'right-bicep'
+  | 'left-forearm-front'
+  | 'right-forearm-front'
+  | 'left-hand-palm'
+  | 'right-hand-palm'
+  | 'left-thigh-front'
+  | 'right-thigh-front'
+  | 'left-knee'
+  | 'right-knee'
+  | 'left-shin'
+  | 'right-shin'
+  | 'left-foot-top'
+  | 'right-foot-top'
+  // Back zones
+  | 'head-back'
+  | 'nape'
+  | 'left-scapula'
+  | 'right-scapula'
+  | 'left-lower-back'
+  | 'right-lower-back'
+  | 'left-glute'
+  | 'right-glute'
+  | 'left-tricep'
+  | 'right-tricep'
+  | 'left-forearm-back'
+  | 'right-forearm-back'
+  | 'left-hand-back'
+  | 'right-hand-back'
+  | 'left-hamstring'
+  | 'right-hamstring'
+  | 'left-popliteal'
+  | 'right-popliteal'
+  | 'left-calf'
+  | 'right-calf'
+  | 'left-heel'
+  | 'right-heel'
+  // Legacy compat
+  | 'head'
+  | 'neck'
   | 'chest'
   | 'left-arm'
   | 'right-arm'
@@ -19,8 +64,6 @@ export type BodyZone =
   | 'pelvis'
   | 'left-thigh'
   | 'right-thigh'
-  | 'left-knee'
-  | 'right-knee'
   | 'left-leg'
   | 'right-leg'
   | 'left-foot'
@@ -65,10 +108,55 @@ export const PAIN_DURATION_LABELS: Record<PainDuration, string> = {
 };
 
 export const BODY_ZONE_LABELS: Record<BodyZone, string> = {
-  head: 'Tête',
-  neck: 'Cou',
+  // Front
+  'head-front': 'Tête (Face)',
+  'neck-front': 'Cou (Avant)',
   'left-shoulder': 'Épaule gauche',
   'right-shoulder': 'Épaule droite',
+  'left-pectoral': 'Pectoral gauche',
+  'right-pectoral': 'Pectoral droit',
+  'upper-abdomen': 'Abdomen haut',
+  'lower-abdomen': 'Abdomen bas',
+  'left-bicep': 'Biceps gauche',
+  'right-bicep': 'Biceps droit',
+  'left-forearm-front': 'Avant-bras gauche',
+  'right-forearm-front': 'Avant-bras droit',
+  'left-hand-palm': 'Main gauche (Paume)',
+  'right-hand-palm': 'Main droite (Paume)',
+  'left-thigh-front': 'Cuisse gauche (Avant)',
+  'right-thigh-front': 'Cuisse droite (Avant)',
+  'left-knee': 'Genou gauche',
+  'right-knee': 'Genou droit',
+  'left-shin': 'Tibia gauche',
+  'right-shin': 'Tibia droit',
+  'left-foot-top': 'Pied gauche (Dessus)',
+  'right-foot-top': 'Pied droit (Dessus)',
+  // Back
+  'head-back': 'Tête (Arrière)',
+  'nape': 'Nuque',
+  'left-scapula': 'Omoplate gauche',
+  'right-scapula': 'Omoplate droite',
+  'left-lower-back': 'Lombaire gauche',
+  'right-lower-back': 'Lombaire droite',
+  'left-glute': 'Fessier gauche',
+  'right-glute': 'Fessier droit',
+  'left-tricep': 'Triceps gauche',
+  'right-tricep': 'Triceps droit',
+  'left-forearm-back': 'Arrière avant-bras gauche',
+  'right-forearm-back': 'Arrière avant-bras droit',
+  'left-hand-back': 'Main gauche (Dos)',
+  'right-hand-back': 'Main droite (Dos)',
+  'left-hamstring': 'Ischio-jambier gauche',
+  'right-hamstring': 'Ischio-jambier droit',
+  'left-popliteal': 'Creux poplité gauche',
+  'right-popliteal': 'Creux poplité droit',
+  'left-calf': 'Mollet gauche',
+  'right-calf': 'Mollet droit',
+  'left-heel': 'Talon gauche',
+  'right-heel': 'Talon droit',
+  // Legacy
+  head: 'Tête',
+  neck: 'Cou',
   chest: 'Thorax',
   'left-arm': 'Bras gauche',
   'right-arm': 'Bras droit',
@@ -82,8 +170,6 @@ export const BODY_ZONE_LABELS: Record<BodyZone, string> = {
   pelvis: 'Bassin',
   'left-thigh': 'Cuisse gauche',
   'right-thigh': 'Cuisse droite',
-  'left-knee': 'Genou gauche',
-  'right-knee': 'Genou droit',
   'left-leg': 'Jambe gauche',
   'right-leg': 'Jambe droite',
   'left-foot': 'Pied gauche',

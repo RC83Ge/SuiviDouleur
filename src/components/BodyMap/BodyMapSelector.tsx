@@ -1,5 +1,5 @@
 import React, { useState, useCallback } from 'react';
-import Model, { type IExerciseData, type IMuscleStats } from 'react-body-highlighter';
+import Model, { type IExerciseData, type IMuscleStats, type Muscle } from 'react-body-highlighter';
 import { BodyView, BodyZone, BODY_ZONE_LABELS } from '@/types/pain';
 import { X, Sparkles } from 'lucide-react';
 import { cn } from '@/lib/utils';
@@ -28,20 +28,19 @@ const MUSCLE_TO_ZONE: Record<string, BodyZone> = {
   'abductors': 'right-hip',
   'knees': 'left-knee',
   'calves': 'left-leg',
-  'tibpilas-anterior': 'right-leg',
+  'left-soleus': 'left-leg',
+  'right-soleus': 'right-leg',
   'gluteal': 'pelvis',
-  'trapezius': 'neck',
+  'trapezius': 'upper-back',
   'upper-back': 'upper-back',
   'lower-back': 'lower-back',
-  'hands': 'left-hand',
-  'feet': 'left-foot',
 };
 
 // Reverse: zone → muscles for highlighting
-const ZONE_TO_MUSCLES: Record<string, string[]> = {};
+const ZONE_TO_MUSCLES: Record<string, Muscle[]> = {};
 Object.entries(MUSCLE_TO_ZONE).forEach(([muscle, zone]) => {
   if (!ZONE_TO_MUSCLES[zone]) ZONE_TO_MUSCLES[zone] = [];
-  ZONE_TO_MUSCLES[zone].push(muscle);
+  ZONE_TO_MUSCLES[zone].push(muscle as Muscle);
 });
 
 export function BodyMapSelector({
@@ -73,10 +72,11 @@ export function BodyMapSelector({
   const highlightData: IExerciseData[] = selectedZones
     .flatMap(zone => {
       const muscles = ZONE_TO_MUSCLES[zone] || [];
-      return muscles.map(muscle => ({
+      if (muscles.length === 0) return [];
+      return [{
         name: BODY_ZONE_LABELS[zone],
-        muscles: [muscle],
-      }));
+        muscles: muscles,
+      }];
     });
 
   return (
@@ -88,6 +88,8 @@ export function BodyMapSelector({
             <Model
               data={highlightData}
               style={{ width: '100%', padding: '0' }}
+              bodyColor="#F9DCC4"
+              highlightedColors={['#F97316', '#EA580C', '#DC2626']}
               onClick={handleClick}
               type={view === 'front' ? 'anterior' : 'posterior'}
             />

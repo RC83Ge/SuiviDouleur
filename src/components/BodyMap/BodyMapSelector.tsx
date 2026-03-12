@@ -1,6 +1,7 @@
 import React, { useState, useCallback } from 'react';
-import Model, { IExerciseData, IMuscleStats, Muscle } from 'react-body-highlighter';
+import Body, { ExtendedBodyPart } from '@mjcdev/react-body-highlighter';
 import { cn } from '@/lib/utils';
+import { X } from 'lucide-react';
 
 interface BodyMapSelectorProps {
   selectedZones: string[];
@@ -11,6 +12,18 @@ interface BodyMapSelectorProps {
 
 type ViewTab = 'front' | 'back';
 
+// Build a composite key: "muscle" or "muscle-left" / "muscle-right"
+function zoneKey(slug: string, side?: string): string {
+  if (!side || side === 'none') return slug;
+  return `${slug}-${side}`;
+}
+
+function parseZoneKey(key: string): { slug: string; side?: 'left' | 'right' } {
+  if (key.endsWith('-left')) return { slug: key.replace(/-left$/, ''), side: 'left' };
+  if (key.endsWith('-right')) return { slug: key.replace(/-right$/, ''), side: 'right' };
+  return { slug: key };
+}
+
 export function BodyMapSelector({
   selectedZones,
   onZonesChange,
@@ -20,32 +33,34 @@ export function BodyMapSelector({
   const [view, setView] = useState<ViewTab>('front');
 
   const handleClick = useCallback(
-    ({ muscle }: IMuscleStats) => {
-      if (selectedZones.includes(muscle)) {
-        onZonesChange(selectedZones.filter((z) => z !== muscle));
+    (bodyPart: ExtendedBodyPart, side?: string) => {
+      const key = zoneKey(bodyPart.slug, side);
+      if (selectedZones.includes(key)) {
+        onZonesChange(selectedZones.filter((z) => z !== key));
       } else {
-        onZonesChange([...selectedZones, muscle]);
-        onZoneIntensityChange?.(muscle, 5);
+        onZonesChange([...selectedZones, key]);
+        onZoneIntensityChange?.(key, 5);
       }
     },
     [selectedZones, onZonesChange, onZoneIntensityChange]
   );
 
-  // Build data array for the highlighter
-  const data: IExerciseData[] = selectedZones.map((muscle) => ({
-    name: muscle,
-    muscles: [muscle as Muscle],
-  }));
+  // Build data for the highlighter with side info
+  const data: ExtendedBodyPart[] = selectedZones.map((key) => {
+    const { slug, side } = parseZoneKey(key);
+    return { slug, intensity: 1, side } as ExtendedBodyPart;
+  });
 
   return (
     <div className="flex flex-col items-center gap-4">
       {/* Body model */}
-      <div className="w-[220px]">
-        <Model
+      <div className="w-[160px]">
+        <Body
           data={data}
-          style={{ width: '100%', padding: '0' }}
-          onClick={handleClick}
-          type={view === 'front' ? 'anterior' : 'posterior'}
+          onBodyPartClick={handleClick}
+          side={view === 'front' ? 'front' : 'back'}
+          scale={1.7}
+          border="#dfdfdf"
           highlightedColors={['#93c5fd']}
         />
       </div>
@@ -69,11 +84,39 @@ export function BodyMapSelector({
         ))}
       </div>
 
-      {/* Selected zones info */}
+      {/* Selected zones badges */}
       {selectedZones.length > 0 && (
-        <p className="text-xs text-muted-foreground">
-          {selectedZones.length} zone{selectedZones.length > 1 ? 's' : ''} sélectionnée{selectedZones.length > 1 ? 's' : ''}
-        </p>
+        <div className="w-full space-y-2">
+          <div className="flex items-center justify-between">
+            <span className="text-xs font-semibold text-foreground">
+              {selectedZones.length} zone{selectedZones.length > 1 ? 's' : ''} sélectionnée{selectedZones.length > 1 ? 's' : ''}
+            </span>
+            <button
+              type="button"
+              onClick={() => onZonesChange([])}
+              className="text-xs text-muted-foreground hover:text-destructive transition-colors flex items-center gap-0.5"
+            >
+              <X className="w-3 h-3" />
+              Effacer
+            </button>
+          </div>
+          <div className="flex flex-wrap gap-1.5">
+            {selectedZones.map((key) => (
+              <span
+                key={key}
+                className="inline-flex items-center gap-1 px-2 py-1 rounded-full text-xs font-medium bg-accent text-accent-foreground border border-border"
+              >
+                {key}
+                <span
+                  onClick={() => onZonesChange(selectedZones.filter((z) => z !== key))}
+                  className="ml-0.5 p-0.5 rounded-full hover:bg-destructive/20 cursor-pointer"
+                >
+                  <X className="w-2.5 h-2.5" />
+                </span>
+              </span>
+            ))}
+          </div>
+        </div>
       )}
     </div>
   );

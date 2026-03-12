@@ -18,6 +18,7 @@ export function PainEntryForm({ onSave, onCancel }: PainEntryFormProps) {
   const [date, setDate] = useState(format(new Date(), "yyyy-MM-dd"));
   const [time, setTime] = useState(format(new Date(), "HH:mm"));
   const [selectedZones, setSelectedZones] = useState<BodyZone[]>([]);
+  const [zoneIntensities, setZoneIntensities] = useState<Record<string, number>>({});
   const [painTypes, setPainTypes] = useState<PainType[]>([]);
   const [intensity, setIntensity] = useState(5);
   const [duration, setDuration] = useState<PainDuration>('minutes');
@@ -25,6 +26,14 @@ export function PainEntryForm({ onSave, onCancel }: PainEntryFormProps) {
   const [reliefFactors, setReliefFactors] = useState<string[]>([]);
   const [notes, setNotes] = useState('');
   const [otherDescription, setOtherDescription] = useState('');
+
+  const handleZoneIntensityChange = (zoneId: BodyZone, value: number) => {
+    setZoneIntensities((prev) => ({ ...prev, [zoneId]: value }));
+    // Also update the global intensity to the max of all zone intensities
+    const allIntensities = { ...zoneIntensities, [zoneId]: value };
+    const maxIntensity = Math.max(...Object.values(allIntensities));
+    setIntensity(maxIntensity);
+  };
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -85,6 +94,8 @@ export function PainEntryForm({ onSave, onCancel }: PainEntryFormProps) {
         <BodyMapSelector
           selectedZones={selectedZones}
           onZonesChange={setSelectedZones}
+          zoneIntensities={zoneIntensities}
+          onZoneIntensityChange={handleZoneIntensityChange}
         />
       </div>
 

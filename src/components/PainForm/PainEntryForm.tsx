@@ -27,7 +27,7 @@ export function PainEntryForm({ onSave, onCancel }: PainEntryFormProps) {
   const [notes, setNotes] = useState('');
   const [otherDescription, setOtherDescription] = useState('');
 
-  const handleZoneIntensityChange = (zoneId: BodyZone, value: number) => {
+  const handleZoneIntensityChange = (zoneId: string, value: number) => {
     setZoneIntensities((prev) => ({ ...prev, [zoneId]: value }));
     // Also update the global intensity to the max of all zone intensities
     const allIntensities = { ...zoneIntensities, [zoneId]: value };

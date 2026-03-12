@@ -1,89 +1,61 @@
 import React, { useState, useCallback } from 'react';
-import Body, { type ExtendedBodyPart } from '@mjcdev/react-body-highlighter';
 import { BodyView, BodyZone, BODY_ZONE_LABELS } from '@/types/pain';
 import { X, Sparkles } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { FRONT_PATHS, BACK_PATHS, ZonePath } from './svgPaths';
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from '@/components/ui/tooltip';
 
 interface BodyMapSelectorProps {
   selectedZones: BodyZone[];
   onZonesChange: (zones: BodyZone[]) => void;
 }
 
-// Map (slug, side) → BodyZone
-function inferSideFromSlug(slug: string): 'left' | 'right' | undefined {
-  if (slug.startsWith('left-') || slug.endsWith('-left') || slug.includes('left')) return 'left';
-  if (slug.startsWith('right-') || slug.endsWith('-right') || slug.includes('right')) return 'right';
-  return undefined;
-}
-
-function slugToZone(slug: string, side?: 'left' | 'right'): BodyZone | null {
-  const map: Record<string, BodyZone | Record<'left' | 'right', BodyZone>> = {
-    'head': 'head',
-    'neck': 'neck',
-    'deltoids': { left: 'left-shoulder', right: 'right-shoulder' },
-    'chest': 'chest',
-    'biceps': { left: 'left-arm', right: 'right-arm' },
-    'triceps': { left: 'left-arm', right: 'right-arm' },
-    'forearm': { left: 'left-forearm', right: 'right-forearm' },
-    'hands': { left: 'left-hand', right: 'right-hand' },
-    'abs': 'abdomen',
-    'obliques': 'pelvis',
-    'adductors': { left: 'left-hip', right: 'right-hip' },
-    'quadriceps': { left: 'left-thigh', right: 'right-thigh' },
-    'hamstring': { left: 'left-thigh', right: 'right-thigh' },
-    'abductors': { left: 'left-hip', right: 'right-hip' },
-    'knees': { left: 'left-knee', right: 'right-knee' },
-    'calves': { left: 'left-leg', right: 'right-leg' },
-    'tibialis': { left: 'left-leg', right: 'right-leg' },
-    'ankles': { left: 'left-foot', right: 'right-foot' },
-    'feet': { left: 'left-foot', right: 'right-foot' },
-    'gluteal': 'pelvis',
-    'trapezius': 'upper-back',
-    'upper-back': 'upper-back',
-    'lower-back': 'lower-back',
-  };
-
-  const entry = map[slug];
-  if (!entry) return null;
-  if (typeof entry === 'string') return entry;
-
-  const resolvedSide = side ?? inferSideFromSlug(slug);
-  if (!resolvedSide) return null;
-  return entry[resolvedSide] || null;
-}
-
-// Reverse: zone → highlight data
-function zoneToHighlightData(zone: BodyZone): ExtendedBodyPart[] {
-  const mapping: Record<string, { slug: string; side?: 'left' | 'right' }[]> = {
-    'head': [{ slug: 'head' }],
-    'neck': [{ slug: 'neck' }],
-    'left-shoulder': [{ slug: 'deltoids', side: 'left' }],
-    'right-shoulder': [{ slug: 'deltoids', side: 'right' }],
-    'chest': [{ slug: 'chest' }],
-    'left-arm': [{ slug: 'biceps', side: 'left' }, { slug: 'triceps', side: 'left' }],
-    'right-arm': [{ slug: 'biceps', side: 'right' }, { slug: 'triceps', side: 'right' }],
-    'left-forearm': [{ slug: 'forearm', side: 'left' }],
-    'right-forearm': [{ slug: 'forearm', side: 'right' }],
-    'left-hand': [{ slug: 'hands', side: 'left' }],
-    'right-hand': [{ slug: 'hands', side: 'right' }],
-    'abdomen': [{ slug: 'abs' }],
-    'left-hip': [{ slug: 'adductors', side: 'left' }, { slug: 'abductors', side: 'left' }],
-    'right-hip': [{ slug: 'adductors', side: 'right' }, { slug: 'abductors', side: 'right' }],
-    'pelvis': [{ slug: 'obliques' }, { slug: 'gluteal' }],
-    'left-thigh': [{ slug: 'quadriceps', side: 'left' }, { slug: 'hamstring', side: 'left' }],
-    'right-thigh': [{ slug: 'quadriceps', side: 'right' }, { slug: 'hamstring', side: 'right' }],
-    'left-knee': [{ slug: 'knees', side: 'left' }],
-    'right-knee': [{ slug: 'knees', side: 'right' }],
-    'left-leg': [{ slug: 'calves', side: 'left' }, { slug: 'tibialis', side: 'left' }],
-    'right-leg': [{ slug: 'calves', side: 'right' }, { slug: 'tibialis', side: 'right' }],
-    'left-foot': [{ slug: 'feet', side: 'left' }, { slug: 'ankles', side: 'left' }],
-    'right-foot': [{ slug: 'feet', side: 'right' }, { slug: 'ankles', side: 'right' }],
-    'upper-back': [{ slug: 'trapezius' }, { slug: 'upper-back' }],
-    'lower-back': [{ slug: 'lower-back' }],
-  };
-  const entries = mapping[zone] || [];
-  return entries.map(e => ({ slug: e.slug, intensity: 1, side: e.side } as ExtendedBodyPart));
+function BodyZonePath({
+  zone,
+  isSelected,
+  onClick,
+}: {
+  zone: ZonePath;
+  isSelected: boolean;
+  onClick: () => void;
+}) {
+  return (
+    <TooltipProvider delayDuration={200}>
+      <Tooltip>
+        <TooltipTrigger asChild>
+          <path
+            d={zone.d}
+            id={zone.id}
+            onClick={onClick}
+            className="cursor-pointer transition-all duration-150"
+            fill={isSelected ? 'rgba(239, 68, 68, 0.55)' : '#E5E7EB'}
+            stroke={isSelected ? '#DC2626' : '#9CA3AF'}
+            strokeWidth={isSelected ? '1.2' : '0.6'}
+            style={{ filter: isSelected ? 'drop-shadow(0 0 3px rgba(239,68,68,0.4))' : 'none' }}
+            onMouseEnter={(e) => {
+              if (!isSelected) {
+                e.currentTarget.setAttribute('fill', '#D1D5DB');
+              }
+            }}
+            onMouseLeave={(e) => {
+              if (!isSelected) {
+                e.currentTarget.setAttribute('fill', '#E5E7EB');
+              }
+            }}
+          />
+        </TooltipTrigger>
+        <TooltipContent side="top" className="text-xs">
+          {zone.label}
+        </TooltipContent>
+      </Tooltip>
+    </TooltipProvider>
+  );
 }
 
 export function BodyMapSelector({
@@ -92,42 +64,55 @@ export function BodyMapSelector({
 }: BodyMapSelectorProps) {
   const [view, setView] = useState<BodyView>('front');
 
-  const handleClick = useCallback(
-    (part: ExtendedBodyPart, side?: 'left' | 'right') => {
-      const partWithSide = part as ExtendedBodyPart & { side?: 'left' | 'right' };
-      const resolvedSide = side ?? partWithSide.side;
-      const zone = slugToZone(part.slug, resolvedSide);
-      if (!zone) return;
-
-      if (selectedZones.includes(zone)) {
-        onZonesChange(selectedZones.filter(z => z !== zone));
+  const handleZoneClick = useCallback(
+    (zoneId: BodyZone) => {
+      if (selectedZones.includes(zoneId)) {
+        onZonesChange(selectedZones.filter((z) => z !== zoneId));
       } else {
-        onZonesChange([...selectedZones, zone]);
+        onZonesChange([...selectedZones, zoneId]);
       }
     },
     [selectedZones, onZonesChange]
   );
 
-  const clearSelection = () => {
-    onZonesChange([]);
-  };
+  const clearSelection = () => onZonesChange([]);
 
-  const highlightData: ExtendedBodyPart[] = selectedZones.flatMap(zoneToHighlightData);
+  const paths = view === 'front' ? FRONT_PATHS : BACK_PATHS;
 
   return (
     <div className="space-y-3">
       <div className="flex gap-3">
-        {/* Body model */}
+        {/* SVG Body */}
         <div className="flex-1 flex flex-col items-center">
-          <div className="w-full max-w-[160px] [&_svg]:!p-0 [&_svg]:!m-0">
-            <Body
-              data={highlightData}
-              gender="male"
-              side={view === 'front' ? 'front' : 'back'}
-              scale={1.2}
-              border="#D4A574"
-              onBodyPartClick={handleClick}
-            />
+          <div className="w-full max-w-[150px]">
+            <svg
+              viewBox="0 0 200 430"
+              xmlns="http://www.w3.org/2000/svg"
+              className="w-full h-auto"
+              style={{ userSelect: 'none' }}
+            >
+              {/* Background silhouette outline for depth */}
+              <defs>
+                <filter id="innerShadow">
+                  <feGaussianBlur in="SourceAlpha" stdDeviation="2" result="blur" />
+                  <feOffset dx="0" dy="1" />
+                  <feComposite in2="SourceAlpha" operator="arithmetic" k2="-1" k3="1" result="shadowDiff" />
+                  <feFlood floodColor="#9CA3AF" floodOpacity="0.3" />
+                  <feComposite in2="shadowDiff" operator="in" />
+                  <feComposite in="SourceGraphic" operator="over" />
+                </filter>
+              </defs>
+              <g filter="url(#innerShadow)">
+                {paths.map((zone) => (
+                  <BodyZonePath
+                    key={zone.id}
+                    zone={zone}
+                    isSelected={selectedZones.includes(zone.id)}
+                    onClick={() => handleZoneClick(zone.id)}
+                  />
+                ))}
+              </g>
+            </svg>
           </div>
 
           <Tabs
@@ -137,10 +122,10 @@ export function BodyMapSelector({
           >
             <TabsList className="h-8">
               <TabsTrigger value="front" className="text-xs px-4">
-                Avant
+                Face
               </TabsTrigger>
               <TabsTrigger value="back" className="text-xs px-4">
-                Arrière
+                Dos
               </TabsTrigger>
             </TabsList>
           </Tabs>
@@ -176,26 +161,27 @@ export function BodyMapSelector({
           ) : (
             <div className="space-y-1.5">
               <div className="text-xs text-muted-foreground">
-                {selectedZones.length} zone{selectedZones.length > 1 ? 's' : ''} sélectionnée{selectedZones.length > 1 ? 's' : ''}
+                {selectedZones.length} zone{selectedZones.length > 1 ? 's' : ''}{' '}
+                sélectionnée{selectedZones.length > 1 ? 's' : ''}
               </div>
               <div className="flex flex-wrap gap-1.5">
                 {selectedZones.map((zone, index) => (
                   <span
                     key={zone}
                     className={cn(
-                      "inline-flex items-center gap-1 px-2 py-1 rounded-md text-xs font-medium",
-                      "bg-primary/10 text-primary border border-primary/20",
-                      "hover:bg-primary/15 transition-all duration-200",
-                      "animate-in fade-in-0 zoom-in-95"
+                      'inline-flex items-center gap-1 px-2 py-1 rounded-md text-xs font-medium',
+                      'bg-primary/10 text-primary border border-primary/20',
+                      'hover:bg-primary/15 transition-all duration-200',
+                      'animate-in fade-in-0 zoom-in-95'
                     )}
                     style={{ animationDelay: `${index * 50}ms` }}
                   >
                     {BODY_ZONE_LABELS[zone]}
                     <button
                       type="button"
-                      onClick={() => {
-                        onZonesChange(selectedZones.filter(z => z !== zone));
-                      }}
+                      onClick={() =>
+                        onZonesChange(selectedZones.filter((z) => z !== zone))
+                      }
                       className="hover:bg-primary/20 rounded-full p-0.5 transition-colors duration-200"
                     >
                       <X className="w-2.5 h-2.5" />

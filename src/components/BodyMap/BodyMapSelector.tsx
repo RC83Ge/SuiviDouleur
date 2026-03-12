@@ -1,5 +1,5 @@
 import React, { useState, useCallback } from 'react';
-import Model, { IExerciseData, IMuscleStats } from 'react-body-highlighter';
+import Model, { IExerciseData, IMuscleStats, Muscle } from 'react-body-highlighter';
 import { cn } from '@/lib/utils';
 
 interface BodyMapSelectorProps {

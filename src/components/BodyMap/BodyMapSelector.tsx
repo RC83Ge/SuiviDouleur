@@ -47,30 +47,45 @@ function BodyZonePath({
     : undefined;
 
   return (
-    <path
-      d={zone.d}
-      id={zone.id}
-      onClick={onClick}
-      onMouseEnter={() => setHovered(true)}
-      onMouseLeave={() => setHovered(false)}
-      className={cn(
-        'cursor-pointer transition-all duration-200',
-        !isSelected && !hovered && 'fill-muted stroke-border',
-        !isSelected && hovered && 'fill-accent stroke-border',
-      )}
-      fill={isSelected ? fillColor : undefined}
-      stroke={isSelected ? fillColor : undefined}
-      strokeWidth="0.5"
-      strokeLinejoin="round"
-      style={{
-        fillOpacity: isSelected ? 0.85 : undefined,
-        filter: isSelected
-          ? `drop-shadow(0 0 5px ${getIntensityColor(intensity)}66)`
-          : 'none',
-      }}
-    >
-      <title>{zone.label}</title>
-    </path>
+    <g>
+      {/* Invisible larger hit area for mobile tap targets */}
+      <path
+        d={zone.d}
+        onClick={onClick}
+        onTouchEnd={(e) => { e.preventDefault(); onClick(); }}
+        fill="transparent"
+        stroke="transparent"
+        strokeWidth="8"
+        className="cursor-pointer"
+        style={{ pointerEvents: 'all' }}
+      />
+      {/* Visible path */}
+      <path
+        d={zone.d}
+        id={zone.id}
+        onClick={onClick}
+        onTouchEnd={(e) => { e.preventDefault(); onClick(); }}
+        onMouseEnter={() => setHovered(true)}
+        onMouseLeave={() => setHovered(false)}
+        className={cn(
+          'cursor-pointer transition-all duration-200',
+          !isSelected && !hovered && 'fill-zone-default stroke-border',
+          !isSelected && hovered && 'fill-zone-hover stroke-border',
+        )}
+        fill={isSelected ? fillColor : undefined}
+        stroke={isSelected ? fillColor : undefined}
+        strokeWidth="0.5"
+        strokeLinejoin="round"
+        style={{
+          fillOpacity: isSelected ? 0.85 : undefined,
+          filter: isSelected
+            ? `drop-shadow(0 0 6px ${getIntensityColor(intensity)}88)`
+            : 'none',
+        }}
+      >
+        <title>{zone.label}</title>
+      </path>
+    </g>
   );
 }
 

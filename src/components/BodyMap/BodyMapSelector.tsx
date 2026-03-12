@@ -11,11 +11,13 @@ interface BodyMapSelectorProps {
 
 type ViewTab = 'front' | 'back';
 
-const BODY_FILL = '#6BA3BE';
-const BODY_FILL_HOVER = '#5692AE';
-const BODY_STROKE = '#4A8BA8';
+// Blue monochrome palette matching the reference image (center figure)
+const BODY_FILL = '#8BB8CC';
+const BODY_FILL_DARK = '#6EA3BB';
+const BODY_STROKE = '#5A93AC';
+const BODY_FILL_HOVER = '#7AAFC5';
 const SELECTED_FILL = '#FB923C';
-const SELECTED_STROKE = '#EA7E2B';
+const SELECTED_STROKE = '#E87F28';
 
 function BodyZonePath({
   zone,
@@ -33,7 +35,6 @@ function BodyZonePath({
     : hovered
     ? BODY_FILL_HOVER
     : BODY_FILL;
-
   const stroke = isSelected ? SELECTED_STROKE : BODY_STROKE;
 
   return (
@@ -46,14 +47,34 @@ function BodyZonePath({
       className="cursor-pointer"
       fill={fill}
       stroke={stroke}
-      strokeWidth="0.5"
+      strokeWidth="0.4"
+      strokeLinejoin="round"
       style={{
-        transition: 'fill 0.15s ease, stroke 0.15s ease',
-        filter: isSelected ? 'drop-shadow(0 0 4px rgba(251,146,60,0.5))' : 'none',
+        transition: 'fill 0.15s ease',
+        filter: isSelected ? 'drop-shadow(0 0 3px rgba(251,146,60,0.45))' : 'none',
       }}
     >
       <title>{zone.label}</title>
     </path>
+  );
+}
+
+// Outline silhouette for depth/shadow behind interactive zones
+function BodyOutline({ paths }: { paths: ZonePath[] }) {
+  const allD = paths.map((p) => p.d).join(' ');
+  return (
+    <>
+      {/* Subtle outer shadow */}
+      <path
+        d={allD}
+        fill="none"
+        stroke={BODY_STROKE}
+        strokeWidth="1.2"
+        strokeLinejoin="round"
+        opacity={0.15}
+        style={{ filter: 'blur(2px)' }}
+      />
+    </>
   );
 }
 
@@ -75,32 +96,39 @@ export function BodyMapSelector({
   );
 
   const clearSelection = () => onZonesChange([]);
-
   const paths = view === 'front' ? FRONT_PATHS : BACK_PATHS;
 
   return (
     <div className="space-y-4">
       {/* SVG Body - centered */}
       <div className="flex flex-col items-center">
-        <div className="w-[160px]">
+        <div className="w-[140px]">
           <svg
-            viewBox="0 0 200 460"
+            viewBox="0 0 180 430"
             xmlns="http://www.w3.org/2000/svg"
             className="w-full h-auto"
             style={{ userSelect: 'none' }}
           >
             <defs>
-              {/* Inner shadow for 3D volume effect */}
-              <filter id="bodyVolume" x="-5%" y="-5%" width="110%" height="110%">
-                <feGaussianBlur in="SourceAlpha" stdDeviation="3" result="blur" />
-                <feOffset dx="0" dy="1.5" />
-                <feComposite in2="SourceAlpha" operator="arithmetic" k2="-1" k3="1" result="shadowDiff" />
-                <feFlood floodColor="#3D7A94" floodOpacity="0.35" />
-                <feComposite in2="shadowDiff" operator="in" />
+              {/* Subtle inner lighting gradient */}
+              <linearGradient id="bodyGrad" x1="0" y1="0" x2="1" y2="1">
+                <stop offset="0%" stopColor="#A8D0E0" stopOpacity="0.4" />
+                <stop offset="100%" stopColor="#6EA3BB" stopOpacity="0" />
+              </linearGradient>
+              {/* Soft inner shadow for volume */}
+              <filter id="vol" x="-3%" y="-2%" width="106%" height="104%">
+                <feGaussianBlur in="SourceAlpha" stdDeviation="2.5" result="b" />
+                <feOffset dy="1" />
+                <feComposite in2="SourceAlpha" operator="arithmetic" k2="-1" k3="1" result="sd" />
+                <feFlood floodColor={BODY_FILL_DARK} floodOpacity="0.3" />
+                <feComposite in2="sd" operator="in" />
                 <feComposite in="SourceGraphic" operator="over" />
               </filter>
             </defs>
-            <g filter="url(#bodyVolume)">
+
+            <BodyOutline paths={paths} />
+
+            <g filter="url(#vol)">
               {paths.map((zone) => (
                 <BodyZonePath
                   key={zone.id}
@@ -109,11 +137,20 @@ export function BodyMapSelector({
                   onClick={() => handleZoneClick(zone.id)}
                 />
               ))}
+              {/* Light overlay for 3D feel */}
+              <rect
+                x="0"
+                y="0"
+                width="180"
+                height="430"
+                fill="url(#bodyGrad)"
+                pointerEvents="none"
+              />
             </g>
           </svg>
         </div>
 
-        {/* View toggle tabs */}
+        {/* View toggle */}
         <div className="flex mt-3 bg-muted rounded-lg p-1 gap-0.5">
           {(['front', 'back'] as ViewTab[]).map((tab) => (
             <button
@@ -133,12 +170,13 @@ export function BodyMapSelector({
         </div>
       </div>
 
-      {/* Selected zones display */}
+      {/* Selected zones */}
       {selectedZones.length > 0 && (
         <div className="space-y-2">
           <div className="flex items-center justify-between">
             <span className="text-xs font-medium text-foreground">
-              {selectedZones.length} zone{selectedZones.length > 1 ? 's' : ''} sélectionnée{selectedZones.length > 1 ? 's' : ''}
+              {selectedZones.length} zone{selectedZones.length > 1 ? 's' : ''} sélectionnée
+              {selectedZones.length > 1 ? 's' : ''}
             </span>
             <button
               type="button"
@@ -153,10 +191,7 @@ export function BodyMapSelector({
             {selectedZones.map((zone) => (
               <span
                 key={zone}
-                className={cn(
-                  'inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-xs font-medium',
-                  'bg-[#FB923C]/15 text-[#EA7E2B] border border-[#FB923C]/25'
-                )}
+                className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-xs font-medium bg-[#FB923C]/15 text-[#EA7E2B] border border-[#FB923C]/25"
               >
                 {BODY_ZONE_LABELS[zone]}
                 <button

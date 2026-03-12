@@ -89,7 +89,6 @@ export function BodyMapSelector({
               side={view === 'front' ? 'front' : 'back'}
               scale={1.5}
               border="#D4A574"
-              highlightedColors={['#F97316', '#EA580C', '#DC2626']}
               onBodyPartClick={handleClick}
             />
           </div>

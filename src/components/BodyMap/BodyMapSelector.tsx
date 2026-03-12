@@ -33,7 +33,7 @@ export function BodyMapSelector({
       <div className="flex gap-4">
         {/* Body map */}
         <div className="flex-1 flex flex-col items-center">
-          <div className="w-full max-w-[180px]">
+          <div className="w-full max-w-[200px]">
             <BodyMapSVG
               view={view}
               selectedZones={selectedZones}

@@ -9,13 +9,6 @@ interface BodyMapSVGProps {
   zoneIntensities?: Partial<Record<BodyZone, number>>;
 }
 
-// Mannequin color
-const BODY_COLOR = '#93C5FD';
-const BODY_COLOR_DARK = '#60A5FA';
-const SELECTED_COLOR = '#F97316';
-const SELECTED_STROKE = '#EA580C';
-const HOVER_COLOR = '#BFDBFE';
-
 export function BodyMapSVG({
   view,
   selectedZones,
@@ -35,27 +28,27 @@ export function BodyMapSVG({
       return {
         fill: intensity !== undefined
           ? `hsl(${Math.max(0, 30 - intensity * 3)}, ${60 + intensity * 4}%, ${55 - intensity * 2}%)`
-          : SELECTED_COLOR,
-        stroke: SELECTED_STROKE,
-        strokeWidth: 2,
-        fillOpacity: 0.7,
+          : '#4DA3FF',
+        stroke: '#2563EB',
+        strokeWidth: 1.8,
+        fillOpacity: 0.65,
       };
     }
 
     if (isHovered) {
       return {
-        fill: HOVER_COLOR,
-        stroke: BODY_COLOR_DARK,
-        strokeWidth: 1.5,
-        fillOpacity: 0.6,
+        fill: '#BFDBFE',
+        stroke: '#60A5FA',
+        strokeWidth: 1.2,
+        fillOpacity: 0.5,
       };
     }
 
     return {
-      fill: BODY_COLOR,
-      stroke: BODY_COLOR_DARK,
-      strokeWidth: 0.8,
-      fillOpacity: 0.35,
+      fill: '#93C5FD',
+      stroke: '#64748B',
+      strokeWidth: 0.6,
+      fillOpacity: 0.3,
     };
   };
 
@@ -71,20 +64,20 @@ export function BodyMapSVG({
 
   return (
     <svg
-      viewBox="0 0 200 450"
+      viewBox="0 0 200 470"
       className="w-full h-auto select-none"
-      style={{ touchAction: 'manipulation', maxHeight: '420px' }}
+      style={{ touchAction: 'manipulation', maxHeight: '440px' }}
     >
-      {/* Subtle center line */}
+      {/* Subtle center guide */}
       <line
-        x1="100" y1="56" x2="100" y2="440"
+        x1="100" y1="60" x2="100" y2="465"
         stroke="hsl(var(--border))"
-        strokeWidth="0.3"
-        strokeDasharray="4,4"
-        opacity="0.4"
+        strokeWidth="0.25"
+        strokeDasharray="3,5"
+        opacity="0.25"
       />
 
-      {/* Body zones */}
+      {/* Body zones — each is a fluid bezier path */}
       {zones.map(({ zone, path }) => {
         const style = getZoneStyle(zone);
         return (
@@ -97,7 +90,8 @@ export function BodyMapSVG({
             stroke={style.stroke}
             strokeWidth={style.strokeWidth}
             strokeLinejoin="round"
-            className="cursor-pointer transition-all duration-150 ease-out"
+            strokeLinecap="round"
+            className="cursor-pointer transition-all duration-200 ease-out"
             onClick={(e) => {
               e.preventDefault();
               onZoneClick(zone);
@@ -108,26 +102,26 @@ export function BodyMapSVG({
         );
       })}
 
-      {/* Tooltip */}
+      {/* Tooltip on hover */}
       {tooltipZone && tooltipPos && (
         <g className="pointer-events-none">
           <rect
-            x={tooltipPos.x - 45}
-            y={tooltipPos.y - 12}
-            width="90"
-            height="18"
+            x={tooltipPos.x - 46}
+            y={tooltipPos.y - 11}
+            width="92"
+            height="17"
             rx="4"
             fill="hsl(var(--popover))"
             stroke="hsl(var(--border))"
             strokeWidth="0.5"
-            style={{ filter: 'drop-shadow(0 2px 4px rgba(0,0,0,0.1))' }}
+            style={{ filter: 'drop-shadow(0 2px 6px rgba(0,0,0,0.12))' }}
           />
           <text
             x={tooltipPos.x}
-            y={tooltipPos.y + 1}
+            y={tooltipPos.y + 2}
             textAnchor="middle"
             fill="hsl(var(--popover-foreground))"
-            fontSize="8"
+            fontSize="7.5"
             fontWeight="500"
             fontFamily="system-ui, sans-serif"
           >

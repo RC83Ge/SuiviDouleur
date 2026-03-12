@@ -248,25 +248,13 @@ export const BACK_PATHS: ZonePath[] = [
   {
     id: 'left-calf',
     label: 'Mollet gauche',
-    d: 'M88,312 L100,310 L100,340 L86,340 C84,334 84,326 86,318 Z',
+    d: 'M88,312 L100,310 L100,340 L98,412 C97,416 96,420 94,422 L84,422 C84,418 85,414 86,408 L86,340 C84,334 84,326 86,318 Z',
   },
   // RIGHT CALF
   {
     id: 'right-calf',
     label: 'Mollet droit',
-    d: 'M112,312 L100,310 L100,340 L114,340 C116,334 116,326 114,318 Z',
-  },
-  // LEFT CALF (lower)
-  {
-    id: 'left-calf',
-    label: 'Mollet gauche',
-    d: 'M86,340 L100,340 L98,412 C97,416 96,420 94,422 L84,422 C84,418 85,414 86,408 Z',
-  },
-  // RIGHT CALF (lower)
-  {
-    id: 'right-calf',
-    label: 'Mollet droit',
-    d: 'M114,340 L100,340 L102,412 C103,416 104,420 106,422 L116,422 C116,418 115,414 114,408 Z',
+    d: 'M112,312 L100,310 L100,340 L102,412 C103,416 104,420 106,422 L116,422 C116,418 115,414 114,408 L114,340 C116,334 116,326 114,318 Z',
   },
   // LEFT ANKLE BACK
   {

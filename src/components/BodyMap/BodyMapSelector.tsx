@@ -15,64 +15,64 @@ interface HotspotZone {
   shape?: 'circle' | 'ellipse';
 }
 
-// FRONT hotspots — positioned over the LEFT silhouette of the image
+// FRONT hotspots — calibrated to body-front.png
 const FRONT_ZONES: HotspotZone[] = [
   // Head & neck
-  { id: 'head', label: 'Tête', x: 50, y: 5.5, w: 12, h: 7, shape: 'ellipse' },
-  { id: 'neck', label: 'Cou', x: 50, y: 11, w: 6, h: 3 },
+  { id: 'head', label: 'Tête', x: 50, y: 9, w: 13, h: 7, shape: 'ellipse' },
+  { id: 'neck', label: 'Cou', x: 50, y: 14.5, w: 6, h: 3 },
   // Shoulders
-  { id: 'right-shoulder', label: 'Épaule droite', x: 37, y: 14.5, w: 8, h: 4 },
-  { id: 'left-shoulder', label: 'Épaule gauche', x: 63, y: 14.5, w: 8, h: 4 },
+  { id: 'right-shoulder', label: 'Épaule droite', x: 37, y: 18, w: 9, h: 4 },
+  { id: 'left-shoulder', label: 'Épaule gauche', x: 63, y: 18, w: 9, h: 4 },
   // Chest & torso
-  { id: 'chest', label: 'Thorax', x: 50, y: 19, w: 18, h: 7 },
-  { id: 'abdomen', label: 'Abdomen', x: 50, y: 28, w: 16, h: 7 },
-  { id: 'pelvis', label: 'Bassin', x: 50, y: 36, w: 16, h: 5 },
+  { id: 'chest', label: 'Thorax', x: 50, y: 23, w: 18, h: 7 },
+  { id: 'abdomen', label: 'Abdomen', x: 50, y: 32, w: 15, h: 7 },
+  { id: 'pelvis', label: 'Bassin', x: 50, y: 39.5, w: 15, h: 5 },
   // Arms — right side of patient (screen left)
-  { id: 'right-upper-arm', label: 'Bras droit', x: 30, y: 21, w: 6, h: 8 },
-  { id: 'right-elbow', label: 'Coude droit', x: 27, y: 28, w: 5, h: 3 },
-  { id: 'right-forearm', label: 'Avant-bras droit', x: 25, y: 33, w: 5, h: 7 },
-  { id: 'right-hand', label: 'Main droite', x: 23, y: 41, w: 5, h: 4, shape: 'ellipse' },
+  { id: 'right-upper-arm', label: 'Bras droit', x: 31, y: 24, w: 6, h: 8 },
+  { id: 'right-elbow', label: 'Coude droit', x: 28, y: 31, w: 5, h: 3 },
+  { id: 'right-forearm', label: 'Avant-bras droit', x: 26, y: 36, w: 5, h: 7 },
+  { id: 'right-hand', label: 'Main droite', x: 24, y: 44, w: 5, h: 4, shape: 'ellipse' },
   // Arms — left side of patient (screen right)
-  { id: 'left-upper-arm', label: 'Bras gauche', x: 70, y: 21, w: 6, h: 8 },
-  { id: 'left-elbow', label: 'Coude gauche', x: 73, y: 28, w: 5, h: 3 },
-  { id: 'left-forearm', label: 'Avant-bras gauche', x: 75, y: 33, w: 5, h: 7 },
-  { id: 'left-hand', label: 'Main gauche', x: 77, y: 41, w: 5, h: 4, shape: 'ellipse' },
+  { id: 'left-upper-arm', label: 'Bras gauche', x: 69, y: 24, w: 6, h: 8 },
+  { id: 'left-elbow', label: 'Coude gauche', x: 72, y: 31, w: 5, h: 3 },
+  { id: 'left-forearm', label: 'Avant-bras gauche', x: 74, y: 36, w: 5, h: 7 },
+  { id: 'left-hand', label: 'Main gauche', x: 76, y: 44, w: 5, h: 4, shape: 'ellipse' },
   // Legs — right (screen left)
-  { id: 'right-thigh', label: 'Cuisse droite', x: 43, y: 46, w: 9, h: 10 },
-  { id: 'right-knee', label: 'Genou droit', x: 43, y: 57, w: 7, h: 4 },
-  { id: 'right-shin', label: 'Tibia droit', x: 43, y: 65, w: 6, h: 11 },
-  { id: 'right-ankle', label: 'Cheville droite', x: 43, y: 78, w: 5, h: 3 },
-  { id: 'right-foot', label: 'Pied droit', x: 43, y: 83, w: 6, h: 4, shape: 'ellipse' },
+  { id: 'right-thigh', label: 'Cuisse droite', x: 44, y: 50, w: 9, h: 10 },
+  { id: 'right-knee', label: 'Genou droit', x: 44, y: 61, w: 7, h: 4 },
+  { id: 'right-shin', label: 'Tibia droit', x: 44, y: 70, w: 6, h: 11 },
+  { id: 'right-ankle', label: 'Cheville droite', x: 44, y: 82, w: 5, h: 3 },
+  { id: 'right-foot', label: 'Pied droit', x: 44, y: 88, w: 7, h: 4, shape: 'ellipse' },
   // Legs — left (screen right)
-  { id: 'left-thigh', label: 'Cuisse gauche', x: 57, y: 46, w: 9, h: 10 },
-  { id: 'left-knee', label: 'Genou gauche', x: 57, y: 57, w: 7, h: 4 },
-  { id: 'left-shin', label: 'Tibia gauche', x: 57, y: 65, w: 6, h: 11 },
-  { id: 'left-ankle', label: 'Cheville gauche', x: 57, y: 78, w: 5, h: 3 },
-  { id: 'left-foot', label: 'Pied gauche', x: 57, y: 83, w: 6, h: 4, shape: 'ellipse' },
+  { id: 'left-thigh', label: 'Cuisse gauche', x: 56, y: 50, w: 9, h: 10 },
+  { id: 'left-knee', label: 'Genou gauche', x: 56, y: 61, w: 7, h: 4 },
+  { id: 'left-shin', label: 'Tibia gauche', x: 56, y: 70, w: 6, h: 11 },
+  { id: 'left-ankle', label: 'Cheville gauche', x: 56, y: 82, w: 5, h: 3 },
+  { id: 'left-foot', label: 'Pied gauche', x: 56, y: 88, w: 7, h: 4, shape: 'ellipse' },
 ];
 
-// BACK hotspots
+// BACK hotspots — calibrated to body-back.png
 const BACK_ZONES: HotspotZone[] = [
-  { id: 'head-back', label: 'Tête (dos)', x: 50, y: 5.5, w: 12, h: 7, shape: 'ellipse' },
-  { id: 'neck-back', label: 'Nuque', x: 50, y: 11, w: 6, h: 3 },
-  { id: 'right-shoulder-blade', label: 'Omoplate droite', x: 40, y: 17, w: 8, h: 6 },
-  { id: 'left-shoulder-blade', label: 'Omoplate gauche', x: 60, y: 17, w: 8, h: 6 },
-  { id: 'upper-back', label: 'Haut du dos', x: 50, y: 19, w: 12, h: 5 },
-  { id: 'middle-back', label: 'Milieu du dos', x: 50, y: 25, w: 14, h: 5 },
-  { id: 'lower-back', label: 'Bas du dos', x: 50, y: 32, w: 14, h: 5 },
+  { id: 'head-back', label: 'Tête (dos)', x: 50, y: 9, w: 13, h: 7, shape: 'ellipse' },
+  { id: 'neck-back', label: 'Nuque', x: 50, y: 14.5, w: 6, h: 3 },
+  { id: 'right-shoulder-blade', label: 'Omoplate droite', x: 41, y: 21, w: 8, h: 6 },
+  { id: 'left-shoulder-blade', label: 'Omoplate gauche', x: 59, y: 21, w: 8, h: 6 },
+  { id: 'upper-back', label: 'Haut du dos', x: 50, y: 23, w: 12, h: 5 },
+  { id: 'middle-back', label: 'Milieu du dos', x: 50, y: 29, w: 14, h: 5 },
+  { id: 'lower-back', label: 'Bas du dos', x: 50, y: 35, w: 14, h: 5 },
   // Arms back
-  { id: 'right-arm-back', label: 'Bras droit (dos)', x: 28, y: 26, w: 6, h: 14 },
-  { id: 'left-arm-back', label: 'Bras gauche (dos)', x: 72, y: 26, w: 6, h: 14 },
+  { id: 'right-arm-back', label: 'Bras droit (dos)', x: 29, y: 30, w: 6, h: 14 },
+  { id: 'left-arm-back', label: 'Bras gauche (dos)', x: 71, y: 30, w: 6, h: 14 },
   // Buttocks
-  { id: 'right-buttock', label: 'Fessier droit', x: 44, y: 38, w: 8, h: 5 },
-  { id: 'left-buttock', label: 'Fessier gauche', x: 56, y: 38, w: 8, h: 5 },
+  { id: 'right-buttock', label: 'Fessier droit', x: 44, y: 41, w: 8, h: 5 },
+  { id: 'left-buttock', label: 'Fessier gauche', x: 56, y: 41, w: 8, h: 5 },
   // Legs back
-  { id: 'right-hamstring', label: 'Ischio-jambier droit', x: 43, y: 48, w: 9, h: 10 },
-  { id: 'left-hamstring', label: 'Ischio-jambier gauche', x: 57, y: 48, w: 9, h: 10 },
-  { id: 'right-calf', label: 'Mollet droit', x: 43, y: 65, w: 7, h: 11 },
-  { id: 'left-calf', label: 'Mollet gauche', x: 57, y: 65, w: 7, h: 11 },
-  { id: 'right-ankle-back', label: 'Cheville droite (dos)', x: 43, y: 78, w: 5, h: 3 },
-  { id: 'left-ankle-back', label: 'Cheville gauche (dos)', x: 57, y: 78, w: 5, h: 3 },
+  { id: 'right-hamstring', label: 'Ischio-jambier droit', x: 44, y: 52, w: 9, h: 10 },
+  { id: 'left-hamstring', label: 'Ischio-jambier gauche', x: 56, y: 52, w: 9, h: 10 },
+  { id: 'right-calf', label: 'Mollet droit', x: 44, y: 70, w: 7, h: 11 },
+  { id: 'left-calf', label: 'Mollet gauche', x: 56, y: 70, w: 7, h: 11 },
+  { id: 'right-ankle-back', label: 'Cheville droite (dos)', x: 44, y: 82, w: 5, h: 3 },
+  { id: 'left-ankle-back', label: 'Cheville gauche (dos)', x: 56, y: 82, w: 5, h: 3 },
 ];
 
 const ALL_ZONES_MAP = [...FRONT_ZONES, ...BACK_ZONES].reduce(

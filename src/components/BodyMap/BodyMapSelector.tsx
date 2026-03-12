@@ -1,6 +1,6 @@
-import React from 'react';
+import React, { useState, useCallback } from 'react';
+import Model, { type IExerciseData, type IMuscleStats } from 'react-body-highlighter';
 import { BodyView, BodyZone, BODY_ZONE_LABELS } from '@/types/pain';
-import { BodyMapSVG } from './BodyMapSVG';
 import { X, Sparkles } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs';
@@ -10,34 +10,86 @@ interface BodyMapSelectorProps {
   onZonesChange: (zones: BodyZone[]) => void;
 }
 
+// Map react-body-highlighter muscle slugs → our BodyZone types
+const MUSCLE_TO_ZONE: Record<string, BodyZone> = {
+  'head': 'head',
+  'neck': 'neck',
+  'front-deltoids': 'left-shoulder',
+  'back-deltoids': 'right-shoulder',
+  'chest': 'chest',
+  'biceps': 'left-arm',
+  'triceps': 'right-arm',
+  'forearm': 'left-forearm',
+  'abs': 'abdomen',
+  'obliques': 'pelvis',
+  'adductor': 'left-hip',
+  'quadriceps': 'left-thigh',
+  'hamstring': 'right-thigh',
+  'abductors': 'right-hip',
+  'knees': 'left-knee',
+  'calves': 'left-leg',
+  'tibpilas-anterior': 'right-leg',
+  'gluteal': 'pelvis',
+  'trapezius': 'neck',
+  'upper-back': 'upper-back',
+  'lower-back': 'lower-back',
+  'hands': 'left-hand',
+  'feet': 'left-foot',
+};
+
+// Reverse: zone → muscles for highlighting
+const ZONE_TO_MUSCLES: Record<string, string[]> = {};
+Object.entries(MUSCLE_TO_ZONE).forEach(([muscle, zone]) => {
+  if (!ZONE_TO_MUSCLES[zone]) ZONE_TO_MUSCLES[zone] = [];
+  ZONE_TO_MUSCLES[zone].push(muscle);
+});
+
 export function BodyMapSelector({
   selectedZones,
   onZonesChange,
 }: BodyMapSelectorProps) {
-  const [view, setView] = React.useState<BodyView>('front');
+  const [view, setView] = useState<BodyView>('front');
 
-  const handleZoneClick = (zone: BodyZone) => {
-    if (selectedZones.includes(zone)) {
-      onZonesChange(selectedZones.filter(z => z !== zone));
-    } else {
-      onZonesChange([...selectedZones, zone]);
-    }
-  };
+  const handleClick = useCallback(
+    (data: IMuscleStats) => {
+      const muscle = data.muscle;
+      const zone = MUSCLE_TO_ZONE[muscle];
+      if (!zone) return;
+
+      if (selectedZones.includes(zone)) {
+        onZonesChange(selectedZones.filter(z => z !== zone));
+      } else {
+        onZonesChange([...selectedZones, zone]);
+      }
+    },
+    [selectedZones, onZonesChange]
+  );
 
   const clearSelection = () => {
     onZonesChange([]);
   };
 
+  // Build data for the highlighter from selected zones
+  const highlightData: IExerciseData[] = selectedZones
+    .flatMap(zone => {
+      const muscles = ZONE_TO_MUSCLES[zone] || [];
+      return muscles.map(muscle => ({
+        name: BODY_ZONE_LABELS[zone],
+        muscles: [muscle],
+      }));
+    });
+
   return (
     <div className="space-y-4">
       <div className="flex gap-4">
-        {/* Body map — centered */}
+        {/* Body model */}
         <div className="flex-1 flex flex-col items-center">
-          <div className="w-full max-w-[200px]">
-            <BodyMapSVG
-              view={view}
-              selectedZones={selectedZones}
-              onZoneClick={handleZoneClick}
+          <div className="w-full max-w-[220px]">
+            <Model
+              data={highlightData}
+              style={{ width: '100%', padding: '0' }}
+              onClick={handleClick}
+              type={view === 'front' ? 'anterior' : 'posterior'}
             />
           </div>
 
@@ -105,7 +157,9 @@ export function BodyMapSelector({
                     {BODY_ZONE_LABELS[zone]}
                     <button
                       type="button"
-                      onClick={() => handleZoneClick(zone)}
+                      onClick={() => {
+                        onZonesChange(selectedZones.filter(z => z !== zone));
+                      }}
                       className="hover:bg-primary/20 rounded-full p-0.5 transition-colors duration-200 -mr-0.5"
                     >
                       <X className="w-3 h-3" />

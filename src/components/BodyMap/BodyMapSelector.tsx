@@ -11,9 +11,14 @@ interface BodyMapSelectorProps {
 }
 
 // Map (slug, side) → BodyZone
+function inferSideFromSlug(slug: string): 'left' | 'right' | undefined {
+  if (slug.startsWith('left-') || slug.endsWith('-left') || slug.includes('left')) return 'left';
+  if (slug.startsWith('right-') || slug.endsWith('-right') || slug.includes('right')) return 'right';
+  return undefined;
+}
+
 function slugToZone(slug: string, side?: 'left' | 'right'): BodyZone | null {
-  const s = side || 'left';
-  const map: Record<string, BodyZone | Record<string, BodyZone>> = {
+  const map: Record<string, BodyZone | Record<'left' | 'right', BodyZone>> = {
     'head': 'head',
     'neck': 'neck',
     'deltoids': { left: 'left-shoulder', right: 'right-shoulder' },
@@ -38,10 +43,14 @@ function slugToZone(slug: string, side?: 'left' | 'right'): BodyZone | null {
     'upper-back': 'upper-back',
     'lower-back': 'lower-back',
   };
+
   const entry = map[slug];
   if (!entry) return null;
   if (typeof entry === 'string') return entry;
-  return entry[s] || null;
+
+  const resolvedSide = side ?? inferSideFromSlug(slug);
+  if (!resolvedSide) return null;
+  return entry[resolvedSide] || null;
 }
 
 // Reverse: zone → highlight data
@@ -85,7 +94,9 @@ export function BodyMapSelector({
 
   const handleClick = useCallback(
     (part: ExtendedBodyPart, side?: 'left' | 'right') => {
-      const zone = slugToZone(part.slug, side);
+      const partWithSide = part as ExtendedBodyPart & { side?: 'left' | 'right' };
+      const resolvedSide = side ?? partWithSide.side;
+      const zone = slugToZone(part.slug, resolvedSide);
       if (!zone) return;
 
       if (selectedZones.includes(zone)) {

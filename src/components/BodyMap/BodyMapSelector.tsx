@@ -61,7 +61,6 @@ export function BodyMapSelector({
           side={view === 'front' ? 'front' : 'back'}
           scale={1.7}
           border="#dfdfdf"
-          highlightedColors={['#93c5fd']}
         />
       </div>
 

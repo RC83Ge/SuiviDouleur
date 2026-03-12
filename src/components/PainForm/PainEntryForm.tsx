@@ -17,7 +17,7 @@ interface PainEntryFormProps {
 export function PainEntryForm({ onSave, onCancel }: PainEntryFormProps) {
   const [date, setDate] = useState(format(new Date(), "yyyy-MM-dd"));
   const [time, setTime] = useState(format(new Date(), "HH:mm"));
-  const [selectedZones, setSelectedZones] = useState<BodyZone[]>([]);
+  const [selectedZones, setSelectedZones] = useState<string[]>([]);
   const [zoneIntensities, setZoneIntensities] = useState<Record<string, number>>({});
   const [painTypes, setPainTypes] = useState<PainType[]>([]);
   const [intensity, setIntensity] = useState(5);
@@ -46,7 +46,7 @@ export function PainEntryForm({ onSave, onCancel }: PainEntryFormProps) {
     
     onSave({
       date: dateTime,
-      zones: selectedZones,
+      zones: selectedZones as BodyZone[],
       painTypes: painTypes,
       intensity,
       duration,

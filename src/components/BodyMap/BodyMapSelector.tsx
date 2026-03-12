@@ -3,6 +3,7 @@ import { BodyView, BodyZone, BODY_ZONE_LABELS } from '@/types/pain';
 import { BodyMapSVG } from './BodyMapSVG';
 import { X, Sparkles } from 'lucide-react';
 import { cn } from '@/lib/utils';
+import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs';
 
 interface BodyMapSelectorProps {
   selectedZones: BodyZone[];
@@ -29,47 +30,34 @@ export function BodyMapSelector({
 
   return (
     <div className="space-y-4">
-      {/* View toggle */}
-      <div className="flex bg-muted rounded-lg p-1 w-fit">
-        <button
-          type="button"
-          onClick={() => setView('front')}
-          className={cn(
-            "px-3 py-1.5 text-xs font-medium rounded-md transition-all duration-200",
-            view === 'front' 
-              ? "bg-background text-foreground shadow-sm" 
-              : "text-muted-foreground hover:text-foreground"
-          )}
-        >
-          Face
-        </button>
-        <button
-          type="button"
-          onClick={() => setView('back')}
-          className={cn(
-            "px-3 py-1.5 text-xs font-medium rounded-md transition-all duration-200",
-            view === 'back' 
-              ? "bg-background text-foreground shadow-sm" 
-              : "text-muted-foreground hover:text-foreground"
-          )}
-        >
-          Dos
-        </button>
-      </div>
-
       <div className="flex gap-4">
         {/* Body map */}
-        <div className="flex-1 flex justify-center">
-          <div className="w-full max-w-[200px] relative">
-            <div className="absolute inset-0 bg-gradient-to-b from-muted/20 to-transparent rounded-2xl -z-10" />
+        <div className="flex-1 flex flex-col items-center">
+          <div className="w-full max-w-[180px]">
             <BodyMapSVG
               view={view}
               selectedZones={selectedZones}
               onZoneClick={handleZoneClick}
             />
           </div>
+
+          {/* View tabs below the body */}
+          <Tabs
+            value={view}
+            onValueChange={(v) => setView(v as BodyView)}
+            className="mt-3"
+          >
+            <TabsList className="h-9">
+              <TabsTrigger value="front" className="text-xs px-5">
+                Avant
+              </TabsTrigger>
+              <TabsTrigger value="back" className="text-xs px-5">
+                Arrière
+              </TabsTrigger>
+            </TabsList>
+          </Tabs>
         </div>
-        
+
         {/* Selected zones panel */}
         <div className="flex-1 min-w-[140px]">
           <div className="flex items-center justify-between mb-3">
@@ -90,7 +78,7 @@ export function BodyMapSelector({
               </button>
             )}
           </div>
-          
+
           {selectedZones.length === 0 ? (
             <div className="flex flex-col items-center justify-center py-6 px-3 bg-muted/30 rounded-xl border border-dashed border-muted-foreground/20">
               <p className="text-sm text-muted-foreground text-center leading-relaxed">

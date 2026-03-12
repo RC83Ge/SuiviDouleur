@@ -102,9 +102,9 @@ export function BodyMapSelector({
     <div className="space-y-4">
       {/* SVG Body - centered */}
       <div className="flex flex-col items-center">
-        <div className="w-[140px]">
+        <div className="w-[200px]">
           <svg
-            viewBox="0 0 180 430"
+            viewBox="0 0 300 500"
             xmlns="http://www.w3.org/2000/svg"
             className="w-full h-auto"
             style={{ userSelect: 'none' }}

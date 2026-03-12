@@ -125,48 +125,46 @@ export function BodyMapSelector({
   return (
     <div className="flex flex-col items-center gap-4">
       {/* Body image with hotspot overlay */}
-      <div className="relative w-[200px] aspect-[1/2.2] mx-auto">
-        {/* Background image */}
+      <div className="relative w-[160px] mx-auto">
+        {/* Background image — defines the container size */}
         <img
           src={bgImage}
           alt={view === 'front' ? 'Corps de face' : 'Corps de dos'}
-          className="w-full h-full object-contain select-none pointer-events-none"
+          className="w-full h-auto block select-none pointer-events-none"
           draggable={false}
         />
 
-        {/* Hotspot overlay */}
-        <svg
-          className="absolute inset-0 w-full h-full"
-          viewBox="0 0 100 100"
-          preserveAspectRatio="none"
-          style={{ zIndex: 2 }}
-        >
+        {/* Hotspot overlay — same size as the image, percentage-based positions */}
+        <div className="absolute inset-0" style={{ zIndex: 2 }}>
           {zones.map((zone) => {
             const isSelected = selectedZones.includes(zone.id);
             const level = zoneIntensities[zone.id] ?? intensity;
             return (
-              <ellipse
+              <div
                 key={zone.id}
-                cx={zone.x}
-                cy={zone.y}
-                rx={zone.w / 2}
-                ry={zone.h / 2}
-                fill={isSelected ? intensityColor(level) : 'rgba(0,100,255,0.15)'}
-                stroke={isSelected ? 'rgba(239, 68, 68, 0.7)' : 'rgba(0,100,255,0.4)'}
-                strokeWidth="0.3"
-                className="cursor-pointer transition-all duration-200"
+                title={zone.label}
                 onClick={() => handleZoneClick(zone.id)}
                 onTouchEnd={(e) => {
                   e.preventDefault();
                   handleZoneClick(zone.id);
                 }}
-                style={{ pointerEvents: 'all' }}
-              >
-                <title>{zone.label}</title>
-              </ellipse>
+                className="absolute rounded-full cursor-pointer transition-all duration-200"
+                style={{
+                  left: `${zone.x - zone.w / 2}%`,
+                  top: `${zone.y - zone.h / 2}%`,
+                  width: `${zone.w}%`,
+                  height: `${zone.h}%`,
+                  backgroundColor: isSelected
+                    ? intensityColor(level)
+                    : 'rgba(0,100,255,0.15)',
+                  border: isSelected
+                    ? '1px solid rgba(239,68,68,0.7)'
+                    : '1px solid rgba(0,100,255,0.3)',
+                }}
+              />
             );
           })}
-        </svg>
+        </div>
       </div>
 
       {/* View label */}

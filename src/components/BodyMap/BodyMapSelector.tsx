@@ -151,8 +151,8 @@ export function BodyMapSelector({
                 cy={zone.y}
                 rx={zone.w / 2}
                 ry={zone.h / 2}
-                fill={isSelected ? intensityColor(level) : 'transparent'}
-                stroke={isSelected ? 'rgba(239, 68, 68, 0.7)' : 'transparent'}
+                fill={isSelected ? intensityColor(level) : 'rgba(0,100,255,0.15)'}
+                stroke={isSelected ? 'rgba(239, 68, 68, 0.7)' : 'rgba(0,100,255,0.4)'}
                 strokeWidth="0.3"
                 className="cursor-pointer transition-all duration-200"
                 onClick={() => handleZoneClick(zone.id)}

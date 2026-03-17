@@ -81,43 +81,45 @@ export function BodyMapSelector({
   const currentIntensity = activeZone ? zoneIntensities[activeZone] ?? draftIntensity : draftIntensity;
 
   return (
-    <div className="space-y-5">
-      <div className="overflow-hidden rounded-[1.9rem] border border-primary/10 bg-[linear-gradient(180deg,hsl(var(--background)),hsl(var(--card))_18%,hsl(var(--muted)/0.4))] shadow-medical-lg">
-        <div className="border-b border-border/70 bg-card/80 px-5 py-5 backdrop-blur-sm">
-          <div className="flex flex-col gap-4 xl:flex-row xl:items-center xl:justify-between">
-            <div className="space-y-2">
-              <div className="inline-flex items-center gap-2 rounded-full border border-primary/15 bg-primary/5 px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.22em] text-primary">
+    <div className="space-y-3 sm:space-y-5">
+      <div className="overflow-hidden rounded-[1.5rem] border border-primary/10 bg-[linear-gradient(180deg,hsl(var(--background)),hsl(var(--card))_18%,hsl(var(--muted)/0.4))] shadow-medical-lg sm:rounded-[1.9rem]">
+        <div className="border-b border-border/70 bg-card/80 px-3 py-3 backdrop-blur-sm sm:px-5 sm:py-5">
+          <div className="flex flex-col gap-3 sm:gap-4 xl:flex-row xl:items-center xl:justify-between">
+            <div className="space-y-1.5 sm:space-y-2">
+              <div className="inline-flex items-center gap-2 rounded-full border border-primary/15 bg-primary/5 px-2.5 py-1 text-[10px] font-semibold uppercase tracking-[0.18em] text-primary sm:px-3 sm:text-[11px] sm:tracking-[0.22em]">
                 <Stethoscope className="h-3.5 w-3.5" />
                 Sélection anatomique
               </div>
-              <div>
-                <h3 className="text-xl font-semibold text-foreground">Déclarez une douleur par zone</h3>
-                <p className="max-w-2xl text-sm leading-6 text-muted-foreground">
-                  Cliquez directement sur le mannequin pour sélectionner une zone, puis ajustez l’intensité de 1 à 10.
+              <div className="space-y-1">
+                <h3 className="text-base font-semibold leading-tight text-foreground sm:text-xl">
+                  Déclarez une douleur par zone
+                </h3>
+                <p className="max-w-2xl text-xs leading-5 text-muted-foreground sm:text-sm sm:leading-6">
+                  Touchez le mannequin pour sélectionner une zone, puis ajustez l’intensité de 1 à 10.
                 </p>
               </div>
             </div>
 
-            <div className="flex items-center gap-3 rounded-[1.25rem] border border-border/80 bg-background/90 px-3 py-2 shadow-medical-sm">
+            <div className="flex items-center justify-between gap-3 rounded-[1rem] border border-border/80 bg-background/90 px-3 py-2 shadow-medical-sm sm:justify-start sm:rounded-[1.25rem]">
               <div>
-                <p className="text-sm font-medium text-foreground">Mode debug</p>
-                <p className="text-xs text-muted-foreground">Contours et repères d’alignement</p>
+                <p className="text-xs font-medium text-foreground sm:text-sm">Mode debug</p>
+                <p className="text-[11px] leading-4 text-muted-foreground sm:text-xs">Contours et repères d’alignement</p>
               </div>
               <Switch checked={debugMode} onCheckedChange={setDebugMode} aria-label="Activer le mode debug" />
             </div>
           </div>
         </div>
 
-        <div className="space-y-5 px-5 py-5">
-          <div className="rounded-[1.5rem] border border-border/70 bg-card/95 p-4 shadow-medical-sm backdrop-blur-sm">
-            <div className="mb-4 flex items-center justify-between gap-3">
-              <div>
-                <p className="text-xs font-semibold uppercase tracking-[0.18em] text-muted-foreground">Intensité</p>
-                <p className="text-sm font-medium text-foreground">
+        <div className="space-y-3 px-3 py-3 sm:space-y-5 sm:px-5 sm:py-5">
+          <div className="rounded-[1.2rem] border border-border/70 bg-card/95 p-3 shadow-medical-sm backdrop-blur-sm sm:rounded-[1.5rem] sm:p-4">
+            <div className="mb-3 flex items-center justify-between gap-3 sm:mb-4">
+              <div className="min-w-0">
+                <p className="text-[10px] font-semibold uppercase tracking-[0.16em] text-muted-foreground sm:text-xs sm:tracking-[0.18em]">Intensité</p>
+                <p className="truncate text-sm font-medium text-foreground">
                   {activeZone ? ZONE_LABELS[activeZone] ?? activeZone : 'Sélectionnez une zone'}
                 </p>
               </div>
-              <div className="flex h-11 min-w-11 items-center justify-center rounded-2xl bg-primary text-base font-semibold text-primary-foreground shadow-medical-sm">
+              <div className="flex h-9 min-w-9 items-center justify-center rounded-xl bg-primary px-2 text-sm font-semibold text-primary-foreground shadow-medical-sm sm:h-11 sm:min-w-11 sm:rounded-2xl sm:px-0 sm:text-base">
                 {currentIntensity}
               </div>
             </div>
@@ -132,18 +134,18 @@ export function BodyMapSelector({
               className="py-1"
             />
 
-            <div className="mt-2 flex justify-between text-[11px] text-muted-foreground">
+            <div className="mt-2 flex justify-between text-[10px] text-muted-foreground">
               <span>1 léger</span>
               <span>10 intense</span>
             </div>
 
-            <p className="mt-3 text-xs leading-5 text-muted-foreground">
-              Cliquez sur une zone anatomique active pour lui attribuer un niveau de douleur précis.
+            <p className="mt-2 text-[11px] leading-4 text-muted-foreground sm:mt-3 sm:text-xs sm:leading-5">
+              Sélectionnez une zone active pour régler précisément son niveau de douleur.
             </p>
           </div>
 
-          <div className="space-y-4">
-            <div className="grid gap-4 lg:grid-cols-2">
+          <div className="space-y-3 sm:space-y-4">
+            <div className="grid gap-3 sm:gap-4 lg:grid-cols-2">
               <AnatomyFigure
                 title={VIEW_META.front.title}
                 subtitle={VIEW_META.front.subtitle}

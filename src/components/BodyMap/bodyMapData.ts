@@ -41,8 +41,8 @@ export const ZONE_GROUPS: ZoneGroup[] = [
   },
   {
     id: 'torso',
-    label: 'Tronc',
-    description: 'Thorax, abdomen et bassin',
+    label: 'Dos & tronc',
+    description: 'Thorax, abdomen, dos et bassin',
     zones: ['chest', 'abdomen', 'pelvis', 'upper-back', 'middle-back', 'lower-back', 'left-buttock', 'right-buttock'],
   },
   {
@@ -89,9 +89,5 @@ export const ZONE_GROUPS: ZoneGroup[] = [
 
 export const ZONE_LABELS = [...FRONT_PATHS, ...BACK_PATHS].reduce(
   (acc, zone) => ({ ...acc, [zone.id]: zone.label }),
-  {} as Record<BodyZone, string>
+  {} as Record<string, string>
 );
-
-export function getZonesForView(view: BodyView) {
-  return BODY_PATHS[view];
-}

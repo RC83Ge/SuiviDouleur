@@ -32,7 +32,7 @@ export function AnatomyFigure({
     <div className="card-medical-elevated rounded-[1.5rem] bg-card/90 p-4 backdrop-blur-sm">
       <div className="mb-4 flex items-center justify-between">
         <div>
-          <p className="text-sm font-semibold tracking-[0.2em] text-primary uppercase">{title}</p>
+          <p className="text-sm font-semibold uppercase tracking-[0.2em] text-primary">{title}</p>
           <p className="text-xs text-muted-foreground">{subtitle}</p>
         </div>
         <div className="rounded-full border border-border bg-background px-3 py-1 text-[11px] font-medium text-muted-foreground">
@@ -60,47 +60,35 @@ export function AnatomyFigure({
             const level = zoneIntensities[zone.id] ?? 5;
 
             return (
-              <g key={zone.id}>
-                <path
-                  d={zone.d}
-                  onClick={() => onZoneClick(zone.id)}
-                  onMouseEnter={() => onZoneHover(zone.id)}
-                  onMouseLeave={() => onZoneHover(null)}
-                  onFocus={() => onZoneHover(zone.id)}
-                  onBlur={() => onZoneHover(null)}
-                  className={cn(
-                    'cursor-pointer transition-all duration-200 outline-none',
-                    isSelected || isHovered ? 'stroke-primary' : 'stroke-transparent'
-                  )}
-                  style={{
-                    fill: intensityTone(level, isHovered),
-                    fillOpacity: isSelected ? 0.9 : isHovered ? 0.45 : debugMode ? 0.12 : 0.02,
-                    strokeWidth: isSelected ? 1.8 : isHovered || debugMode ? 1.2 : 0.6,
-                    strokeDasharray: debugMode && !isSelected ? '3 2' : '0',
-                    filter: isSelected || isHovered ? 'drop-shadow(0 0 10px hsl(var(--primary) / 0.30))' : 'none',
-                  }}
-                  aria-label={zone.label}
-                  role="button"
-                  tabIndex={0}
-                  onKeyDown={(event) => {
-                    if (event.key === 'Enter' || event.key === ' ') {
-                      event.preventDefault();
-                      onZoneClick(zone.id);
-                    }
-                  }}
-                />
-
-                {debugMode && (
-                  <text
-                    x="100"
-                    y="20"
-                    className="fill-muted-foreground"
-                    style={{ display: 'none' }}
-                  >
-                    {zone.label}
-                  </text>
+              <path
+                key={zone.id}
+                d={zone.d}
+                onClick={() => onZoneClick(zone.id)}
+                onMouseEnter={() => onZoneHover(zone.id)}
+                onMouseLeave={() => onZoneHover(null)}
+                onFocus={() => onZoneHover(zone.id)}
+                onBlur={() => onZoneHover(null)}
+                className={cn(
+                  'cursor-pointer transition-all duration-200 outline-none',
+                  isSelected || isHovered ? 'stroke-primary' : 'stroke-transparent'
                 )}
-              </g>
+                style={{
+                  fill: intensityTone(level, isHovered),
+                  fillOpacity: isSelected ? 0.9 : isHovered ? 0.45 : debugMode ? 0.12 : 0.02,
+                  strokeWidth: isSelected ? 1.8 : isHovered || debugMode ? 1.2 : 0.6,
+                  strokeDasharray: debugMode && !isSelected ? '3 2' : '0',
+                  filter: isSelected || isHovered ? 'drop-shadow(0 0 10px hsl(var(--primary) / 0.30))' : 'none',
+                }}
+                aria-label={zone.label}
+                role="button"
+                tabIndex={0}
+                onKeyDown={(event) => {
+                  if (event.key === 'Enter' || event.key === ' ') {
+                    event.preventDefault();
+                    onZoneClick(zone.id);
+                  }
+                }}
+              />
             );
           })}
         </svg>

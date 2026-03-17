@@ -8,9 +8,12 @@ interface DurationSelectorProps {
 
 const durations: PainDuration[] = ['instant', 'minutes', 'hours', 'continuous'];
 
-export function DurationSelector({ value, onChange }: DurationSelectorProps) {
+export const DurationSelector = React.forwardRef<HTMLDivElement, DurationSelectorProps>(function DurationSelector(
+  { value, onChange },
+  ref
+) {
   return (
-    <div className="space-y-3">
+    <div ref={ref} className="space-y-3">
       <label className="text-sm font-medium text-foreground">Durée</label>
 
       <select
@@ -26,4 +29,4 @@ export function DurationSelector({ value, onChange }: DurationSelectorProps) {
       </select>
     </div>
   );
-}
+});

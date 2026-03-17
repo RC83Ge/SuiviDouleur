@@ -91,10 +91,6 @@ export function BodyMapSelector({
                 Sélection anatomique
               </div>
               <div>
-                <h3 className="text-xl font-semibold text-foreground">Déclarez une douleur par zone</h3>
-                <p className="max-w-2xl text-sm leading-6 text-muted-foreground">
-                  Cliquez directement sur le mannequin pour sélectionner une zone, puis ajustez l’intensité de 1 à 10.
-                </p>
               </div>
             </div>
 

@@ -5,8 +5,8 @@ import { BODY_PATHS, ZONE_GROUPS, ZONE_LABELS, VIEW_META } from './bodyMapData';
 import { ZoneSelectionSummary } from './ZoneSelectionSummary';
 import { Switch } from '@/components/ui/switch';
 import { Slider } from '@/components/ui/slider';
-import bodyFront from '@/assets/body-front-v2.png';
-import bodyBack from '@/assets/body-back-v2.png';
+import bodyFront from '@/assets/body-front.png';
+import bodyBack from '@/assets/body-back.png';
 
 interface BodyMapSelectorProps {
   selectedZones: string[];
@@ -91,6 +91,10 @@ export function BodyMapSelector({
                 Sélection anatomique
               </div>
               <div>
+                <h3 className="text-xl font-semibold text-foreground">Déclarez une douleur par zone</h3>
+                <p className="max-w-2xl text-sm leading-6 text-muted-foreground">
+                  Cliquez directement sur le mannequin pour sélectionner une zone, puis ajustez l’intensité de 1 à 10.
+                </p>
               </div>
             </div>
 

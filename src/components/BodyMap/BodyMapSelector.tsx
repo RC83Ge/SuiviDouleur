@@ -1,49 +1,41 @@
 import React, { useState, useCallback } from 'react';
 import { cn } from '@/lib/utils';
-import { X } from 'lucide-react';
+import { Bug, X } from 'lucide-react';
+import { Switch } from '@/components/ui/switch';
 import bodyFront from '@/assets/body-front.png';
 import bodyBack from '@/assets/body-back.png';
 
-// Zone definition: id, label, position (% based), size
 interface HotspotZone {
   id: string;
   label: string;
-  x: number; // center X in %
-  y: number; // center Y in %
-  w: number; // width in %
-  h: number; // height in %
+  x: number;
+  y: number;
+  w: number;
+  h: number;
   shape?: 'circle' | 'ellipse';
 }
 
-// FRONT hotspots — calibrated to body-front.png (% relative to image)
 const FRONT_ZONES: HotspotZone[] = [
-  // Head & neck
   { id: 'head', label: 'Tête', x: 50, y: 6, w: 14, h: 7, shape: 'ellipse' },
   { id: 'neck', label: 'Cou', x: 50, y: 12, w: 7, h: 3 },
-  // Shoulders
   { id: 'right-shoulder', label: 'Épaule droite', x: 38, y: 16, w: 9, h: 4 },
   { id: 'left-shoulder', label: 'Épaule gauche', x: 62, y: 16, w: 9, h: 4 },
-  // Chest & torso
   { id: 'chest', label: 'Thorax', x: 50, y: 21, w: 17, h: 6 },
   { id: 'abdomen', label: 'Abdomen', x: 50, y: 29, w: 14, h: 6 },
   { id: 'pelvis', label: 'Bassin', x: 50, y: 36, w: 14, h: 5 },
-  // Arms — right side of patient (screen left)
   { id: 'right-upper-arm', label: 'Bras droit', x: 32, y: 22, w: 6, h: 7 },
   { id: 'right-elbow', label: 'Coude droit', x: 30, y: 29, w: 5, h: 3 },
   { id: 'right-forearm', label: 'Avant-bras droit', x: 27, y: 34, w: 5, h: 6 },
   { id: 'right-hand', label: 'Main droite', x: 25, y: 41, w: 5, h: 4, shape: 'ellipse' },
-  // Arms — left side of patient (screen right)
   { id: 'left-upper-arm', label: 'Bras gauche', x: 68, y: 22, w: 6, h: 7 },
   { id: 'left-elbow', label: 'Coude gauche', x: 70, y: 29, w: 5, h: 3 },
   { id: 'left-forearm', label: 'Avant-bras gauche', x: 73, y: 34, w: 5, h: 6 },
   { id: 'left-hand', label: 'Main gauche', x: 75, y: 41, w: 5, h: 4, shape: 'ellipse' },
-  // Legs — right (screen left)
   { id: 'right-thigh', label: 'Cuisse droite', x: 44, y: 47, w: 9, h: 9 },
   { id: 'right-knee', label: 'Genou droit', x: 44, y: 57, w: 7, h: 4 },
   { id: 'right-shin', label: 'Tibia droit', x: 44, y: 66, w: 6, h: 10 },
   { id: 'right-ankle', label: 'Cheville droite', x: 44, y: 78, w: 5, h: 3 },
   { id: 'right-foot', label: 'Pied droit', x: 43, y: 84, w: 7, h: 4, shape: 'ellipse' },
-  // Legs — left (screen right)
   { id: 'left-thigh', label: 'Cuisse gauche', x: 56, y: 47, w: 9, h: 9 },
   { id: 'left-knee', label: 'Genou gauche', x: 56, y: 57, w: 7, h: 4 },
   { id: 'left-shin', label: 'Tibia gauche', x: 56, y: 66, w: 6, h: 10 },
@@ -51,7 +43,6 @@ const FRONT_ZONES: HotspotZone[] = [
   { id: 'left-foot', label: 'Pied gauche', x: 57, y: 84, w: 7, h: 4, shape: 'ellipse' },
 ];
 
-// BACK hotspots — calibrated to body-back.png
 const BACK_ZONES: HotspotZone[] = [
   { id: 'head-back', label: 'Tête (dos)', x: 50, y: 6, w: 14, h: 7, shape: 'ellipse' },
   { id: 'neck-back', label: 'Nuque', x: 50, y: 12, w: 7, h: 3 },
@@ -60,13 +51,10 @@ const BACK_ZONES: HotspotZone[] = [
   { id: 'upper-back', label: 'Haut du dos', x: 50, y: 21, w: 12, h: 5 },
   { id: 'middle-back', label: 'Milieu du dos', x: 50, y: 27, w: 14, h: 5 },
   { id: 'lower-back', label: 'Bas du dos', x: 50, y: 33, w: 14, h: 5 },
-  // Arms back
   { id: 'right-arm-back', label: 'Bras droit (dos)', x: 30, y: 28, w: 6, h: 13 },
   { id: 'left-arm-back', label: 'Bras gauche (dos)', x: 70, y: 28, w: 6, h: 13 },
-  // Buttocks
   { id: 'right-buttock', label: 'Fessier droit', x: 44, y: 39, w: 8, h: 5 },
   { id: 'left-buttock', label: 'Fessier gauche', x: 56, y: 39, w: 8, h: 5 },
-  // Legs back
   { id: 'right-hamstring', label: 'Ischio-jambier droit', x: 44, y: 49, w: 9, h: 10 },
   { id: 'left-hamstring', label: 'Ischio-jambier gauche', x: 56, y: 49, w: 9, h: 10 },
   { id: 'right-calf', label: 'Mollet droit', x: 44, y: 66, w: 7, h: 10 },
@@ -80,11 +68,10 @@ const ALL_ZONES_MAP = [...FRONT_ZONES, ...BACK_ZONES].reduce(
   {} as Record<string, HotspotZone>
 );
 
-// Intensity to color
 function intensityColor(level: number): string {
-  if (level <= 3) return 'rgba(251, 146, 60, 0.45)'; // orange light
-  if (level <= 6) return 'rgba(239, 68, 68, 0.5)'; // red
-  return 'rgba(185, 28, 28, 0.6)'; // dark red
+  if (level <= 3) return 'rgba(251, 146, 60, 0.45)';
+  if (level <= 6) return 'rgba(239, 68, 68, 0.5)';
+  return 'rgba(185, 28, 28, 0.6)';
 }
 
 interface BodyMapSelectorProps {
@@ -104,6 +91,7 @@ export function BodyMapSelector({
 }: BodyMapSelectorProps) {
   const [view, setView] = useState<ViewTab>('front');
   const [intensity, setIntensity] = useState(5);
+  const [debugMode, setDebugMode] = useState(false);
 
   const zones = view === 'front' ? FRONT_ZONES : BACK_ZONES;
   const bgImage = view === 'front' ? bodyFront : bodyBack;
@@ -111,10 +99,8 @@ export function BodyMapSelector({
   const handleZoneClick = useCallback(
     (zoneId: string) => {
       if (selectedZones.includes(zoneId)) {
-        // Deselect
         onZonesChange(selectedZones.filter((z) => z !== zoneId));
       } else {
-        // Select with current intensity
         onZonesChange([...selectedZones, zoneId]);
         onZoneIntensityChange?.(zoneId, intensity);
       }
@@ -124,21 +110,32 @@ export function BodyMapSelector({
 
   return (
     <div className="flex flex-col items-center gap-4">
-      {/* Body image with hotspot overlay */}
-      <div className="relative w-[160px] mx-auto">
-        {/* Background image — defines the container size */}
+      <div className="flex w-full items-center justify-between rounded-xl border border-border bg-muted/40 px-3 py-2">
+        <div className="flex items-center gap-2">
+          <div className="flex h-8 w-8 items-center justify-center rounded-full bg-primary/10 text-primary">
+            <Bug className="h-4 w-4" />
+          </div>
+          <div>
+            <p className="text-sm font-semibold text-foreground">Mode debug</p>
+            <p className="text-[11px] text-muted-foreground">Contours, labels et coordonnées</p>
+          </div>
+        </div>
+        <Switch checked={debugMode} onCheckedChange={setDebugMode} aria-label="Activer le mode debug du body map" />
+      </div>
+
+      <div className="relative mx-auto w-[160px]">
         <img
           src={bgImage}
           alt={view === 'front' ? 'Corps de face' : 'Corps de dos'}
-          className="w-full h-auto block select-none pointer-events-none"
+          className="block h-auto w-full select-none pointer-events-none"
           draggable={false}
         />
 
-        {/* Hotspot overlay — same size as the image, percentage-based positions */}
         <div className="absolute inset-0" style={{ zIndex: 2 }}>
           {zones.map((zone) => {
             const isSelected = selectedZones.includes(zone.id);
             const level = zoneIntensities[zone.id] ?? intensity;
+
             return (
               <div
                 key={zone.id}
@@ -148,31 +145,45 @@ export function BodyMapSelector({
                   e.preventDefault();
                   handleZoneClick(zone.id);
                 }}
-                className="absolute rounded-full cursor-pointer transition-all duration-200"
+                className="absolute cursor-pointer transition-all duration-200"
                 style={{
                   left: `${zone.x - zone.w / 2}%`,
                   top: `${zone.y - zone.h / 2}%`,
                   width: `${zone.w}%`,
                   height: `${zone.h}%`,
+                  borderRadius: zone.shape === 'ellipse' ? '9999px' : '0.5rem',
                   backgroundColor: isSelected
                     ? intensityColor(level)
-                    : 'transparent',
-                  border: isSelected
-                    ? '1px solid rgba(239,68,68,0.7)'
+                    : debugMode
+                      ? 'hsl(var(--primary) / 0.12)'
+                      : 'transparent',
+                  border: isSelected || debugMode
+                    ? `1px ${debugMode ? 'dashed' : 'solid'} hsl(var(--primary) / ${debugMode ? '0.95' : '0.55'})`
                     : 'none',
+                  boxShadow: debugMode ? '0 0 0 1px hsl(var(--background)) inset' : 'none',
                 }}
-              />
+              >
+                {debugMode && (
+                  <div
+                    className="pointer-events-none absolute left-1/2 top-1/2 z-10 min-w-max -translate-x-1/2 -translate-y-1/2 rounded-md border border-border bg-background/95 px-1.5 py-1 text-center shadow-sm backdrop-blur-sm"
+                    style={{ fontSize: '8px', lineHeight: 1.15 }}
+                  >
+                    <div className="font-semibold text-foreground">{zone.label}</div>
+                    <div className="text-muted-foreground">
+                      x:{zone.x} y:{zone.y} · {zone.w}×{zone.h}
+                    </div>
+                  </div>
+                )}
+              </div>
             );
           })}
         </div>
       </div>
 
-      {/* View label */}
-      <p className="text-[10px] text-muted-foreground uppercase tracking-wider font-medium">
+      <p className="text-[10px] font-medium uppercase tracking-wider text-muted-foreground">
         {view === 'front' ? 'Vue de face' : 'Vue de dos'}
       </p>
 
-      {/* Toggle buttons */}
       <div className="flex gap-2">
         {(['front', 'back'] as ViewTab[]).map((tab) => (
           <button
@@ -180,7 +191,7 @@ export function BodyMapSelector({
             type="button"
             onClick={() => setView(tab)}
             className={cn(
-              'px-6 py-2 rounded-lg text-sm font-semibold transition-all',
+              'rounded-lg px-6 py-2 text-sm font-semibold transition-all',
               view === tab
                 ? 'bg-primary text-primary-foreground shadow-sm'
                 : 'bg-muted text-muted-foreground hover:text-foreground'
@@ -191,12 +202,11 @@ export function BodyMapSelector({
         ))}
       </div>
 
-      {/* Intensity slider */}
       <div className="w-full space-y-2">
         <div className="flex items-center justify-between">
           <span className="text-xs font-medium text-foreground">Intensité de la douleur</span>
           <span
-            className="text-sm font-bold px-2 py-0.5 rounded-md text-white"
+            className="rounded-md px-2 py-0.5 text-sm font-bold text-primary-foreground"
             style={{ backgroundColor: intensityColor(intensity) }}
           >
             {intensity}
@@ -208,9 +218,10 @@ export function BodyMapSelector({
           max="10"
           value={intensity}
           onChange={(e) => setIntensity(Number(e.target.value))}
-          className="w-full h-2 rounded-full appearance-none cursor-pointer"
+          className="h-2 w-full cursor-pointer appearance-none rounded-full"
           style={{
-            background: 'linear-gradient(90deg, rgba(251,146,60,0.6) 0%, rgba(239,68,68,0.7) 50%, rgba(185,28,28,0.8) 100%)',
+            background:
+              'linear-gradient(90deg, hsl(24 95% 64% / 0.6) 0%, hsl(0 84% 60% / 0.7) 50%, hsl(0 72% 42% / 0.8) 100%)',
           }}
         />
         <div className="flex justify-between px-0.5">
@@ -220,7 +231,6 @@ export function BodyMapSelector({
         </div>
       </div>
 
-      {/* Selected zones badges */}
       {selectedZones.length > 0 && (
         <div className="w-full space-y-2">
           <div className="flex items-center justify-between">
@@ -230,9 +240,9 @@ export function BodyMapSelector({
             <button
               type="button"
               onClick={() => onZonesChange([])}
-              className="text-xs text-muted-foreground hover:text-destructive transition-colors flex items-center gap-0.5"
+              className="flex items-center gap-0.5 text-xs text-muted-foreground transition-colors hover:text-destructive"
             >
-              <X className="w-3 h-3" />
+              <X className="h-3 w-3" />
               Effacer
             </button>
           </div>
@@ -243,18 +253,18 @@ export function BodyMapSelector({
               return (
                 <span
                   key={key}
-                  className="inline-flex items-center gap-1 px-2 py-1 rounded-full text-xs font-medium border border-border"
+                  className="inline-flex items-center gap-1 rounded-full border border-border px-2 py-1 text-xs font-medium"
                   style={{
-                    backgroundColor: `${intensityColor(level)}`,
-                    color: 'white',
+                    backgroundColor: intensityColor(level),
+                    color: 'hsl(var(--primary-foreground))',
                   }}
                 >
                   {zone?.label ?? key}
                   <span
                     onClick={() => onZonesChange(selectedZones.filter((z) => z !== key))}
-                    className="ml-0.5 p-0.5 rounded-full hover:bg-white/30 cursor-pointer"
+                    className="ml-0.5 cursor-pointer rounded-full p-0.5 hover:bg-background/20"
                   >
-                    <X className="w-2.5 h-2.5" />
+                    <X className="h-2.5 w-2.5" />
                   </span>
                 </span>
               );

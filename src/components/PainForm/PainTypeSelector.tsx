@@ -1,13 +1,6 @@
 import React from 'react';
 import { MessageSquare } from 'lucide-react';
 import { PainType, PAIN_TYPE_LABELS } from '@/types/pain';
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from '@/components/ui/select';
 
 interface PainTypeSelectorProps {
   selectedTypes: PainType[];
@@ -44,18 +37,18 @@ export function PainTypeSelector({
     <div className="space-y-3">
       <label className="text-sm font-medium text-foreground">Type de douleur</label>
 
-      <Select value={selectedType} onValueChange={handleValueChange}>
-        <SelectTrigger className="h-11 rounded-xl border-border bg-background text-left">
-          <SelectValue placeholder="Sélectionnez un type de douleur" />
-        </SelectTrigger>
-        <SelectContent>
-          {painTypes.map((type) => (
-            <SelectItem key={type} value={type}>
-              {PAIN_TYPE_LABELS[type]}
-            </SelectItem>
-          ))}
-        </SelectContent>
-      </Select>
+      <select
+        value={selectedType}
+        onChange={(e) => handleValueChange(e.target.value)}
+        className="input-medical h-11"
+      >
+        <option value="">Sélectionnez un type de douleur</option>
+        {painTypes.map((type) => (
+          <option key={type} value={type}>
+            {PAIN_TYPE_LABELS[type]}
+          </option>
+        ))}
+      </select>
 
       {selectedType === 'other' && onOtherDescriptionChange && (
         <div className="space-y-2">

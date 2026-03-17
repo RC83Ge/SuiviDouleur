@@ -5,8 +5,8 @@ import { BODY_PATHS, ZONE_GROUPS, ZONE_LABELS, VIEW_META } from './bodyMapData';
 import { ZoneSelectionSummary } from './ZoneSelectionSummary';
 import { Switch } from '@/components/ui/switch';
 import { Slider } from '@/components/ui/slider';
-import bodyFront from '@/assets/body-front.png';
-import bodyBack from '@/assets/body-back.png';
+import bodyFront from '@/assets/body-front-v2.png';
+import bodyBack from '@/assets/body-back-v2.png';
 
 interface BodyMapSelectorProps {
   selectedZones: string[];

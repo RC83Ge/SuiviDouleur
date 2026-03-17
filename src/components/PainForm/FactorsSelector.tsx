@@ -16,17 +16,17 @@ export function FactorsSelector({
   onReliefChange,
 }: FactorsSelectorProps) {
   return (
-    <div className="space-y-4">
-      <div className="space-y-2">
+    <div className="space-y-3 sm:space-y-4">
+      <div className="space-y-1.5 sm:space-y-2">
         <div className="flex items-center gap-2">
-          <AlertTriangle className="w-4 h-4 text-destructive" />
+          <AlertTriangle className="h-4 w-4 text-destructive" />
           <span className="text-sm font-medium text-foreground">Facteurs déclenchants</span>
           <span className="text-xs text-muted-foreground">(optionnel)</span>
         </div>
         <select
           value={triggerFactors[0] ?? ''}
           onChange={(e) => onTriggerChange(e.target.value ? [e.target.value] : [])}
-          className="input-medical h-11"
+          className="input-medical h-10 px-3 py-2 text-sm"
         >
           <option value="">Sélectionnez un facteur déclenchant</option>
           {TRIGGER_FACTORS.map((factor) => (
@@ -37,16 +37,16 @@ export function FactorsSelector({
         </select>
       </div>
 
-      <div className="space-y-2">
+      <div className="space-y-1.5 sm:space-y-2">
         <div className="flex items-center gap-2">
-          <Heart className="w-4 h-4 text-primary" />
+          <Heart className="h-4 w-4 text-primary" />
           <span className="text-sm font-medium text-foreground">Facteurs de soulagement</span>
           <span className="text-xs text-muted-foreground">(optionnel)</span>
         </div>
         <select
           value={reliefFactors[0] ?? ''}
           onChange={(e) => onReliefChange(e.target.value ? [e.target.value] : [])}
-          className="input-medical h-11"
+          className="input-medical h-10 px-3 py-2 text-sm"
         >
           <option value="">Sélectionnez un facteur de soulagement</option>
           {RELIEF_FACTORS.map((factor) => (

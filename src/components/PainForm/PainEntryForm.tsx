@@ -59,38 +59,38 @@ export function PainEntryForm({ onSave, onCancel }: PainEntryFormProps) {
   const isValid = selectedZones.length > 0;
 
   return (
-    <form onSubmit={handleSubmit} className="space-y-6 pb-8">
+    <form onSubmit={handleSubmit} className="space-y-4 pb-6 sm:space-y-5 sm:pb-8">
       {/* Date and Time */}
-      <div className="card-medical p-4 space-y-4">
-        <h3 className="section-header flex items-center gap-2">
-          <Calendar className="w-5 h-5 text-primary" />
+      <div className="card-medical space-y-3 p-3 sm:p-4">
+        <h3 className="section-header mb-0 flex items-center gap-2 text-base sm:text-lg">
+          <Calendar className="h-4 w-4 text-primary sm:h-5 sm:w-5" />
           Date et heure
         </h3>
-        <div className="grid grid-cols-2 gap-4">
+        <div className="grid grid-cols-2 gap-3">
           <div>
-            <label className="text-sm text-muted-foreground block mb-1">Date</label>
+            <label className="mb-1 block text-xs text-muted-foreground sm:text-sm">Date</label>
             <input
               type="date"
               value={date}
               onChange={(e) => setDate(e.target.value)}
-              className="input-medical"
+              className="input-medical h-10 px-3 py-2 text-sm"
             />
           </div>
           <div>
-            <label className="text-sm text-muted-foreground block mb-1">Heure</label>
+            <label className="mb-1 block text-xs text-muted-foreground sm:text-sm">Heure</label>
             <input
               type="time"
               value={time}
               onChange={(e) => setTime(e.target.value)}
-              className="input-medical"
+              className="input-medical h-10 px-3 py-2 text-sm"
             />
           </div>
         </div>
       </div>
 
       {/* Body Map */}
-      <div className="card-medical p-4 space-y-4">
-        <h3 className="section-header">Localisation</h3>
+      <div className="card-medical space-y-3 p-3 sm:p-4">
+        <h3 className="section-header mb-0 text-base sm:text-lg">Localisation</h3>
         <BodyMapSelector
           selectedZones={selectedZones}
           onZonesChange={setSelectedZones}
@@ -100,12 +100,12 @@ export function PainEntryForm({ onSave, onCancel }: PainEntryFormProps) {
       </div>
 
       {/* Intensity */}
-      <div className="card-medical p-4">
+      <div className="card-medical p-3 sm:p-4">
         <IntensitySlider value={intensity} onChange={setIntensity} />
       </div>
 
       {/* Pain Type */}
-      <div className="card-medical p-4">
+      <div className="card-medical p-3 sm:p-4">
         <PainTypeSelector
           selectedTypes={painTypes}
           onChange={setPainTypes}
@@ -115,12 +115,12 @@ export function PainEntryForm({ onSave, onCancel }: PainEntryFormProps) {
       </div>
 
       {/* Duration */}
-      <div className="card-medical p-4">
+      <div className="card-medical p-3 sm:p-4">
         <DurationSelector value={duration} onChange={setDuration} />
       </div>
 
       {/* Factors */}
-      <div className="card-medical p-4">
+      <div className="card-medical p-3 sm:p-4">
         <FactorsSelector
           triggerFactors={triggerFactors}
           reliefFactors={reliefFactors}
@@ -130,42 +130,42 @@ export function PainEntryForm({ onSave, onCancel }: PainEntryFormProps) {
       </div>
 
       {/* Notes */}
-      <div className="card-medical p-4 space-y-3">
+      <div className="card-medical space-y-2 p-3 sm:space-y-3 sm:p-4">
         <label className="text-sm font-medium text-foreground">
           Commentaire libre
-          <span className="text-xs text-muted-foreground ml-2">(optionnel)</span>
+          <span className="ml-2 text-xs text-muted-foreground">(optionnel)</span>
         </label>
         <textarea
           value={notes}
           onChange={(e) => setNotes(e.target.value)}
           placeholder="Décrivez votre douleur plus en détail..."
           rows={3}
-          className="input-medical resize-none"
+          className="input-medical min-h-24 resize-none px-3 py-2 text-sm"
         />
       </div>
 
       {/* Action Buttons */}
-      <div className="flex gap-3 pt-2">
+      <div className="flex gap-2 pt-1 sm:gap-3 sm:pt-2">
         <button
           type="button"
           onClick={onCancel}
-          className="flex-1 btn-medical bg-secondary text-secondary-foreground"
+          className="btn-medical h-10 flex-1 bg-secondary px-3 text-sm text-secondary-foreground"
         >
-          <X className="w-4 h-4" />
+          <X className="h-4 w-4" />
           Annuler
         </button>
         <button
           type="submit"
           disabled={!isValid}
-          className="flex-1 btn-medical-primary disabled:opacity-50 disabled:cursor-not-allowed"
+          className="btn-medical-primary h-10 flex-1 px-3 text-sm disabled:cursor-not-allowed disabled:opacity-50"
         >
-          <Save className="w-4 h-4" />
+          <Save className="h-4 w-4" />
           Enregistrer
         </button>
       </div>
 
       {/* Disclaimer */}
-      <div className="disclaimer-medical">
+      <div className="disclaimer-medical px-3 py-2 text-[11px] sm:px-4 sm:py-3 sm:text-xs">
         <strong>Important :</strong> Cette application est un outil de suivi personnel. 
         Elle ne fournit aucun diagnostic médical. Consultez un professionnel de santé 
         pour toute question médicale.

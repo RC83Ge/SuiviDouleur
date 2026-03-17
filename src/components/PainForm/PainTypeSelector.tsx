@@ -34,13 +34,13 @@ export function PainTypeSelector({
   };
 
   return (
-    <div className="space-y-3">
+    <div className="space-y-2.5 sm:space-y-3">
       <label className="text-sm font-medium text-foreground">Type de douleur</label>
 
       <select
         value={selectedType}
         onChange={(e) => handleValueChange(e.target.value)}
-        className="input-medical h-11"
+        className="input-medical h-10 px-3 py-2 text-sm"
       >
         <option value="">Sélectionnez un type de douleur</option>
         {painTypes.map((type) => (
@@ -51,7 +51,7 @@ export function PainTypeSelector({
       </select>
 
       {selectedType === 'other' && onOtherDescriptionChange && (
-        <div className="space-y-2">
+        <div className="space-y-1.5">
           <div className="flex items-center gap-2 text-xs text-muted-foreground">
             <MessageSquare className="h-3.5 w-3.5" />
             Précisez le type de douleur
@@ -61,7 +61,7 @@ export function PainTypeSelector({
             value={otherDescription}
             onChange={(e) => onOtherDescriptionChange(e.target.value)}
             placeholder="Décrivez le type de douleur..."
-            className="input-medical"
+            className="input-medical h-10 px-3 py-2 text-sm"
           />
         </div>
       )}

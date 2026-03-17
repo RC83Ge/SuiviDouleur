@@ -1,5 +1,5 @@
 import React from 'react';
-import { TRIGGER_FACTORS, RELIEF_FACTORS, TriggerFactor } from '@/types/pain';
+import { TRIGGER_FACTORS, RELIEF_FACTORS } from '@/types/pain';
 import { AlertTriangle, Heart } from 'lucide-react';
 
 interface FactorsSelectorProps {
@@ -7,43 +7,6 @@ interface FactorsSelectorProps {
   reliefFactors: string[];
   onTriggerChange: (factors: string[]) => void;
   onReliefChange: (factors: string[]) => void;
-}
-
-function FactorButtons({
-  factors,
-  selectedFactors,
-  onChange,
-}: {
-  factors: TriggerFactor[];
-  selectedFactors: string[];
-  onChange: (factors: string[]) => void;
-}) {
-  const toggleFactor = (id: string) => {
-    if (selectedFactors.includes(id)) {
-      onChange(selectedFactors.filter(f => f !== id));
-    } else {
-      onChange([...selectedFactors, id]);
-    }
-  };
-
-  return (
-    <div className="flex flex-wrap gap-2">
-      {factors.map((factor) => (
-        <button
-          key={factor.id}
-          type="button"
-          onClick={() => toggleFactor(factor.id)}
-          className={`px-3 py-1.5 rounded-full text-xs font-medium transition-all ${
-            selectedFactors.includes(factor.id)
-              ? 'bg-primary text-primary-foreground'
-              : 'bg-secondary text-secondary-foreground hover:bg-secondary/80'
-          }`}
-        >
-          {factor.label}
-        </button>
-      ))}
-    </div>
-  );
 }
 
 export function FactorsSelector({
@@ -60,11 +23,18 @@ export function FactorsSelector({
           <span className="text-sm font-medium text-foreground">Facteurs déclenchants</span>
           <span className="text-xs text-muted-foreground">(optionnel)</span>
         </div>
-        <FactorButtons
-          factors={TRIGGER_FACTORS}
-          selectedFactors={triggerFactors}
-          onChange={onTriggerChange}
-        />
+        <select
+          value={triggerFactors[0] ?? ''}
+          onChange={(e) => onTriggerChange(e.target.value ? [e.target.value] : [])}
+          className="input-medical h-11"
+        >
+          <option value="">Sélectionnez un facteur déclenchant</option>
+          {TRIGGER_FACTORS.map((factor) => (
+            <option key={factor.id} value={factor.id}>
+              {factor.label}
+            </option>
+          ))}
+        </select>
       </div>
 
       <div className="space-y-2">
@@ -73,11 +43,18 @@ export function FactorsSelector({
           <span className="text-sm font-medium text-foreground">Facteurs de soulagement</span>
           <span className="text-xs text-muted-foreground">(optionnel)</span>
         </div>
-        <FactorButtons
-          factors={RELIEF_FACTORS}
-          selectedFactors={reliefFactors}
-          onChange={onReliefChange}
-        />
+        <select
+          value={reliefFactors[0] ?? ''}
+          onChange={(e) => onReliefChange(e.target.value ? [e.target.value] : [])}
+          className="input-medical h-11"
+        >
+          <option value="">Sélectionnez un facteur de soulagement</option>
+          {RELIEF_FACTORS.map((factor) => (
+            <option key={factor.id} value={factor.id}>
+              {factor.label}
+            </option>
+          ))}
+        </select>
       </div>
     </div>
   );

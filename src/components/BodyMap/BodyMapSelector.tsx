@@ -1,8 +1,7 @@
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Stethoscope } from 'lucide-react';
 import { AnatomyFigure } from './AnatomyFigure';
-import { BODY_PATHS, ZONE_GROUPS, ZONE_LABELS, VIEW_META, type ZoneGroup } from './bodyMapData';
-import { ZoneGroupList } from './ZoneGroupList';
+import { BODY_PATHS, ZONE_GROUPS, ZONE_LABELS, VIEW_META } from './bodyMapData';
 import { ZoneSelectionSummary } from './ZoneSelectionSummary';
 import { Switch } from '@/components/ui/switch';
 import { Slider } from '@/components/ui/slider';
@@ -29,17 +28,10 @@ export function BodyMapSelector({
 }: BodyMapSelectorProps) {
   const [draftIntensity, setDraftIntensity] = useState(5);
   const [activeZone, setActiveZone] = useState<string | null>(null);
-  const [hoveredGroup, setHoveredGroup] = useState<string | null>(null);
   const [hoveredZone, setHoveredZone] = useState<string | null>(null);
   const [debugMode, setDebugMode] = useState(false);
 
-  const hoveredZones = useMemo(() => {
-    if (hoveredZone) return [hoveredZone];
-    if (hoveredGroup) {
-      return ZONE_GROUPS.find((group) => group.id === hoveredGroup)?.zones ?? [];
-    }
-    return [] as string[];
-  }, [hoveredGroup, hoveredZone]);
+  const hoveredZones = hoveredZone ? [hoveredZone] : [];
 
   useEffect(() => {
     if (!activeZone && selectedZones.length > 0) {
@@ -77,11 +69,6 @@ export function BodyMapSelector({
     }
   };
 
-  const handleGroupSelect = (group: ZoneGroup) => {
-    const preferredZone = group.zones.find((zone) => !selectedZones.includes(zone)) ?? group.zones[0];
-    handleZoneClick(preferredZone);
-  };
-
   const clearAll = () => {
     setActiveZone(null);
     onZonesChange([]);
@@ -106,7 +93,7 @@ export function BodyMapSelector({
               <div>
                 <h3 className="text-xl font-semibold text-foreground">Déclarez une douleur par zone</h3>
                 <p className="max-w-2xl text-sm leading-6 text-muted-foreground">
-                  Survolez une région dans la liste clinique, visualisez immédiatement la zone correspondante, puis cliquez sur le mannequin pour ajuster l’intensité de 1 à 10.
+                  Cliquez directement sur le mannequin pour sélectionner une zone, puis ajustez l’intensité de 1 à 10.
                 </p>
               </div>
             </div>
@@ -121,48 +108,39 @@ export function BodyMapSelector({
           </div>
         </div>
 
-        <div className="grid gap-5 px-5 py-5 xl:grid-cols-[280px_minmax(0,1fr)]">
-          <aside className="space-y-4">
-            <ZoneGroupList
-              hoveredGroup={hoveredGroup}
-              selectedZones={selectedZones}
-              onGroupHover={setHoveredGroup}
-              onGroupSelect={handleGroupSelect}
+        <div className="space-y-5 px-5 py-5">
+          <div className="rounded-[1.5rem] border border-border/70 bg-card/95 p-4 shadow-medical-sm backdrop-blur-sm">
+            <div className="mb-4 flex items-center justify-between gap-3">
+              <div>
+                <p className="text-xs font-semibold uppercase tracking-[0.18em] text-muted-foreground">Intensité</p>
+                <p className="text-sm font-medium text-foreground">
+                  {activeZone ? ZONE_LABELS[activeZone] ?? activeZone : 'Sélectionnez une zone'}
+                </p>
+              </div>
+              <div className="flex h-11 min-w-11 items-center justify-center rounded-2xl bg-primary text-base font-semibold text-primary-foreground shadow-medical-sm">
+                {currentIntensity}
+              </div>
+            </div>
+
+            <Slider
+              min={1}
+              max={10}
+              step={1}
+              value={[currentIntensity]}
+              onValueChange={handleIntensityChange}
+              disabled={!activeZone || !selectedZones.includes(activeZone)}
+              className="py-1"
             />
 
-            <div className="rounded-[1.5rem] border border-border/70 bg-card/95 p-4 shadow-medical-sm backdrop-blur-sm">
-              <div className="mb-4 flex items-center justify-between gap-3">
-                <div>
-                  <p className="text-xs font-semibold uppercase tracking-[0.18em] text-muted-foreground">Intensité</p>
-                  <p className="text-sm font-medium text-foreground">
-                    {activeZone ? ZONE_LABELS[activeZone] ?? activeZone : 'Sélectionnez une zone'}
-                  </p>
-                </div>
-                <div className="flex h-11 min-w-11 items-center justify-center rounded-2xl bg-primary text-base font-semibold text-primary-foreground shadow-medical-sm">
-                  {currentIntensity}
-                </div>
-              </div>
-
-              <Slider
-                min={1}
-                max={10}
-                step={1}
-                value={[currentIntensity]}
-                onValueChange={handleIntensityChange}
-                disabled={!activeZone || !selectedZones.includes(activeZone)}
-                className="py-1"
-              />
-
-              <div className="mt-2 flex justify-between text-[11px] text-muted-foreground">
-                <span>1 léger</span>
-                <span>10 intense</span>
-              </div>
-
-              <p className="mt-3 text-xs leading-5 text-muted-foreground">
-                Cliquez sur une zone anatomique active pour lui attribuer un niveau de douleur précis.
-              </p>
+            <div className="mt-2 flex justify-between text-[11px] text-muted-foreground">
+              <span>1 léger</span>
+              <span>10 intense</span>
             </div>
-          </aside>
+
+            <p className="mt-3 text-xs leading-5 text-muted-foreground">
+              Cliquez sur une zone anatomique active pour lui attribuer un niveau de douleur précis.
+            </p>
+          </div>
 
           <div className="space-y-4">
             <div className="grid gap-4 lg:grid-cols-2">

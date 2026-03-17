@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from 'react';
-import { Stethoscope } from 'lucide-react';
+import { RotateCcw, Stethoscope } from 'lucide-react';
 import { AnatomyFigure } from './AnatomyFigure';
 import { BODY_PATHS, ZONE_GROUPS, ZONE_LABELS, VIEW_META } from './bodyMapData';
 import { ZoneSelectionSummary } from './ZoneSelectionSummary';
 import { Switch } from '@/components/ui/switch';
 import { Slider } from '@/components/ui/slider';
+import { Button } from '@/components/ui/button';
 import bodyFront from '@/assets/body-front.png';
 import bodyBack from '@/assets/body-back.png';
 
@@ -14,6 +15,8 @@ interface BodyMapSelectorProps {
   zoneIntensities?: Record<string, number>;
   onZoneIntensityChange?: (zoneId: string, intensity: number) => void;
 }
+
+type BodyView = 'front' | 'back';
 
 function intensityTone(level: number, isHovered = false) {
   const tone = Math.max(1, Math.min(10, Math.round(level)));
@@ -30,6 +33,7 @@ export function BodyMapSelector({
   const [activeZone, setActiveZone] = useState<string | null>(null);
   const [hoveredZone, setHoveredZone] = useState<string | null>(null);
   const [debugMode, setDebugMode] = useState(false);
+  const [mobileView, setMobileView] = useState<BodyView>('front');
 
   const hoveredZones = hoveredZone ? [hoveredZone] : [];
 
@@ -74,11 +78,29 @@ export function BodyMapSelector({
     onZonesChange([]);
   };
 
+  const toggleMobileView = () => {
+    setMobileView((current) => (current === 'front' ? 'back' : 'front'));
+  };
+
   const selectedGroups = ZONE_GROUPS.filter((group) =>
     group.zones.some((zone) => selectedZones.includes(zone))
   );
 
   const currentIntensity = activeZone ? zoneIntensities[activeZone] ?? draftIntensity : draftIntensity;
+  const mobileFigure =
+    mobileView === 'front'
+      ? {
+          title: VIEW_META.front.title,
+          subtitle: VIEW_META.front.subtitle,
+          imageSrc: bodyFront,
+          zones: BODY_PATHS.front,
+        }
+      : {
+          title: VIEW_META.back.title,
+          subtitle: VIEW_META.back.subtitle,
+          imageSrc: bodyBack,
+          zones: BODY_PATHS.back,
+        };
 
   return (
     <div className="space-y-3 sm:space-y-5">
@@ -145,7 +167,36 @@ export function BodyMapSelector({
           </div>
 
           <div className="space-y-3 sm:space-y-4">
-            <div className="grid gap-3 sm:gap-4 lg:grid-cols-2">
+            <div className="sm:hidden">
+              <div className="mb-2 flex items-center justify-between gap-2 rounded-[1rem] border border-border/70 bg-card/90 p-2 shadow-medical-sm">
+                <div>
+                  <p className="text-[10px] font-semibold uppercase tracking-[0.16em] text-muted-foreground">Vue affichée</p>
+                  <p className="text-sm font-medium text-foreground">
+                    {mobileView === 'front' ? 'Face' : 'Dos'}
+                  </p>
+                </div>
+                <Button type="button" variant="outline" size="sm" className="h-8 rounded-full px-3" onClick={toggleMobileView}>
+                  <RotateCcw className="h-3.5 w-3.5" />
+                  Voir {mobileView === 'front' ? 'dos' : 'face'}
+                </Button>
+              </div>
+
+              <AnatomyFigure
+                title={mobileFigure.title}
+                subtitle={mobileFigure.subtitle}
+                imageSrc={mobileFigure.imageSrc}
+                zones={mobileFigure.zones}
+                selectedZones={selectedZones}
+                hoveredZones={hoveredZones}
+                debugMode={debugMode}
+                zoneIntensities={zoneIntensities}
+                onZoneClick={handleZoneClick}
+                onZoneHover={setHoveredZone}
+                intensityTone={intensityTone}
+              />
+            </div>
+
+            <div className="hidden gap-3 sm:grid sm:gap-4 lg:grid-cols-2">
               <AnatomyFigure
                 title={VIEW_META.front.title}
                 subtitle={VIEW_META.front.subtitle}

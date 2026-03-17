@@ -40,10 +40,10 @@ function getDotColor(index: number): string {
 
 export function IntensitySlider({ value, onChange }: IntensitySliderProps) {
   return (
-    <div className="space-y-3">
-      <div className="flex items-center justify-between">
+    <div className="space-y-2.5 sm:space-y-3">
+      <div className="flex items-center justify-between gap-3">
         <span className="text-sm font-semibold text-foreground">
-          Pic de Douleur Maximum
+          Pic de douleur maximum
         </span>
         <span className="text-sm font-bold" style={{ color: getDotColor(value) }}>
           {value}/10
@@ -53,11 +53,11 @@ export function IntensitySlider({ value, onChange }: IntensitySliderProps) {
       <p className="text-xs text-muted-foreground">{intensityLabels[value]}</p>
 
       {/* Dot slider */}
-      <div className="flex items-center justify-between gap-1 py-2">
+      <div className="flex items-center justify-between gap-1 py-1 sm:py-2">
         {Array.from({ length: 11 }, (_, i) => {
           const isActive = i <= value;
           const isSelected = i === value;
-          const size = isSelected ? 'w-8 h-8' : 'w-5 h-5';
+          const size = isSelected ? 'h-7 w-7 sm:h-8 sm:w-8' : 'h-4.5 w-4.5 sm:h-5 sm:w-5';
 
           return (
             <button
@@ -65,7 +65,7 @@ export function IntensitySlider({ value, onChange }: IntensitySliderProps) {
               type="button"
               onClick={() => onChange(i)}
               className={cn(
-                'rounded-full transition-all duration-200 flex items-center justify-center text-[10px] font-bold',
+                'flex items-center justify-center rounded-full text-[10px] font-bold transition-all duration-200',
                 size
               )}
               style={{
@@ -74,7 +74,7 @@ export function IntensitySlider({ value, onChange }: IntensitySliderProps) {
                 boxShadow: isSelected
                   ? `0 0 0 3px ${getDotColor(i)}33, 0 2px 8px ${getDotColor(i)}44`
                   : 'none',
-                transform: isSelected ? 'scale(1.1)' : 'scale(1)',
+                transform: isSelected ? 'scale(1.05)' : 'scale(1)',
               }}
             >
               {isSelected ? i : ''}

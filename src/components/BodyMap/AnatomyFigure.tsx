@@ -29,19 +29,21 @@ export function AnatomyFigure({
   intensityTone,
 }: AnatomyFigureProps) {
   return (
-    <div className="card-medical-elevated rounded-[1.5rem] bg-card/90 p-4 backdrop-blur-sm">
-      <div className="mb-4 flex items-center justify-between">
+    <div className="card-medical-elevated rounded-[1.6rem] border-border/70 bg-card/95 p-4 backdrop-blur-sm">
+      <div className="mb-4 flex items-center justify-between gap-3">
         <div>
           <p className="text-sm font-semibold uppercase tracking-[0.2em] text-primary">{title}</p>
           <p className="text-xs text-muted-foreground">{subtitle}</p>
         </div>
-        <div className="rounded-full border border-border bg-background px-3 py-1 text-[11px] font-medium text-muted-foreground">
+        <div className="rounded-full border border-border bg-background px-3 py-1 text-[11px] font-medium text-muted-foreground shadow-medical-sm">
           {zones.length} zones
         </div>
       </div>
 
-      <div className="relative mx-auto w-full max-w-[240px] overflow-hidden rounded-[1.25rem] bg-muted/40 p-3">
+      <div className="relative mx-auto w-full max-w-[260px] overflow-hidden rounded-[1.35rem] border border-border/70 bg-[linear-gradient(180deg,hsl(var(--background)),hsl(var(--muted)/0.6))] p-3">
         <div className="absolute inset-3 rounded-[1rem] border border-primary/10" />
+        <div className="absolute inset-x-8 top-4 h-16 rounded-full bg-primary/5 blur-2xl" />
+
         <img
           src={imageSrc}
           alt={`Silhouette anatomique ${subtitle.toLowerCase()}`}
@@ -74,10 +76,10 @@ export function AnatomyFigure({
                 )}
                 style={{
                   fill: intensityTone(level, isHovered),
-                  fillOpacity: isSelected ? 0.9 : isHovered ? 0.45 : debugMode ? 0.12 : 0.02,
+                  fillOpacity: isSelected ? 0.88 : isHovered ? 0.38 : debugMode ? 0.12 : 0.02,
                   strokeWidth: isSelected ? 1.8 : isHovered || debugMode ? 1.2 : 0.6,
                   strokeDasharray: debugMode && !isSelected ? '3 2' : '0',
-                  filter: isSelected || isHovered ? 'drop-shadow(0 0 10px hsl(var(--primary) / 0.30))' : 'none',
+                  filter: isSelected || isHovered ? 'drop-shadow(0 0 10px hsl(var(--primary) / 0.22))' : 'none',
                 }}
                 aria-label={zone.label}
                 role="button"

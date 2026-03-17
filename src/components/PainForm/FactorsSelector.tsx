@@ -9,20 +9,17 @@ interface FactorsSelectorProps {
   onReliefChange: (factors: string[]) => void;
 }
 
-export const FactorsSelector = React.forwardRef<HTMLDivElement, FactorsSelectorProps>(function FactorsSelector(
-  {
-    triggerFactors,
-    reliefFactors,
-    onTriggerChange,
-    onReliefChange,
-  },
-  ref
-) {
+export function FactorsSelector({
+  triggerFactors,
+  reliefFactors,
+  onTriggerChange,
+  onReliefChange,
+}: FactorsSelectorProps) {
   return (
-    <div ref={ref} className="space-y-4">
+    <div className="space-y-4">
       <div className="space-y-2">
         <div className="flex items-center gap-2">
-          <AlertTriangle className="h-4 w-4 text-destructive" />
+          <AlertTriangle className="w-4 h-4 text-destructive" />
           <span className="text-sm font-medium text-foreground">Facteurs déclenchants</span>
           <span className="text-xs text-muted-foreground">(optionnel)</span>
         </div>
@@ -42,7 +39,7 @@ export const FactorsSelector = React.forwardRef<HTMLDivElement, FactorsSelectorP
 
       <div className="space-y-2">
         <div className="flex items-center gap-2">
-          <Heart className="h-4 w-4 text-primary" />
+          <Heart className="w-4 h-4 text-primary" />
           <span className="text-sm font-medium text-foreground">Facteurs de soulagement</span>
           <span className="text-xs text-muted-foreground">(optionnel)</span>
         </div>
@@ -61,4 +58,4 @@ export const FactorsSelector = React.forwardRef<HTMLDivElement, FactorsSelectorP
       </div>
     </div>
   );
-});
+}

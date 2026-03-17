@@ -52,7 +52,7 @@ export function AnatomyFigure({
         />
 
         <svg
-          viewBox="0 0 200 480"
+          viewBox="0 0 200 500"
           className="absolute inset-3 z-10 h-[calc(100%-1.5rem)] w-[calc(100%-1.5rem)]"
           preserveAspectRatio="xMidYMid meet"
         >
@@ -62,35 +62,46 @@ export function AnatomyFigure({
             const level = zoneIntensities[zone.id] ?? 5;
 
             return (
-              <path
-                key={zone.id}
-                d={zone.d}
-                onClick={() => onZoneClick(zone.id)}
-                onMouseEnter={() => onZoneHover(zone.id)}
-                onMouseLeave={() => onZoneHover(null)}
-                onFocus={() => onZoneHover(zone.id)}
-                onBlur={() => onZoneHover(null)}
-                className={cn(
-                  'cursor-pointer transition-all duration-200 outline-none',
-                  isSelected || isHovered ? 'stroke-primary' : 'stroke-transparent'
-                )}
-                style={{
-                  fill: intensityTone(level, isHovered),
-                  fillOpacity: isSelected ? 0.88 : isHovered ? 0.38 : debugMode ? 0.12 : 0.02,
-                  strokeWidth: isSelected ? 1.8 : isHovered || debugMode ? 1.2 : 0.6,
-                  strokeDasharray: debugMode && !isSelected ? '3 2' : '0',
-                  filter: isSelected || isHovered ? 'drop-shadow(0 0 10px hsl(var(--primary) / 0.22))' : 'none',
-                }}
-                aria-label={zone.label}
-                role="button"
-                tabIndex={0}
-                onKeyDown={(event) => {
-                  if (event.key === 'Enter' || event.key === ' ') {
-                    event.preventDefault();
-                    onZoneClick(zone.id);
-                  }
-                }}
-              />
+              <g key={zone.id}>
+                <path
+                  d={zone.d}
+                  onClick={() => onZoneClick(zone.id)}
+                  onMouseEnter={() => onZoneHover(zone.id)}
+                  onMouseLeave={() => onZoneHover(null)}
+                  onFocus={() => onZoneHover(zone.id)}
+                  onBlur={() => onZoneHover(null)}
+                  className="cursor-pointer fill-transparent stroke-transparent outline-none"
+                  style={{
+                    strokeWidth: 14,
+                    vectorEffect: 'non-scaling-stroke',
+                    pointerEvents: 'stroke',
+                  }}
+                  aria-label={zone.label}
+                  role="button"
+                  tabIndex={0}
+                  onKeyDown={(event) => {
+                    if (event.key === 'Enter' || event.key === ' ') {
+                      event.preventDefault();
+                      onZoneClick(zone.id);
+                    }
+                  }}
+                />
+                <path
+                  d={zone.d}
+                  className={cn(
+                    'pointer-events-none transition-all duration-200',
+                    isSelected || isHovered ? 'stroke-primary' : 'stroke-transparent'
+                  )}
+                  style={{
+                    fill: intensityTone(level, isHovered),
+                    fillOpacity: isSelected ? 0.88 : isHovered ? 0.38 : debugMode ? 0.12 : 0.02,
+                    strokeWidth: isSelected ? 1.8 : isHovered || debugMode ? 1.2 : 0.6,
+                    strokeDasharray: debugMode && !isSelected ? '3 2' : '0',
+                    filter: isSelected || isHovered ? 'drop-shadow(0 0 10px hsl(var(--primary) / 0.22))' : 'none',
+                    vectorEffect: 'non-scaling-stroke',
+                  }}
+                />
+              </g>
             );
           })}
         </svg>

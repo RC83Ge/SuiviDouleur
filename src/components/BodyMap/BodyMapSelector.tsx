@@ -102,30 +102,10 @@ export function BodyMapSelector({
   return (
     <div className="space-y-3 sm:space-y-5">
       <div className="overflow-hidden rounded-[1.5rem] border border-primary/10 bg-[linear-gradient(180deg,hsl(var(--background)),hsl(var(--card))_18%,hsl(var(--muted)/0.4))] shadow-medical-lg sm:rounded-[1.9rem]">
-        <div className="border-b border-border/70 bg-card/80 px-3 py-3 backdrop-blur-sm sm:px-5 sm:py-5">
-          <div className="flex flex-col gap-3 sm:gap-4 xl:flex-row xl:items-center xl:justify-between">
-            <div className="space-y-1.5 sm:space-y-2">
-              <div className="inline-flex items-center gap-2 rounded-full border border-primary/15 bg-primary/5 px-2.5 py-1 text-[10px] font-semibold uppercase tracking-[0.18em] text-primary sm:px-3 sm:text-[11px] sm:tracking-[0.22em]">
-                <Stethoscope className="h-3.5 w-3.5" />
-                Sélection anatomique
-              </div>
-              <div className="space-y-1">
-                <h3 className="text-base font-semibold leading-tight text-foreground sm:text-xl">
-                  Déclarez une douleur par zone
-                </h3>
-                <p className="max-w-2xl text-xs leading-5 text-muted-foreground sm:text-sm sm:leading-6">
-                  Touchez le mannequin pour sélectionner une zone, puis ajustez l’intensité de 1 à 10.
-                </p>
-              </div>
-            </div>
-
-            <div className="flex items-center justify-between gap-3 rounded-[1rem] border border-border/80 bg-background/90 px-3 py-2 shadow-medical-sm sm:justify-start sm:rounded-[1.25rem]">
-              <div>
-                <p className="text-xs font-medium text-foreground sm:text-sm">Mode debug</p>
-                <p className="text-[11px] leading-4 text-muted-foreground sm:text-xs">Contours et repères d’alignement</p>
-              </div>
-              <Switch checked={debugMode} onCheckedChange={setDebugMode} aria-label="Activer le mode debug" />
-            </div>
+        <div className="border-b border-border/70 bg-card/80 px-3 py-2.5 backdrop-blur-sm sm:px-5 sm:py-4">
+          <div className="inline-flex items-center gap-2 rounded-full border border-primary/15 bg-primary/5 px-2.5 py-1 text-[10px] font-semibold uppercase tracking-[0.18em] text-primary sm:px-3 sm:text-[11px] sm:tracking-[0.22em]">
+            <Stethoscope className="h-3.5 w-3.5" />
+            Sélection anatomique
           </div>
         </div>
 

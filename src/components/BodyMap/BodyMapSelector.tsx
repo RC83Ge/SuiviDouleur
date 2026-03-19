@@ -82,9 +82,6 @@ export function BodyMapSelector({
     setMobileView((current) => (current === 'front' ? 'back' : 'front'));
   };
 
-  const selectedGroups = ZONE_GROUPS.filter((group) =>
-    group.zones.some((zone) => selectedZones.includes(zone))
-  );
 
   const currentIntensity = activeZone ? zoneIntensities[activeZone] ?? draftIntensity : draftIntensity;
   const mobileFigure =

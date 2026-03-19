@@ -101,7 +101,7 @@ export function PainEntryForm({ onSave, onCancel }: PainEntryFormProps) {
 
 
       {/* Pain Type */}
-      <div className="card-medical p-3 sm:p-4">
+      <div className="card-medical p-2.5 sm:p-4">
         <PainTypeSelector
           selectedTypes={painTypes}
           onChange={setPainTypes}

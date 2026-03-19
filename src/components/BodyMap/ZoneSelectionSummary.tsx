@@ -8,7 +8,6 @@ interface ZoneSelectionSummaryProps {
   draftIntensity: number;
   selectedZones: string[];
   zoneIntensities: Record<string, number>;
-  selectedGroups: { id: string; label: string }[];
   onClear: () => void;
   onSelectZone: (zoneId: string) => void;
 }

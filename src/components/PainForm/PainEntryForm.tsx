@@ -59,9 +59,9 @@ export function PainEntryForm({ onSave, onCancel }: PainEntryFormProps) {
   const isValid = selectedZones.length > 0;
 
   return (
-    <form onSubmit={handleSubmit} className="space-y-4 pb-6 sm:space-y-5 sm:pb-8">
+    <form onSubmit={handleSubmit} className="space-y-2.5 pb-4 sm:space-y-5 sm:pb-8">
       {/* Date and Time */}
-      <div className="card-medical space-y-3 p-3 sm:p-4">
+      <div className="card-medical space-y-2 p-2.5 sm:p-4">
         <h3 className="section-header mb-0 flex items-center gap-2 text-base sm:text-lg">
           <Calendar className="h-4 w-4 text-primary sm:h-5 sm:w-5" />
           Date et heure
@@ -89,8 +89,8 @@ export function PainEntryForm({ onSave, onCancel }: PainEntryFormProps) {
       </div>
 
       {/* Body Map */}
-      <div className="card-medical space-y-3 p-3 sm:p-4">
-        <h3 className="section-header mb-0 text-base sm:text-lg">Localisation</h3>
+      <div className="card-medical space-y-2 p-2.5 sm:p-4">
+        <h3 className="section-header mb-0 text-sm sm:text-lg">Localisation</h3>
         <BodyMapSelector
           selectedZones={selectedZones}
           onZonesChange={setSelectedZones}
@@ -101,7 +101,7 @@ export function PainEntryForm({ onSave, onCancel }: PainEntryFormProps) {
 
 
       {/* Pain Type */}
-      <div className="card-medical p-3 sm:p-4">
+      <div className="card-medical p-2.5 sm:p-4">
         <PainTypeSelector
           selectedTypes={painTypes}
           onChange={setPainTypes}
@@ -111,12 +111,12 @@ export function PainEntryForm({ onSave, onCancel }: PainEntryFormProps) {
       </div>
 
       {/* Duration */}
-      <div className="card-medical p-3 sm:p-4">
+      <div className="card-medical p-2.5 sm:p-4">
         <DurationSelector value={duration} onChange={setDuration} />
       </div>
 
       {/* Factors */}
-      <div className="card-medical p-3 sm:p-4">
+      <div className="card-medical p-2.5 sm:p-4">
         <FactorsSelector
           triggerFactors={triggerFactors}
           reliefFactors={reliefFactors}
@@ -126,7 +126,7 @@ export function PainEntryForm({ onSave, onCancel }: PainEntryFormProps) {
       </div>
 
       {/* Notes */}
-      <div className="card-medical space-y-2 p-3 sm:space-y-3 sm:p-4">
+      <div className="card-medical space-y-1.5 p-2.5 sm:space-y-3 sm:p-4">
         <label className="text-sm font-medium text-foreground">
           Commentaire libre
           <span className="ml-2 text-xs text-muted-foreground">(optionnel)</span>

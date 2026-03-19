@@ -8,7 +8,6 @@ interface ZoneSelectionSummaryProps {
   draftIntensity: number;
   selectedZones: string[];
   zoneIntensities: Record<string, number>;
-  selectedGroups: { id: string; label: string }[];
   onClear: () => void;
   onSelectZone: (zoneId: string) => void;
 }
@@ -18,7 +17,6 @@ export function ZoneSelectionSummary({
   draftIntensity,
   selectedZones,
   zoneIntensities,
-  selectedGroups,
   onClear,
   onSelectZone,
 }: ZoneSelectionSummaryProps) {
@@ -61,16 +59,6 @@ export function ZoneSelectionSummary({
                 {zoneIntensities[zoneId] ?? draftIntensity}/10
               </span>
             </button>
-          ))}
-        </div>
-      )}
-
-      {selectedGroups.length > 0 && (
-        <div className="mt-1.5 flex flex-wrap gap-1 sm:mt-4 sm:gap-2">
-          {selectedGroups.map((group) => (
-            <Badge key={group.id} variant="outline" className="rounded-full px-2 py-px text-[9px] sm:px-3 sm:py-1 sm:text-xs">
-              {group.label}
-            </Badge>
           ))}
         </div>
       )}

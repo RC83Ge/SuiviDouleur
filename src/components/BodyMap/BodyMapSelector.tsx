@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { RotateCcw, Stethoscope } from 'lucide-react';
 import { AnatomyFigure } from './AnatomyFigure';
-import { BODY_PATHS, ZONE_GROUPS, ZONE_LABELS, VIEW_META } from './bodyMapData';
+import { BODY_PATHS, ZONE_LABELS, VIEW_META } from './bodyMapData';
 import { ZoneSelectionSummary } from './ZoneSelectionSummary';
 import { Switch } from '@/components/ui/switch';
 import { Slider } from '@/components/ui/slider';
@@ -82,9 +82,6 @@ export function BodyMapSelector({
     setMobileView((current) => (current === 'front' ? 'back' : 'front'));
   };
 
-  const selectedGroups = ZONE_GROUPS.filter((group) =>
-    group.zones.some((zone) => selectedZones.includes(zone))
-  );
 
   const currentIntensity = activeZone ? zoneIntensities[activeZone] ?? draftIntensity : draftIntensity;
   const mobileFigure =
@@ -227,7 +224,6 @@ export function BodyMapSelector({
             draftIntensity={draftIntensity}
             selectedZones={selectedZones}
             zoneIntensities={zoneIntensities}
-            selectedGroups={selectedGroups.map((group) => ({ id: group.id, label: group.label }))}
             onClear={clearAll}
             onSelectZone={setActiveZone}
           />

@@ -126,7 +126,7 @@ export function PainEntryForm({ onSave, onCancel }: PainEntryFormProps) {
       </div>
 
       {/* Notes */}
-      <div className="card-medical space-y-2 p-3 sm:space-y-3 sm:p-4">
+      <div className="card-medical space-y-1.5 p-2.5 sm:space-y-3 sm:p-4">
         <label className="text-sm font-medium text-foreground">
           Commentaire libre
           <span className="ml-2 text-xs text-muted-foreground">(optionnel)</span>

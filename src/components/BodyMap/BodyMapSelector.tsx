@@ -100,37 +100,34 @@ export function BodyMapSelector({
         };
 
   return (
-    <div className="space-y-3 sm:space-y-5">
-      <div className="overflow-hidden rounded-[1.5rem] border border-primary/10 bg-[linear-gradient(180deg,hsl(var(--background)),hsl(var(--card))_18%,hsl(var(--muted)/0.4))] shadow-medical-lg sm:rounded-[1.9rem]">
-        <div className="flex items-center justify-between border-b border-border/70 bg-card/80 px-3 py-2.5 backdrop-blur-sm sm:px-5 sm:py-4">
-          <div className="inline-flex items-center gap-2 rounded-full border border-primary/15 bg-primary/5 px-2.5 py-1 text-[10px] font-semibold uppercase tracking-[0.18em] text-primary sm:px-3 sm:text-[11px] sm:tracking-[0.22em]">
-            <Stethoscope className="h-3.5 w-3.5" />
+    <div className="space-y-2 sm:space-y-5">
+      <div className="overflow-hidden rounded-xl border border-primary/10 bg-[linear-gradient(180deg,hsl(var(--background)),hsl(var(--card))_18%,hsl(var(--muted)/0.4))] shadow-medical-lg sm:rounded-[1.9rem]">
+        <div className="flex items-center justify-between border-b border-border/70 bg-card/80 px-2.5 py-1.5 backdrop-blur-sm sm:px-5 sm:py-4">
+          <div className="inline-flex items-center gap-1.5 rounded-full border border-primary/15 bg-primary/5 px-2 py-0.5 text-[9px] font-semibold uppercase tracking-[0.16em] text-primary sm:gap-2 sm:px-3 sm:py-1 sm:text-[11px] sm:tracking-[0.22em]">
+            <Stethoscope className="h-3 w-3 sm:h-3.5 sm:w-3.5" />
             Sélection anatomique
           </div>
           <button
             type="button"
             onClick={() => setDebugMode((d) => !d)}
-            className={`rounded-full p-1.5 transition-colors ${debugMode ? 'bg-primary/15 text-primary' : 'text-muted-foreground/40 hover:text-muted-foreground'}`}
+            className={`rounded-full p-1 transition-colors sm:p-1.5 ${debugMode ? 'bg-primary/15 text-primary' : 'text-muted-foreground/30 hover:text-muted-foreground'}`}
             aria-label="Activer le mode debug"
             title="Mode debug"
           >
-            <svg xmlns="http://www.w3.org/2000/svg" className="h-3.5 w-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M12 22c1.1 0 2-.9 2-2h-4c0 1.1.9 2 2 2z"/><path d="M20 8a8 8 0 1 0-16 0c0 7-3 9-3 9h22s-3-2-3-9"/></svg>
+            <svg xmlns="http://www.w3.org/2000/svg" className="h-3 w-3 sm:h-3.5 sm:w-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M12 22c1.1 0 2-.9 2-2h-4c0 1.1.9 2 2 2z"/><path d="M20 8a8 8 0 1 0-16 0c0 7-3 9-3 9h22s-3-2-3-9"/></svg>
           </button>
         </div>
 
-        <div className="space-y-3 px-3 py-3 sm:space-y-5 sm:px-5 sm:py-5">
-          <div className="space-y-3 sm:space-y-4">
+        <div className="space-y-2 px-2 py-2 sm:space-y-5 sm:px-5 sm:py-5">
+          <div className="space-y-2 sm:space-y-4">
             <div className="sm:hidden">
-              <div className="mb-2 flex items-center justify-between gap-2 rounded-[1rem] border border-border/70 bg-card/90 p-2 shadow-medical-sm">
-                <div>
-                  <p className="text-[10px] font-semibold uppercase tracking-[0.16em] text-muted-foreground">Vue affichée</p>
-                  <p className="text-sm font-medium text-foreground">
-                    {mobileView === 'front' ? 'Face' : 'Dos'}
-                  </p>
-                </div>
-                <Button type="button" variant="outline" size="sm" className="h-8 rounded-full px-3" onClick={toggleMobileView}>
-                  <RotateCcw className="h-3.5 w-3.5" />
-                  Voir {mobileView === 'front' ? 'dos' : 'face'}
+              <div className="mb-1.5 flex items-center justify-between gap-2 rounded-lg border border-border/70 bg-card/90 px-2 py-1.5 shadow-medical-sm">
+                <p className="text-[10px] font-medium text-muted-foreground">
+                  Vue : <span className="font-semibold text-foreground">{mobileView === 'front' ? 'Face' : 'Dos'}</span>
+                </p>
+                <Button type="button" variant="outline" size="sm" className="h-7 rounded-full px-2.5 text-[10px]" onClick={toggleMobileView}>
+                  <RotateCcw className="h-3 w-3" />
+                  {mobileView === 'front' ? 'Dos' : 'Face'}
                 </Button>
               </div>
 
@@ -179,15 +176,15 @@ export function BodyMapSelector({
             </div>
           </div>
 
-          <div className="rounded-[1rem] border border-border/70 bg-card/95 p-2.5 shadow-medical-sm backdrop-blur-sm sm:rounded-[1.5rem] sm:p-4">
-            <div className="mb-2 flex items-center justify-between gap-3 sm:mb-4">
+          <div className="rounded-lg border border-border/70 bg-card/95 p-2 shadow-medical-sm backdrop-blur-sm sm:rounded-[1.5rem] sm:p-4">
+            <div className="mb-1.5 flex items-center justify-between gap-2 sm:mb-4">
               <div className="min-w-0">
-                <p className="text-[10px] font-semibold uppercase tracking-[0.16em] text-muted-foreground sm:text-xs sm:tracking-[0.18em]">Intensité</p>
-                <p className="truncate text-xs font-medium text-foreground sm:text-sm">
+                <p className="text-[9px] font-semibold uppercase tracking-[0.14em] text-muted-foreground sm:text-xs sm:tracking-[0.18em]">Intensité</p>
+                <p className="truncate text-[11px] font-medium text-foreground sm:text-sm">
                   {activeZone ? ZONE_LABELS[activeZone] ?? activeZone : 'Sélectionnez une zone'}
                 </p>
               </div>
-              <div className="flex h-8 min-w-8 items-center justify-center rounded-lg bg-primary px-2 text-xs font-semibold text-primary-foreground shadow-medical-sm sm:h-11 sm:min-w-11 sm:rounded-2xl sm:px-0 sm:text-base">
+              <div className="flex h-7 min-w-7 items-center justify-center rounded-md bg-primary px-1.5 text-[11px] font-semibold text-primary-foreground shadow-medical-sm sm:h-11 sm:min-w-11 sm:rounded-2xl sm:px-0 sm:text-base">
                 {currentIntensity}
               </div>
             </div>
@@ -199,10 +196,10 @@ export function BodyMapSelector({
               value={[currentIntensity]}
               onValueChange={handleIntensityChange}
               disabled={!activeZone || !selectedZones.includes(activeZone)}
-              className="py-1"
+              className="py-0.5"
             />
 
-            <div className="mt-1.5 flex justify-between text-[10px] text-muted-foreground">
+            <div className="mt-1 flex justify-between text-[9px] text-muted-foreground sm:text-[10px]">
               <span>1 léger</span>
               <span>10 intense</span>
             </div>

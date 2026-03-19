@@ -89,8 +89,8 @@ export function PainEntryForm({ onSave, onCancel }: PainEntryFormProps) {
       </div>
 
       {/* Body Map */}
-      <div className="card-medical space-y-3 p-3 sm:p-4">
-        <h3 className="section-header mb-0 text-base sm:text-lg">Localisation</h3>
+      <div className="card-medical space-y-2 p-2.5 sm:p-4">
+        <h3 className="section-header mb-0 text-sm sm:text-lg">Localisation</h3>
         <BodyMapSelector
           selectedZones={selectedZones}
           onZonesChange={setSelectedZones}

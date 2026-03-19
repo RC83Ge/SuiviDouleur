@@ -111,7 +111,7 @@ export function PainEntryForm({ onSave, onCancel }: PainEntryFormProps) {
       </div>
 
       {/* Duration */}
-      <div className="card-medical p-3 sm:p-4">
+      <div className="card-medical p-2.5 sm:p-4">
         <DurationSelector value={duration} onChange={setDuration} />
       </div>
 

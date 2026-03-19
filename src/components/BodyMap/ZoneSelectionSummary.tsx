@@ -62,16 +62,6 @@ export function ZoneSelectionSummary({
           ))}
         </div>
       )}
-
-      {selectedGroups.length > 0 && (
-        <div className="mt-1.5 flex flex-wrap gap-1 sm:mt-4 sm:gap-2">
-          {selectedGroups.map((group) => (
-            <Badge key={group.id} variant="outline" className="rounded-full px-2 py-px text-[9px] sm:px-3 sm:py-1 sm:text-xs">
-              {group.label}
-            </Badge>
-          ))}
-        </div>
-      )}
     </div>
   );
 }

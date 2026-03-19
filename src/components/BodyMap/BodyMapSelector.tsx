@@ -227,7 +227,6 @@ export function BodyMapSelector({
             draftIntensity={draftIntensity}
             selectedZones={selectedZones}
             zoneIntensities={zoneIntensities}
-            selectedGroups={selectedGroups.map((group) => ({ id: group.id, label: group.label }))}
             onClear={clearAll}
             onSelectZone={setActiveZone}
           />

@@ -17,7 +17,6 @@ export function ZoneSelectionSummary({
   draftIntensity,
   selectedZones,
   zoneIntensities,
-  selectedGroups,
   onClear,
   onSelectZone,
 }: ZoneSelectionSummaryProps) {

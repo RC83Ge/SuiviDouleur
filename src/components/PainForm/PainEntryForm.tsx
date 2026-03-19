@@ -61,7 +61,7 @@ export function PainEntryForm({ onSave, onCancel }: PainEntryFormProps) {
   return (
     <form onSubmit={handleSubmit} className="space-y-2.5 pb-4 sm:space-y-5 sm:pb-8">
       {/* Date and Time */}
-      <div className="card-medical space-y-3 p-3 sm:p-4">
+      <div className="card-medical space-y-2 p-2.5 sm:p-4">
         <h3 className="section-header mb-0 flex items-center gap-2 text-base sm:text-lg">
           <Calendar className="h-4 w-4 text-primary sm:h-5 sm:w-5" />
           Date et heure

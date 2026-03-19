@@ -133,39 +133,6 @@ export function BodyMapSelector({
         </div>
 
         <div className="space-y-3 px-3 py-3 sm:space-y-5 sm:px-5 sm:py-5">
-          <div className="rounded-[1.2rem] border border-border/70 bg-card/95 p-3 shadow-medical-sm backdrop-blur-sm sm:rounded-[1.5rem] sm:p-4">
-            <div className="mb-3 flex items-center justify-between gap-3 sm:mb-4">
-              <div className="min-w-0">
-                <p className="text-[10px] font-semibold uppercase tracking-[0.16em] text-muted-foreground sm:text-xs sm:tracking-[0.18em]">Intensité</p>
-                <p className="truncate text-sm font-medium text-foreground">
-                  {activeZone ? ZONE_LABELS[activeZone] ?? activeZone : 'Sélectionnez une zone'}
-                </p>
-              </div>
-              <div className="flex h-9 min-w-9 items-center justify-center rounded-xl bg-primary px-2 text-sm font-semibold text-primary-foreground shadow-medical-sm sm:h-11 sm:min-w-11 sm:rounded-2xl sm:px-0 sm:text-base">
-                {currentIntensity}
-              </div>
-            </div>
-
-            <Slider
-              min={1}
-              max={10}
-              step={1}
-              value={[currentIntensity]}
-              onValueChange={handleIntensityChange}
-              disabled={!activeZone || !selectedZones.includes(activeZone)}
-              className="py-1"
-            />
-
-            <div className="mt-2 flex justify-between text-[10px] text-muted-foreground">
-              <span>1 léger</span>
-              <span>10 intense</span>
-            </div>
-
-            <p className="mt-2 text-[11px] leading-4 text-muted-foreground sm:mt-3 sm:text-xs sm:leading-5">
-              Sélectionnez une zone active pour régler précisément son niveau de douleur.
-            </p>
-          </div>
-
           <div className="space-y-3 sm:space-y-4">
             <div className="sm:hidden">
               <div className="mb-2 flex items-center justify-between gap-2 rounded-[1rem] border border-border/70 bg-card/90 p-2 shadow-medical-sm">
@@ -224,17 +191,46 @@ export function BodyMapSelector({
                 intensityTone={intensityTone}
               />
             </div>
-
-            <ZoneSelectionSummary
-              activeZone={activeZone}
-              draftIntensity={draftIntensity}
-              selectedZones={selectedZones}
-              zoneIntensities={zoneIntensities}
-              selectedGroups={selectedGroups.map((group) => ({ id: group.id, label: group.label }))}
-              onClear={clearAll}
-              onSelectZone={setActiveZone}
-            />
           </div>
+
+          <div className="rounded-[1rem] border border-border/70 bg-card/95 p-2.5 shadow-medical-sm backdrop-blur-sm sm:rounded-[1.5rem] sm:p-4">
+            <div className="mb-2 flex items-center justify-between gap-3 sm:mb-4">
+              <div className="min-w-0">
+                <p className="text-[10px] font-semibold uppercase tracking-[0.16em] text-muted-foreground sm:text-xs sm:tracking-[0.18em]">Intensité</p>
+                <p className="truncate text-xs font-medium text-foreground sm:text-sm">
+                  {activeZone ? ZONE_LABELS[activeZone] ?? activeZone : 'Sélectionnez une zone'}
+                </p>
+              </div>
+              <div className="flex h-8 min-w-8 items-center justify-center rounded-lg bg-primary px-2 text-xs font-semibold text-primary-foreground shadow-medical-sm sm:h-11 sm:min-w-11 sm:rounded-2xl sm:px-0 sm:text-base">
+                {currentIntensity}
+              </div>
+            </div>
+
+            <Slider
+              min={1}
+              max={10}
+              step={1}
+              value={[currentIntensity]}
+              onValueChange={handleIntensityChange}
+              disabled={!activeZone || !selectedZones.includes(activeZone)}
+              className="py-1"
+            />
+
+            <div className="mt-1.5 flex justify-between text-[10px] text-muted-foreground">
+              <span>1 léger</span>
+              <span>10 intense</span>
+            </div>
+          </div>
+
+          <ZoneSelectionSummary
+            activeZone={activeZone}
+            draftIntensity={draftIntensity}
+            selectedZones={selectedZones}
+            zoneIntensities={zoneIntensities}
+            selectedGroups={selectedGroups.map((group) => ({ id: group.id, label: group.label }))}
+            onClear={clearAll}
+            onSelectZone={setActiveZone}
+          />
         </div>
       </div>
     </div>

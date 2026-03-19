@@ -99,10 +99,6 @@ export function PainEntryForm({ onSave, onCancel }: PainEntryFormProps) {
         />
       </div>
 
-      {/* Intensity */}
-      <div className="card-medical p-3 sm:p-4">
-        <IntensitySlider value={intensity} onChange={setIntensity} />
-      </div>
 
       {/* Pain Type */}
       <div className="card-medical p-3 sm:p-4">

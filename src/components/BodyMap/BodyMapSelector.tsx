@@ -190,6 +190,35 @@ export function BodyMapSelector({
             </div>
           </div>
 
+          <div className="rounded-[1rem] border border-border/70 bg-card/95 p-2.5 shadow-medical-sm backdrop-blur-sm sm:rounded-[1.5rem] sm:p-4">
+            <div className="mb-2 flex items-center justify-between gap-3 sm:mb-4">
+              <div className="min-w-0">
+                <p className="text-[10px] font-semibold uppercase tracking-[0.16em] text-muted-foreground sm:text-xs sm:tracking-[0.18em]">Intensité</p>
+                <p className="truncate text-xs font-medium text-foreground sm:text-sm">
+                  {activeZone ? ZONE_LABELS[activeZone] ?? activeZone : 'Sélectionnez une zone'}
+                </p>
+              </div>
+              <div className="flex h-8 min-w-8 items-center justify-center rounded-lg bg-primary px-2 text-xs font-semibold text-primary-foreground shadow-medical-sm sm:h-11 sm:min-w-11 sm:rounded-2xl sm:px-0 sm:text-base">
+                {currentIntensity}
+              </div>
+            </div>
+
+            <Slider
+              min={1}
+              max={10}
+              step={1}
+              value={[currentIntensity]}
+              onValueChange={handleIntensityChange}
+              disabled={!activeZone || !selectedZones.includes(activeZone)}
+              className="py-1"
+            />
+
+            <div className="mt-1.5 flex justify-between text-[10px] text-muted-foreground">
+              <span>1 léger</span>
+              <span>10 intense</span>
+            </div>
+          </div>
+
           <ZoneSelectionSummary
             activeZone={activeZone}
             draftIntensity={draftIntensity}

@@ -23,30 +23,30 @@ export function ZoneSelectionSummary({
   onSelectZone,
 }: ZoneSelectionSummaryProps) {
   return (
-    <div className="rounded-[1.2rem] border border-border/70 bg-card/95 p-3 shadow-medical-sm backdrop-blur-sm sm:rounded-[1.5rem] sm:p-4">
-      <div className="mb-2.5 flex items-center justify-between gap-3 sm:mb-3">
-        <div className="flex items-center gap-2 text-sm font-semibold text-foreground">
-          <Activity className="h-4 w-4 text-primary" />
+    <div className="rounded-[1rem] border border-border/70 bg-card/95 p-2 shadow-medical-sm backdrop-blur-sm sm:rounded-[1.5rem] sm:p-4">
+      <div className="mb-1.5 flex items-center justify-between gap-2 sm:mb-3">
+        <div className="flex items-center gap-1.5 text-xs font-semibold text-foreground sm:text-sm sm:gap-2">
+          <Activity className="h-3 w-3 text-primary sm:h-4 sm:w-4" />
           Zones déclarées
         </div>
         {selectedZones.length > 0 && (
-          <Button type="button" variant="ghost" size="sm" onClick={onClear} className="h-8 px-2.5 text-xs sm:h-9 sm:px-3">
-            <X className="h-4 w-4" />
+          <Button type="button" variant="ghost" size="sm" onClick={onClear} className="h-6 px-1.5 text-[10px] sm:h-9 sm:px-3 sm:text-xs">
+            <X className="h-3 w-3 sm:h-4 sm:w-4" />
             Effacer
           </Button>
         )}
       </div>
 
       {selectedZones.length === 0 ? (
-        <p className="text-xs leading-5 text-muted-foreground sm:text-sm">Aucune zone sélectionnée pour le moment.</p>
+        <p className="text-[11px] leading-4 text-muted-foreground sm:text-sm sm:leading-5">Aucune zone sélectionnée.</p>
       ) : (
-        <div className="flex flex-wrap gap-1.5 sm:gap-2">
+        <div className="flex flex-wrap gap-1 sm:gap-2">
           {selectedZones.map((zoneId) => (
             <button
               key={zoneId}
               type="button"
               onClick={() => onSelectZone(zoneId)}
-              className={`inline-flex items-center gap-1.5 rounded-full border px-2.5 py-1.5 text-[11px] font-medium transition-all sm:gap-2 sm:px-3 sm:text-xs ${
+              className={`inline-flex items-center gap-1 rounded-full border px-2 py-0.5 text-[9px] font-medium transition-all sm:gap-2 sm:px-3 sm:py-1.5 sm:text-xs ${
                 activeZone === zoneId
                   ? 'border-primary/30 bg-primary text-primary-foreground shadow-medical-sm'
                   : 'border-border bg-background text-foreground hover:border-primary/20'
@@ -54,7 +54,7 @@ export function ZoneSelectionSummary({
             >
               <span>{ZONE_LABELS[zoneId] ?? zoneId}</span>
               <span
-                className={`rounded-full px-1.5 py-0.5 ${
+                className={`rounded-full px-1 py-px text-[9px] sm:px-1.5 sm:py-0.5 sm:text-xs ${
                   activeZone === zoneId ? 'bg-primary-foreground/20 text-primary-foreground' : 'bg-primary/10 text-primary'
                 }`}
               >
@@ -66,9 +66,9 @@ export function ZoneSelectionSummary({
       )}
 
       {selectedGroups.length > 0 && (
-        <div className="mt-3 flex flex-wrap gap-1.5 sm:mt-4 sm:gap-2">
+        <div className="mt-1.5 flex flex-wrap gap-1 sm:mt-4 sm:gap-2">
           {selectedGroups.map((group) => (
-            <Badge key={group.id} variant="outline" className="rounded-full px-2.5 py-0.5 text-[11px] sm:px-3 sm:py-1 sm:text-xs">
+            <Badge key={group.id} variant="outline" className="rounded-full px-2 py-px text-[9px] sm:px-3 sm:py-1 sm:text-xs">
               {group.label}
             </Badge>
           ))}

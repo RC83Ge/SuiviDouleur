@@ -116,7 +116,7 @@ export function PainEntryForm({ onSave, onCancel }: PainEntryFormProps) {
       </div>
 
       {/* Factors */}
-      <div className="card-medical p-3 sm:p-4">
+      <div className="card-medical p-2.5 sm:p-4">
         <FactorsSelector
           triggerFactors={triggerFactors}
           reliefFactors={reliefFactors}

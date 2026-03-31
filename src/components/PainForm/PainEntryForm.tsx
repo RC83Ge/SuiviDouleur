@@ -59,7 +59,7 @@ export function PainEntryForm({ onSave, onCancel }: PainEntryFormProps) {
   const isValid = selectedZones.length > 0;
 
   return (
-    <form onSubmit={handleSubmit} className="space-y-2.5 pb-4 sm:space-y-5 sm:pb-8">
+    <form onSubmit={handleSubmit} className="space-y-2 pb-2 sm:space-y-5 sm:pb-8">
       {/* Date and Time */}
       <div className="card-medical space-y-2 p-2.5 sm:p-4">
         <h3 className="section-header mb-0 flex items-center gap-2 text-base sm:text-lg">

@@ -29,17 +29,15 @@ export function AnatomyFigure({
   intensityTone,
 }: AnatomyFigureProps) {
   return (
-    <div className="card-medical-elevated rounded-[1.3rem] border-border/70 bg-card/95 p-3 backdrop-blur-sm sm:rounded-[1.6rem] sm:p-4">
-      <div className="mb-3 flex items-center justify-between gap-3 sm:mb-4">
-        <div>
-          <p className="text-xs font-semibold uppercase tracking-[0.16em] text-primary sm:text-sm sm:tracking-[0.2em]">{title}</p>
-          <p className="text-[11px] text-muted-foreground sm:text-xs">{subtitle}</p>
-        </div>
+    <div className="rounded-xl border-border/70 bg-card/95 p-1.5 sm:card-medical-elevated sm:rounded-[1.6rem] sm:p-4">
+      <div className="mb-1 flex items-center gap-2 sm:mb-4">
+        <p className="text-[10px] font-semibold uppercase tracking-[0.12em] text-primary sm:text-sm sm:tracking-[0.2em]">{title}</p>
+        <p className="text-[9px] text-muted-foreground sm:text-xs">{subtitle}</p>
       </div>
 
-      <div className="relative mx-auto w-full max-w-[220px] overflow-hidden rounded-[1.1rem] border border-border/70 bg-[linear-gradient(180deg,hsl(var(--background)),hsl(var(--muted)/0.6))] p-2.5 sm:max-w-[260px] sm:rounded-[1.35rem] sm:p-3">
-        <div className="absolute inset-2.5 rounded-[0.9rem] border border-primary/10 sm:inset-3 sm:rounded-[1rem]" />
-        <div className="absolute inset-x-6 top-3 h-14 rounded-full bg-primary/5 blur-2xl sm:inset-x-8 sm:top-4 sm:h-16" />
+      <div className="relative mx-auto w-full overflow-hidden rounded-lg border border-border/70 bg-[linear-gradient(180deg,hsl(var(--background)),hsl(var(--muted)/0.6))] p-1.5 sm:max-w-[260px] sm:rounded-[1.35rem] sm:p-3">
+        <div className="absolute inset-1.5 rounded-md border border-primary/10 sm:inset-3 sm:rounded-[1rem]" />
+        <div className="absolute inset-x-4 top-2 h-10 rounded-full bg-primary/5 blur-2xl sm:inset-x-8 sm:top-4 sm:h-16" />
 
         <img
           src={imageSrc}
@@ -50,7 +48,7 @@ export function AnatomyFigure({
 
         <svg
           viewBox="0 0 200 480"
-          className="absolute inset-2.5 z-10 h-[calc(100%-1.25rem)] w-[calc(100%-1.25rem)] sm:inset-3 sm:h-[calc(100%-1.5rem)] sm:w-[calc(100%-1.5rem)]"
+          className="absolute inset-1.5 z-10 h-[calc(100%-0.75rem)] w-[calc(100%-0.75rem)] sm:inset-3 sm:h-[calc(100%-1.5rem)] sm:w-[calc(100%-1.5rem)]"
           preserveAspectRatio="xMidYMid meet"
         >
           {zones.map((zone) => {
@@ -93,7 +91,7 @@ export function AnatomyFigure({
         </svg>
 
         {debugMode && (
-          <div className="pointer-events-none absolute inset-2.5 z-20 bg-[linear-gradient(to_right,hsl(var(--border)/0.6)_1px,transparent_1px),linear-gradient(to_bottom,hsl(var(--border)/0.6)_1px,transparent_1px)] bg-[size:24px_24px] opacity-40 sm:inset-3" />
+          <div className="pointer-events-none absolute inset-1.5 z-20 bg-[linear-gradient(to_right,hsl(var(--border)/0.6)_1px,transparent_1px),linear-gradient(to_bottom,hsl(var(--border)/0.6)_1px,transparent_1px)] bg-[size:24px_24px] opacity-40 sm:inset-3" />
         )}
       </div>
     </div>

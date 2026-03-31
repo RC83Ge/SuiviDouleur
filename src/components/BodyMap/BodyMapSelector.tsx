@@ -86,8 +86,7 @@ export function BodyMapSelector({
 
   const currentIntensity = activeZone ? zoneIntensities[activeZone] ?? draftIntensity : draftIntensity;
 
-  const isFront = isFlipping ? currentView !== 'front' : currentView === 'front';
-  const figureData = isFront
+  const figureData = currentView === 'front'
     ? { title: VIEW_META.front.title, subtitle: VIEW_META.front.subtitle, imageSrc: bodyFront, zones: BODY_PATHS.front }
     : { title: VIEW_META.back.title, subtitle: VIEW_META.back.subtitle, imageSrc: bodyBack, zones: BODY_PATHS.back };
 
@@ -124,48 +123,24 @@ export function BodyMapSelector({
         </div>
 
         <div className="space-y-2 px-2 py-2 sm:space-y-5 sm:px-5 sm:py-5">
-          <div className="mx-auto max-w-[320px] sm:max-w-[360px]" style={{ perspective: '800px' }}>
+          <div className="mx-auto max-w-[320px] sm:max-w-[360px]">
             <div
               className="transition-transform duration-500 ease-in-out"
-              style={{
-                transformStyle: 'preserve-3d',
-                transform: currentView === 'back' ? 'rotateY(180deg)' : 'rotateY(0deg)',
-              }}
+              style={{ transform: isFlipping ? 'scale(0.95, 1) rotateY(90deg)' : 'scale(1) rotateY(0deg)' }}
             >
-              <div style={{ backfaceVisibility: 'hidden' }}>
-                {isFront && (
-                  <AnatomyFigure
-                    title={figureData.title}
-                    subtitle={figureData.subtitle}
-                    imageSrc={figureData.imageSrc}
-                    zones={figureData.zones}
-                    selectedZones={selectedZones}
-                    hoveredZones={hoveredZones}
-                    debugMode={debugMode}
-                    zoneIntensities={zoneIntensities}
-                    onZoneClick={handleZoneClick}
-                    onZoneHover={setHoveredZone}
-                    intensityTone={intensityTone}
-                  />
-                )}
-                {!isFront && (
-                  <div style={{ transform: 'rotateY(180deg)' }}>
-                    <AnatomyFigure
-                      title={figureData.title}
-                      subtitle={figureData.subtitle}
-                      imageSrc={figureData.imageSrc}
-                      zones={figureData.zones}
-                      selectedZones={selectedZones}
-                      hoveredZones={hoveredZones}
-                      debugMode={debugMode}
-                      zoneIntensities={zoneIntensities}
-                      onZoneClick={handleZoneClick}
-                      onZoneHover={setHoveredZone}
-                      intensityTone={intensityTone}
-                    />
-                  </div>
-                )}
-              </div>
+              <AnatomyFigure
+                title={figureData.title}
+                subtitle={figureData.subtitle}
+                imageSrc={figureData.imageSrc}
+                zones={figureData.zones}
+                selectedZones={selectedZones}
+                hoveredZones={hoveredZones}
+                debugMode={debugMode}
+                zoneIntensities={zoneIntensities}
+                onZoneClick={handleZoneClick}
+                onZoneHover={setHoveredZone}
+                intensityTone={intensityTone}
+              />
             </div>
           </div>
 

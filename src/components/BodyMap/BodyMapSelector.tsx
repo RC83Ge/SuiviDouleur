@@ -86,8 +86,7 @@ export function BodyMapSelector({
 
   const currentIntensity = activeZone ? zoneIntensities[activeZone] ?? draftIntensity : draftIntensity;
 
-  const isFront = isFlipping ? currentView !== 'front' : currentView === 'front';
-  const figureData = isFront
+  const figureData = currentView === 'front'
     ? { title: VIEW_META.front.title, subtitle: VIEW_META.front.subtitle, imageSrc: bodyFront, zones: BODY_PATHS.front }
     : { title: VIEW_META.back.title, subtitle: VIEW_META.back.subtitle, imageSrc: bodyBack, zones: BODY_PATHS.back };
 

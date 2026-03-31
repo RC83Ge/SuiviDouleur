@@ -119,34 +119,7 @@ export function BodyMapSelector({
         </div>
 
         <div className="space-y-2 px-2 py-2 sm:space-y-5 sm:px-5 sm:py-5">
-          <div className="space-y-2 sm:space-y-4">
-            <div className="sm:hidden">
-              <div className="mb-1.5 flex items-center justify-between gap-2 rounded-lg border border-border/70 bg-card/90 px-2 py-1.5 shadow-medical-sm">
-                <p className="text-[10px] font-medium text-muted-foreground">
-                  Vue : <span className="font-semibold text-foreground">{mobileView === 'front' ? 'Face' : 'Dos'}</span>
-                </p>
-                <Button type="button" variant="outline" size="sm" className="h-7 rounded-full px-2.5 text-[10px]" onClick={toggleMobileView}>
-                  <RotateCcw className="h-3 w-3" />
-                  {mobileView === 'front' ? 'Dos' : 'Face'}
-                </Button>
-              </div>
-
-              <AnatomyFigure
-                title={mobileFigure.title}
-                subtitle={mobileFigure.subtitle}
-                imageSrc={mobileFigure.imageSrc}
-                zones={mobileFigure.zones}
-                selectedZones={selectedZones}
-                hoveredZones={hoveredZones}
-                debugMode={debugMode}
-                zoneIntensities={zoneIntensities}
-                onZoneClick={handleZoneClick}
-                onZoneHover={setHoveredZone}
-                intensityTone={intensityTone}
-              />
-            </div>
-
-            <div className="hidden gap-3 sm:grid sm:gap-4 lg:grid-cols-2">
+          <div className="grid grid-cols-2 gap-1.5 sm:gap-4">
               <AnatomyFigure
                 title={VIEW_META.front.title}
                 subtitle={VIEW_META.front.subtitle}
@@ -173,7 +146,6 @@ export function BodyMapSelector({
                 onZoneHover={setHoveredZone}
                 intensityTone={intensityTone}
               />
-            </div>
           </div>
 
           <div className="rounded-lg border border-border/70 bg-card/95 p-2 shadow-medical-sm backdrop-blur-sm sm:rounded-[1.5rem] sm:p-4">

@@ -35,9 +35,6 @@ export function AnatomyFigure({
           <p className="text-xs font-semibold uppercase tracking-[0.16em] text-primary sm:text-sm sm:tracking-[0.2em]">{title}</p>
           <p className="text-[11px] text-muted-foreground sm:text-xs">{subtitle}</p>
         </div>
-        <div className="rounded-full border border-border bg-background px-2.5 py-1 text-[10px] font-medium text-muted-foreground shadow-medical-sm sm:px-3 sm:text-[11px]">
-          {zones.length} zones
-        </div>
       </div>
 
       <div className="relative mx-auto w-full max-w-[220px] overflow-hidden rounded-[1.1rem] border border-border/70 bg-[linear-gradient(180deg,hsl(var(--background)),hsl(var(--muted)/0.6))] p-2.5 sm:max-w-[260px] sm:rounded-[1.35rem] sm:p-3">

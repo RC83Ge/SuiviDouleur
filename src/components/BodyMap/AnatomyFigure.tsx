@@ -30,10 +30,6 @@ export function AnatomyFigure({
 }: AnatomyFigureProps) {
   return (
     <div className="rounded-xl border-border/70 bg-card/95 p-1.5 sm:card-medical-elevated sm:rounded-[1.6rem] sm:p-4">
-      <div className="mb-1 flex items-center gap-2 sm:mb-4">
-        <p className="text-[10px] font-semibold uppercase tracking-[0.12em] text-primary sm:text-sm sm:tracking-[0.2em]">{title}</p>
-        <p className="text-[9px] text-muted-foreground sm:text-xs">{subtitle}</p>
-      </div>
 
       <div className="relative mx-auto w-full overflow-hidden rounded-lg border border-border/70 bg-[linear-gradient(180deg,hsl(var(--background)),hsl(var(--muted)/0.6))] p-1.5 sm:max-w-[260px] sm:rounded-[1.35rem] sm:p-3">
         <div className="absolute inset-1.5 rounded-md border border-primary/10 sm:inset-3 sm:rounded-[1rem]" />

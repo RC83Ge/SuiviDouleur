@@ -3,19 +3,28 @@ import { RotateCcw } from 'lucide-react';
 import { AnatomyFigure } from './AnatomyFigure';
 import { BODY_PATHS, ZONE_LABELS, VIEW_META } from './bodyMapData';
 import { ZoneSelectionSummary } from './ZoneSelectionSummary';
-import { Slider } from '@/components/ui/slider';
+import { ZoneDetailSheet } from './ZoneDetailSheet';
 import { Button } from '@/components/ui/button';
+import { ZonePainDetails } from '@/types/pain';
 import bodyFront from '@/assets/body-front.png';
 import bodyBack from '@/assets/body-back.png';
 
 interface BodyMapSelectorProps {
   selectedZones: string[];
   onZonesChange: (zones: string[]) => void;
-  zoneIntensities?: Record<string, number>;
-  onZoneIntensityChange?: (zoneId: string, intensity: number) => void;
+  zoneDetails: Record<string, ZonePainDetails>;
+  onZoneDetailsChange: (zoneId: string, details: ZonePainDetails) => void;
 }
 
 type BodyView = 'front' | 'back';
+
+const DEFAULT_ZONE_DETAILS: ZonePainDetails = {
+  intensity: 5,
+  painTypes: [],
+  duration: 'minutes',
+  triggerFactors: [],
+  reliefFactors: [],
+};
 
 function intensityTone(level: number, isHovered = false) {
   const tone = Math.max(1, Math.min(10, Math.round(level)));
@@ -25,17 +34,23 @@ function intensityTone(level: number, isHovered = false) {
 export function BodyMapSelector({
   selectedZones,
   onZonesChange,
-  zoneIntensities = {},
-  onZoneIntensityChange,
+  zoneDetails,
+  onZoneDetailsChange,
 }: BodyMapSelectorProps) {
-  const [draftIntensity, setDraftIntensity] = useState(5);
   const [activeZone, setActiveZone] = useState<string | null>(null);
   const [hoveredZone, setHoveredZone] = useState<string | null>(null);
   const [debugMode, setDebugMode] = useState(false);
   const [currentView, setCurrentView] = useState<BodyView>('front');
   const [isFlipping, setIsFlipping] = useState(false);
+  const [sheetZone, setSheetZone] = useState<string | null>(null);
 
   const hoveredZones = hoveredZone ? [hoveredZone] : [];
+
+  // Build zoneIntensities from zoneDetails for coloring
+  const zoneIntensities: Record<string, number> = {};
+  for (const [zoneId, details] of Object.entries(zoneDetails)) {
+    zoneIntensities[zoneId] = details.intensity;
+  }
 
   useEffect(() => {
     if (!activeZone && selectedZones.length > 0) {
@@ -46,28 +61,22 @@ export function BodyMapSelector({
     }
   }, [activeZone, selectedZones]);
 
-  useEffect(() => {
-    if (activeZone) {
-      setDraftIntensity(zoneIntensities[activeZone] ?? 5);
-    }
-  }, [activeZone, zoneIntensities]);
-
   const handleZoneClick = (zoneId: string) => {
     setActiveZone(zoneId);
     if (selectedZones.includes(zoneId)) {
-      onZonesChange(selectedZones.filter((zone) => zone !== zoneId));
+      // Already selected → open the sheet to edit details
+      setSheetZone(zoneId);
       return;
     }
+    // New zone → add it with default details and open sheet
     onZonesChange([...selectedZones, zoneId]);
-    onZoneIntensityChange?.(zoneId, zoneIntensities[zoneId] ?? draftIntensity);
+    onZoneDetailsChange(zoneId, zoneDetails[zoneId] ?? { ...DEFAULT_ZONE_DETAILS });
+    setSheetZone(zoneId);
   };
 
-  const handleIntensityChange = (value: number[]) => {
-    const nextValue = value[0] ?? 5;
-    setDraftIntensity(nextValue);
-    if (activeZone && selectedZones.includes(activeZone)) {
-      onZoneIntensityChange?.(activeZone, nextValue);
-    }
+  const handleRemoveZone = (zoneId: string) => {
+    onZonesChange(selectedZones.filter((z) => z !== zoneId));
+    if (sheetZone === zoneId) setSheetZone(null);
   };
 
   const clearAll = () => {
@@ -84,11 +93,11 @@ export function BodyMapSelector({
     }, 300);
   };
 
-  const currentIntensity = activeZone ? zoneIntensities[activeZone] ?? draftIntensity : draftIntensity;
-
   const figureData = currentView === 'front'
     ? { title: VIEW_META.front.title, subtitle: VIEW_META.front.subtitle, imageSrc: bodyFront, zones: BODY_PATHS.front }
     : { title: VIEW_META.back.title, subtitle: VIEW_META.back.subtitle, imageSrc: bodyBack, zones: BODY_PATHS.back };
+
+  const sheetDetails = sheetZone ? (zoneDetails[sheetZone] ?? { ...DEFAULT_ZONE_DETAILS }) : { ...DEFAULT_ZONE_DETAILS };
 
   return (
     <div className="space-y-1.5 sm:space-y-5">
@@ -138,45 +147,30 @@ export function BodyMapSelector({
             </div>
           </div>
 
-          <div className="rounded-md border border-border/70 bg-card/95 p-1.5 shadow-medical-sm sm:rounded-[1.5rem] sm:p-4">
-            <div className="mb-1 flex items-center justify-between gap-1.5 sm:mb-4">
-              <div className="min-w-0">
-                <p className="text-[8px] font-semibold uppercase tracking-[0.1em] text-muted-foreground sm:text-xs sm:tracking-[0.18em]">Intensité</p>
-                <p className="truncate text-[10px] font-medium text-foreground sm:text-sm">
-                  {activeZone ? ZONE_LABELS[activeZone] ?? activeZone : 'Sélectionnez une zone'}
-                </p>
-              </div>
-              <div className="flex h-6 min-w-6 items-center justify-center rounded bg-primary px-1 text-[10px] font-semibold text-primary-foreground sm:h-11 sm:min-w-11 sm:rounded-2xl sm:px-0 sm:text-base">
-                {currentIntensity}
-              </div>
-            </div>
-
-            <Slider
-              min={1}
-              max={10}
-              step={1}
-              value={[currentIntensity]}
-              onValueChange={handleIntensityChange}
-              disabled={!activeZone || !selectedZones.includes(activeZone)}
-              className="py-0"
-            />
-
-            <div className="mt-0.5 flex justify-between text-[8px] text-muted-foreground sm:text-[10px]">
-              <span>1 léger</span>
-              <span>10 intense</span>
-            </div>
-          </div>
-
           <ZoneSelectionSummary
             activeZone={activeZone}
-            draftIntensity={draftIntensity}
+            draftIntensity={5}
             selectedZones={selectedZones}
             zoneIntensities={zoneIntensities}
             onClear={clearAll}
-            onSelectZone={setActiveZone}
+            onSelectZone={(zoneId) => {
+              setActiveZone(zoneId);
+              setSheetZone(zoneId);
+            }}
           />
         </div>
       </div>
+
+      <ZoneDetailSheet
+        open={!!sheetZone}
+        zoneId={sheetZone}
+        details={sheetDetails}
+        onDetailsChange={(details) => {
+          if (sheetZone) onZoneDetailsChange(sheetZone, details);
+        }}
+        onClose={() => setSheetZone(null)}
+        intensityTone={intensityTone}
+      />
     </div>
   );
 }

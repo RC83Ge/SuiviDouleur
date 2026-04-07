@@ -151,14 +151,30 @@ export const RELIEF_FACTORS: TriggerFactor[] = [
   { id: 'movement', label: 'Mouvement' },
 ];
 
+/** Per-zone pain details */
+export interface ZonePainDetails {
+  intensity: number;
+  painTypes: PainType[];
+  duration: PainDuration;
+  triggerFactors: string[];
+  reliefFactors: string[];
+}
+
 export interface PainEntry {
   id: string;
   date: Date;
   zones: BodyZone[];
+  /** Per-zone details — key is the zone id */
+  zoneDetails: Record<string, ZonePainDetails>;
+  /** @deprecated Use zoneDetails instead */
   painTypes: PainType[];
+  /** @deprecated Use zoneDetails instead */
   intensity: number;
+  /** @deprecated Use zoneDetails instead */
   duration: PainDuration;
+  /** @deprecated Use zoneDetails instead */
   triggerFactors: string[];
+  /** @deprecated Use zoneDetails instead */
   reliefFactors: string[];
   notes: string;
   createdAt: Date;

@@ -1,13 +1,8 @@
 import React, { useState } from 'react';
 import { format } from 'date-fns';
-import { fr } from 'date-fns/locale';
 import { BodyMapSelector } from '@/components/BodyMap/BodyMapSelector';
-import { IntensitySlider } from './IntensitySlider';
-import { PainTypeSelector } from './PainTypeSelector';
-import { DurationSelector } from './DurationSelector';
-import { FactorsSelector } from './FactorsSelector';
-import { BodyZone, PainType, PainDuration, PainEntry } from '@/types/pain';
-import { Calendar, Clock, Save, X } from 'lucide-react';
+import { BodyZone, PainEntry, ZonePainDetails } from '@/types/pain';
+import { Calendar, Save, X } from 'lucide-react';
 
 interface PainEntryFormProps {
   onSave: (entry: Omit<PainEntry, 'id' | 'createdAt'>) => void;
@@ -18,41 +13,39 @@ export function PainEntryForm({ onSave, onCancel }: PainEntryFormProps) {
   const [date, setDate] = useState(format(new Date(), "yyyy-MM-dd"));
   const [time, setTime] = useState(format(new Date(), "HH:mm"));
   const [selectedZones, setSelectedZones] = useState<string[]>([]);
-  const [zoneIntensities, setZoneIntensities] = useState<Record<string, number>>({});
-  const [painTypes, setPainTypes] = useState<PainType[]>([]);
-  const [intensity, setIntensity] = useState(5);
-  const [duration, setDuration] = useState<PainDuration>('minutes');
-  const [triggerFactors, setTriggerFactors] = useState<string[]>([]);
-  const [reliefFactors, setReliefFactors] = useState<string[]>([]);
+  const [zoneDetails, setZoneDetails] = useState<Record<string, ZonePainDetails>>({});
   const [notes, setNotes] = useState('');
-  const [otherDescription, setOtherDescription] = useState('');
 
-  const handleZoneIntensityChange = (zoneId: string, value: number) => {
-    setZoneIntensities((prev) => ({ ...prev, [zoneId]: value }));
-    // Also update the global intensity to the max of all zone intensities
-    const allIntensities = { ...zoneIntensities, [zoneId]: value };
-    const maxIntensity = Math.max(...Object.values(allIntensities));
-    setIntensity(maxIntensity);
+  const handleZoneDetailsChange = (zoneId: string, details: ZonePainDetails) => {
+    setZoneDetails((prev) => ({ ...prev, [zoneId]: details }));
   };
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    
-    if (selectedZones.length === 0) {
-      return;
-    }
+    if (selectedZones.length === 0) return;
 
     const dateTime = new Date(`${date}T${time}`);
-    
+
+    // Compute aggregated values for backward compat
+    const allDetails = Object.values(zoneDetails);
+    const maxIntensity = allDetails.length > 0
+      ? Math.max(...allDetails.map((d) => d.intensity))
+      : 5;
+    const allPainTypes = [...new Set(allDetails.flatMap((d) => d.painTypes))];
+    const firstDuration = allDetails[0]?.duration ?? 'minutes';
+    const allTriggers = [...new Set(allDetails.flatMap((d) => d.triggerFactors))];
+    const allRelief = [...new Set(allDetails.flatMap((d) => d.reliefFactors))];
+
     onSave({
       date: dateTime,
       zones: selectedZones as BodyZone[],
-      painTypes: painTypes,
-      intensity,
-      duration,
-      triggerFactors,
-      reliefFactors,
-      notes: painTypes.includes('other') ? `${notes}\n[Autre: ${otherDescription}]` : notes,
+      zoneDetails,
+      painTypes: allPainTypes,
+      intensity: maxIntensity,
+      duration: firstDuration,
+      triggerFactors: allTriggers,
+      reliefFactors: allRelief,
+      notes,
     });
   };
 
@@ -91,37 +84,14 @@ export function PainEntryForm({ onSave, onCancel }: PainEntryFormProps) {
       {/* Body Map */}
       <div className="card-medical space-y-2 p-2.5 sm:p-4">
         <h3 className="section-header mb-0 text-sm sm:text-lg">Où avez-vous mal ?</h3>
+        <p className="text-xs text-muted-foreground">
+          Touchez une zone pour la sélectionner et configurer ses détails.
+        </p>
         <BodyMapSelector
           selectedZones={selectedZones}
           onZonesChange={setSelectedZones}
-          zoneIntensities={zoneIntensities}
-          onZoneIntensityChange={handleZoneIntensityChange}
-        />
-      </div>
-
-
-      {/* Pain Type */}
-      <div className="card-medical p-2.5 sm:p-4">
-        <PainTypeSelector
-          selectedTypes={painTypes}
-          onChange={setPainTypes}
-          otherDescription={otherDescription}
-          onOtherDescriptionChange={setOtherDescription}
-        />
-      </div>
-
-      {/* Duration */}
-      <div className="card-medical p-2.5 sm:p-4">
-        <DurationSelector value={duration} onChange={setDuration} />
-      </div>
-
-      {/* Factors */}
-      <div className="card-medical p-2.5 sm:p-4">
-        <FactorsSelector
-          triggerFactors={triggerFactors}
-          reliefFactors={reliefFactors}
-          onTriggerChange={setTriggerFactors}
-          onReliefChange={setReliefFactors}
+          zoneDetails={zoneDetails}
+          onZoneDetailsChange={handleZoneDetailsChange}
         />
       </div>
 

@@ -16,6 +16,7 @@ export function usePainStore() {
           ...entry,
           date: new Date(entry.date),
           createdAt: new Date(entry.createdAt),
+          zoneDetails: entry.zoneDetails ?? {},
         }));
         setEntries(entriesWithDates);
       }

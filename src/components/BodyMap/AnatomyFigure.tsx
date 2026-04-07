@@ -39,7 +39,7 @@ export function AnatomyFigure({
 
       <svg
         viewBox="0 0 358 480"
-        className="absolute inset-0 z-10 h-full w-full touch-none"
+        className="absolute inset-0 z-10 h-full w-full"
         preserveAspectRatio="xMidYMid meet"
       >
         {zones.map((zone) => {
@@ -48,11 +48,9 @@ export function AnatomyFigure({
           const level = zoneIntensities[zone.id] ?? 5;
 
           return (
-            <circle
+            <path
               key={zone.id}
-              cx={zone.cx}
-              cy={zone.cy}
-              r={zone.r}
+              d={zone.d}
               onClick={() => onZoneClick(zone.id)}
               onMouseEnter={() => onZoneHover(zone.id)}
               onMouseLeave={() => onZoneHover(null)}
@@ -64,13 +62,10 @@ export function AnatomyFigure({
               )}
               style={{
                 fill: intensityTone(level, isHovered),
-                fillOpacity: isSelected ? 0.9 : isHovered ? 0.5 : debugMode ? 0.15 : 0.03,
-                strokeWidth: isSelected ? 2 : isHovered || debugMode ? 1.2 : 0,
-                filter: isSelected
-                  ? 'drop-shadow(0 0 8px hsl(var(--primary) / 0.4))'
-                  : isHovered
-                    ? 'drop-shadow(0 0 6px hsl(var(--primary) / 0.2))'
-                    : 'none',
+                fillOpacity: isSelected ? 0.88 : isHovered ? 0.38 : debugMode ? 0.12 : 0.02,
+                strokeWidth: isSelected ? 1.8 : isHovered || debugMode ? 1.2 : 0.6,
+                strokeDasharray: debugMode && !isSelected ? '3 2' : '0',
+                filter: isSelected || isHovered ? 'drop-shadow(0 0 10px hsl(var(--primary) / 0.22))' : 'none',
               }}
               aria-label={zone.label}
               role="button"

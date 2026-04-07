@@ -95,13 +95,13 @@ export const FRONT_PATHS: ZonePath[] = [
   {
     id: 'right-hand',
     label: 'Main droite',
-    d: 'M94,225 L114,220 L105,240 C95,252 82,260 70,258 C62,255 60,248 64,240 C68,234 78,228 88,226 Z',
+    d: 'M75,240 A15,15 0 1,1 105,240 A15,15 0 1,1 75,240 Z',
   },
   // LEFT HAND
   {
     id: 'left-hand',
     label: 'Main gauche',
-    d: 'M264,225 L244,220 L253,240 C263,252 276,260 288,258 C296,255 298,248 294,240 C290,234 280,228 270,226 Z',
+    d: 'M253,240 A15,15 0 1,1 283,240 A15,15 0 1,1 253,240 Z',
   },
   // RIGHT THIGH
   {
@@ -119,13 +119,13 @@ export const FRONT_PATHS: ZonePath[] = [
   {
     id: 'right-knee',
     label: 'Genou droit',
-    d: 'M140,315 L179,315 L179,345 L139,345 Z',
+    d: 'M144,330 A15,15 0 1,1 174,330 A15,15 0 1,1 144,330 Z',
   },
   // LEFT KNEE
   {
     id: 'left-knee',
     label: 'Genou gauche',
-    d: 'M218,315 L179,315 L179,345 L219,345 Z',
+    d: 'M184,330 A15,15 0 1,1 214,330 A15,15 0 1,1 184,330 Z',
   },
   // RIGHT SHIN
   {
@@ -143,25 +143,25 @@ export const FRONT_PATHS: ZonePath[] = [
   {
     id: 'right-ankle',
     label: 'Cheville droite',
-    d: 'M140,425 L179,425 L179,442 L139,442 Z',
+    d: 'M149,433 A10,10 0 1,1 169,433 A10,10 0 1,1 149,433 Z',
   },
   // LEFT ANKLE
   {
     id: 'left-ankle',
     label: 'Cheville gauche',
-    d: 'M218,425 L179,425 L179,442 L219,442 Z',
+    d: 'M189,433 A10,10 0 1,1 209,433 A10,10 0 1,1 189,433 Z',
   },
   // RIGHT FOOT
   {
     id: 'right-foot',
     label: 'Pied droit',
-    d: 'M139,442 L179,442 L179,458 C168,465 152,470 138,470 C128,468 126,462 129,454 C132,448 136,444 139,442 Z',
+    d: 'M141,456 A14,14 0 1,1 169,456 A14,14 0 1,1 141,456 Z',
   },
   // LEFT FOOT
   {
     id: 'left-foot',
     label: 'Pied gauche',
-    d: 'M219,442 L179,442 L179,458 C190,465 206,470 220,470 C230,468 232,462 229,454 C226,448 222,444 219,442 Z',
+    d: 'M189,456 A14,14 0 1,1 217,456 A14,14 0 1,1 189,456 Z',
   },
 ];
 

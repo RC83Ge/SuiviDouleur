@@ -38,7 +38,7 @@ export function AnatomyFigure({
       />
 
       <svg
-        viewBox="0 0 200 480"
+        viewBox="0 0 358 480"
         className="absolute inset-0 z-10 h-full w-full"
         preserveAspectRatio="xMidYMid meet"
       >

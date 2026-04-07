@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { RotateCcw, Stethoscope } from 'lucide-react';
+import { RotateCcw } from 'lucide-react';
 import { AnatomyFigure } from './AnatomyFigure';
 import { BODY_PATHS, ZONE_LABELS, VIEW_META } from './bodyMapData';
 import { ZoneSelectionSummary } from './ZoneSelectionSummary';

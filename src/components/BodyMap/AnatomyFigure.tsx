@@ -62,7 +62,7 @@ export function AnatomyFigure({
               )}
               style={{
                 fill: intensityTone(level, isHovered),
-                fillOpacity: isSelected ? 0.88 : isHovered ? 0.38 : debugMode ? 0.45 : 0.02,
+                fillOpacity: isSelected ? 0.88 : isHovered ? 0.38 : debugMode ? 0.12 : 0.02,
                 strokeWidth: isSelected ? 1.8 : isHovered || debugMode ? 1.2 : 0.6,
                 strokeDasharray: debugMode && !isSelected ? '3 2' : '0',
                 filter: isSelected || isHovered ? 'drop-shadow(0 0 10px hsl(var(--primary) / 0.22))' : 'none',

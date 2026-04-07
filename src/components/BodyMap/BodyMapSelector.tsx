@@ -117,7 +117,7 @@ export function BodyMapSelector({
         </div>
 
         <div className="space-y-1.5 px-1.5 py-1.5 sm:space-y-5 sm:px-5 sm:py-5">
-          <div className="mx-auto max-w-[280px] sm:max-w-[360px]">
+          <div className="mx-auto max-w-[200px] sm:max-w-[300px]">
             <div
               className="transition-transform duration-500 ease-in-out"
               style={{ transform: isFlipping ? 'scale(0.95, 1) rotateY(90deg)' : 'scale(1) rotateY(0deg)' }}

@@ -93,7 +93,7 @@ export function BodyMapSelector({
   return (
     <div className="space-y-1.5 sm:space-y-5">
       <div className="overflow-hidden rounded-lg border border-primary/10 bg-[linear-gradient(180deg,hsl(var(--background)),hsl(var(--card))_18%,hsl(var(--muted)/0.4))] shadow-medical-lg sm:rounded-[1.9rem]">
-        <div className="flex items-center justify-end px-2 py-1 sm:px-5 sm:py-3">
+        <div className="flex items-center justify-end gap-1 px-2 py-1 sm:px-5 sm:py-3">
           <Button
             type="button"
             variant="outline"
@@ -105,6 +105,15 @@ export function BodyMapSelector({
             <RotateCcw className={`mr-1 h-3 w-3 sm:h-3.5 sm:w-3.5 transition-transform duration-300 ${isFlipping ? 'rotate-180' : ''}`} />
             {currentView === 'front' ? 'Voir le dos' : 'Voir la face'}
           </Button>
+          <button
+            type="button"
+            onClick={() => setDebugMode((d) => !d)}
+            className={`rounded-full p-1 transition-colors ${debugMode ? 'bg-primary/15 text-primary' : 'text-muted-foreground/30 hover:text-muted-foreground'}`}
+            aria-label="Mode debug"
+            title="Mode debug"
+          >
+            <svg xmlns="http://www.w3.org/2000/svg" className="h-3 w-3 sm:h-3.5 sm:w-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M12 22c1.1 0 2-.9 2-2h-4c0 1.1.9 2 2 2z"/><path d="M20 8a8 8 0 1 0-16 0c0 7-3 9-3 9h22s-3-2-3-9"/></svg>
+          </button>
         </div>
 
         <div className="space-y-1.5 px-1.5 py-1.5 sm:space-y-5 sm:px-5 sm:py-5">

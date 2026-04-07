@@ -59,12 +59,17 @@ export function PainEntryCard({ entry, onDelete }: PainEntryCardProps) {
         </div>
         
         <button
-          onClick={handleDelete}
+          type="button"
+          onClick={(e) => {
+            e.stopPropagation();
+            handleDelete();
+          }}
           className={`p-2 rounded-lg transition-all ${
             showDeleteConfirm
-              ? 'bg-destructive text-destructive-foreground'
+              ? 'bg-destructive text-destructive-foreground scale-110'
               : 'text-muted-foreground hover:text-destructive hover:bg-destructive/10'
           }`}
+          title={showDeleteConfirm ? 'Confirmer la suppression' : 'Supprimer'}
         >
           <Trash2 className="w-4 h-4" />
         </button>

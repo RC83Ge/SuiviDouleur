@@ -93,33 +93,18 @@ export function BodyMapSelector({
   return (
     <div className="space-y-1.5 sm:space-y-5">
       <div className="overflow-hidden rounded-lg border border-primary/10 bg-[linear-gradient(180deg,hsl(var(--background)),hsl(var(--card))_18%,hsl(var(--muted)/0.4))] shadow-medical-lg sm:rounded-[1.9rem]">
-        <div className="flex items-center justify-between border-b border-border/70 bg-card/80 px-2 py-1 backdrop-blur-sm sm:px-5 sm:py-4">
-          <div className="inline-flex items-center gap-1 rounded-full border border-primary/15 bg-primary/5 px-1.5 py-0.5 text-[8px] font-semibold uppercase tracking-[0.12em] text-primary sm:gap-2 sm:px-3 sm:py-1 sm:text-[11px] sm:tracking-[0.22em]">
-            <Stethoscope className="h-2.5 w-2.5 sm:h-3.5 sm:w-3.5" />
-            Sélection
-          </div>
-          <div className="flex items-center gap-1">
-            <Button
-              type="button"
-              variant="outline"
-              size="sm"
-              className="h-5 rounded-full px-1.5 text-[8px] sm:h-7 sm:px-2.5 sm:text-[10px]"
-              onClick={flipView}
-              disabled={isFlipping}
-            >
-              <RotateCcw className={`mr-0.5 h-2.5 w-2.5 sm:mr-1 sm:h-3 sm:w-3 transition-transform duration-300 ${isFlipping ? 'rotate-180' : ''}`} />
-              {currentView === 'front' ? 'Dos' : 'Face'}
-            </Button>
-            <button
-              type="button"
-              onClick={() => setDebugMode((d) => !d)}
-              className={`rounded-full p-0.5 transition-colors sm:p-1.5 ${debugMode ? 'bg-primary/15 text-primary' : 'text-muted-foreground/30 hover:text-muted-foreground'}`}
-              aria-label="Mode debug"
-              title="Mode debug"
-            >
-              <svg xmlns="http://www.w3.org/2000/svg" className="h-2.5 w-2.5 sm:h-3.5 sm:w-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M12 22c1.1 0 2-.9 2-2h-4c0 1.1.9 2 2 2z"/><path d="M20 8a8 8 0 1 0-16 0c0 7-3 9-3 9h22s-3-2-3-9"/></svg>
-            </button>
-          </div>
+        <div className="flex items-center justify-end px-2 py-1 sm:px-5 sm:py-3">
+          <Button
+            type="button"
+            variant="outline"
+            size="sm"
+            className="h-6 rounded-full px-2 text-[9px] sm:h-8 sm:px-3 sm:text-xs"
+            onClick={flipView}
+            disabled={isFlipping}
+          >
+            <RotateCcw className={`mr-1 h-3 w-3 sm:h-3.5 sm:w-3.5 transition-transform duration-300 ${isFlipping ? 'rotate-180' : ''}`} />
+            {currentView === 'front' ? 'Voir le dos' : 'Voir la face'}
+          </Button>
         </div>
 
         <div className="space-y-1.5 px-1.5 py-1.5 sm:space-y-5 sm:px-5 sm:py-5">

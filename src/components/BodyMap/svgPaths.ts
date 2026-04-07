@@ -83,13 +83,13 @@ export const FRONT_PATHS: ZonePath[] = [
   {
     id: 'right-forearm',
     label: 'Avant-bras droit',
-    d: 'M120,185 L136,180 L124,225 L106,230 Z',
+    d: 'M110,185 L126,180 L114,225 L96,230 Z',
   },
   // LEFT FOREARM
   {
     id: 'left-forearm',
     label: 'Avant-bras gauche',
-    d: 'M238,185 L222,180 L234,225 L252,230 Z',
+    d: 'M248,185 L232,180 L244,225 L262,230 Z',
   },
   // RIGHT HAND
   {

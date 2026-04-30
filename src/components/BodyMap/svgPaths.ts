@@ -6,266 +6,274 @@ export interface ZonePath {
   label: string;
 }
 
-// ViewBox: 0 0 200 480
-// Clean medical illustration — gender-neutral figure
-// Arms slightly away from body, palms forward, feet slightly apart
-// Patient LEFT = screen RIGHT on front view (anatomical position)
-// Center line at x=100
+// ViewBox: 0 0 358 480 — calibré sur l'image 896x1200 (facteur ×0.4)
+// Silhouette réelle : x 57-301, y 29-456, centre x=179
+// Repères mesurés (viewBox) :
+//   Tête : y 29-78, x 158-200
+//   Cou : y 80-90, x 164-194
+//   Épaules max : y 140, x 117-240
+//   Coudes : y 184, x 110/130 et 224/249
+//   Mains (centre) : gauche écran x=73 y=256 ; droite écran x=285 y=256
+//   Hanches max (tronc seul) : y 252, x 135-223
+//   Genoux : gauche x=153 y=336 ; droite x=204 y=336
+//   Chevilles : gauche x=148 y=430 ; droite x=210 y=430
+//   Pieds (centre) : gauche x=146 y=448 ; droite x=212 y=448
 
 export const FRONT_PATHS: ZonePath[] = [
-  // HEAD — smooth oval cranium
+  // HEAD — crâne ovale
   {
     id: 'head',
     label: 'Tête',
-    d: 'M179,6 C191,6 201,14 204,26 C206,34 206,42 204,48 C201,54 197,58 192,61 C188,63 184,64 179,64 C174,64 170,63 166,61 C161,58 157,54 154,48 C152,42 152,34 154,26 C157,14 167,6 179,6 Z',
+    d: 'M179,29 C194,29 207,38 211,53 C213,62 213,70 211,76 C209,82 205,86 200,89 C194,91 188,92 179,92 C170,92 164,91 158,89 C153,86 149,82 147,76 C145,70 145,62 147,53 C151,38 164,29 179,29 Z',
   },
   // NECK
   {
     id: 'neck',
     label: 'Cou',
-    d: 'M171,64 C174,65 176,65 179,65 C182,65 184,65 187,64 L189,68 C189,72 188,76 187,78 C184,79 181,80 179,80 C177,80 174,79 171,78 C170,76 169,72 169,68 Z',
+    d: 'M170,89 C173,90 176,90 179,90 C182,90 185,90 188,89 L191,98 C191,104 190,108 188,112 C185,114 182,115 179,115 C176,115 173,114 170,112 C168,108 167,104 167,98 Z',
   },
   // RIGHT SHOULDER (patient right = screen left)
   {
     id: 'right-shoulder',
     label: 'Épaule droite',
-    d: 'M171,78 C165,76 157,74 149,74 C141,74 135,76 129,80 C125,84 122,88 121,94 L127,96 C128,92 131,88 135,84 C139,81 145,78 151,77 L161,77 Z',
+    d: 'M170,112 C160,113 145,116 132,121 C123,125 117,131 115,140 L120,144 C123,138 130,133 138,130 C146,127 156,125 165,125 L172,128 Z',
   },
   // LEFT SHOULDER
   {
     id: 'left-shoulder',
     label: 'Épaule gauche',
-    d: 'M187,78 C193,76 201,74 209,74 C217,74 223,76 229,80 C233,84 236,88 237,94 L231,96 C230,92 227,88 223,84 C219,81 213,78 207,77 L197,77 Z',
+    d: 'M188,112 C198,113 213,116 226,121 C235,125 241,131 243,140 L238,144 C235,138 228,133 220,130 C212,127 202,125 193,125 L186,128 Z',
   },
   // CHEST
   {
     id: 'chest',
     label: 'Thorax',
-    d: 'M127,96 L161,77 L171,78 L179,80 L187,78 L197,77 L231,96 L229,140 L179,140 L129,140 Z',
+    d: 'M120,144 L172,128 L179,130 L186,128 L238,144 L235,180 L179,180 L123,180 Z',
   },
   // ABDOMEN
   {
     id: 'abdomen',
     label: 'Abdomen',
-    d: 'M129,140 L179,140 L229,140 L227,185 L179,185 L131,185 Z',
+    d: 'M123,180 L179,180 L235,180 L233,222 L179,222 L125,222 Z',
   },
   // PELVIS
   {
     id: 'pelvis',
     label: 'Bassin',
-    d: 'M131,185 L179,185 L227,185 L225,210 C219,222 205,228 179,230 C153,228 139,222 133,210 Z',
+    d: 'M125,222 L179,222 L233,222 L230,256 C223,266 205,272 179,272 C153,272 135,266 128,256 Z',
   },
-  // RIGHT UPPER ARM
+  // RIGHT UPPER ARM (screen left)
   {
     id: 'right-upper-arm',
     label: 'Bras droit',
-    d: 'M147,100 L127,96 C121,110 117,125 114,140 L112,160 L130,155 C132,140 135,125 139,110 Z',
+    d: 'M115,140 L132,138 L128,170 L108,180 L102,165 Z',
   },
   // LEFT UPPER ARM
   {
     id: 'left-upper-arm',
     label: 'Bras gauche',
-    d: 'M211,100 L231,96 C237,110 241,125 244,140 L246,160 L228,155 C226,140 223,125 219,110 Z',
+    d: 'M243,140 L226,138 L230,170 L250,180 L256,165 Z',
   },
   // RIGHT ELBOW
   {
     id: 'right-elbow',
     label: 'Coude droit',
-    d: 'M112,160 L130,155 L126,180 L108,180 Z',
+    d: 'M102,165 L128,170 L124,190 L98,188 Z',
   },
   // LEFT ELBOW
   {
     id: 'left-elbow',
     label: 'Coude gauche',
-    d: 'M246,160 L228,155 L232,180 L250,180 Z',
+    d: 'M256,165 L230,170 L234,190 L260,188 Z',
   },
   // RIGHT FOREARM
   {
     id: 'right-forearm',
     label: 'Avant-bras droit',
-    d: 'M100,185 L116,180 L104,225 L86,230 Z',
+    d: 'M98,188 L124,190 L112,235 L84,235 Z',
   },
   // LEFT FOREARM
   {
     id: 'left-forearm',
     label: 'Avant-bras gauche',
-    d: 'M258,185 L242,180 L254,225 L272,230 Z',
+    d: 'M260,188 L234,190 L246,235 L274,235 Z',
   },
-  // RIGHT HAND
+  // RIGHT HAND (centre 73, 256)
   {
     id: 'right-hand',
     label: 'Main droite',
-    d: 'M57,242 A13,13 0 1,1 83,242 A13,13 0 1,1 57,242 Z',
+    d: 'M55,256 A18,16 0 1,1 91,256 A18,16 0 1,1 55,256 Z',
   },
-  // LEFT HAND
+  // LEFT HAND (centre 285, 256)
   {
     id: 'left-hand',
     label: 'Main gauche',
-    d: 'M275,242 A13,13 0 1,1 301,242 A13,13 0 1,1 275,242 Z',
+    d: 'M267,256 A18,16 0 1,1 303,256 A18,16 0 1,1 267,256 Z',
   },
   // RIGHT THIGH
   {
     id: 'right-thigh',
     label: 'Cuisse droite',
-    d: 'M133,210 C139,222 153,228 179,230 L179,315 L140,315 C137,295 136,275 135,255 C134,240 133,225 133,215 Z',
+    d: 'M128,256 C135,266 153,272 179,272 L179,325 L143,325 C140,310 138,295 135,280 C133,272 130,265 128,256 Z',
   },
   // LEFT THIGH
   {
     id: 'left-thigh',
     label: 'Cuisse gauche',
-    d: 'M225,210 C219,222 205,228 179,230 L179,315 L218,315 C221,295 222,275 223,255 C224,240 225,225 225,215 Z',
+    d: 'M230,256 C223,266 205,272 179,272 L179,325 L215,325 C218,310 220,295 223,280 C225,272 228,265 230,256 Z',
   },
-  // RIGHT KNEE
+  // RIGHT KNEE (centre 153, 336)
   {
     id: 'right-knee',
     label: 'Genou droit',
-    d: 'M143,328 A13,13 0 1,1 169,328 A13,13 0 1,1 143,328 Z',
+    d: 'M138,336 A15,12 0 1,1 168,336 A15,12 0 1,1 138,336 Z',
   },
-  // LEFT KNEE
+  // LEFT KNEE (centre 204, 336)
   {
     id: 'left-knee',
     label: 'Genou gauche',
-    d: 'M189,328 A13,13 0 1,1 215,328 A13,13 0 1,1 189,328 Z',
+    d: 'M189,336 A15,12 0 1,1 219,336 A15,12 0 1,1 189,336 Z',
   },
   // RIGHT SHIN
   {
     id: 'right-shin',
     label: 'Tibia droit',
-    d: 'M139,345 L179,345 L179,425 L140,425 C139,405 138,385 137,365 C137,355 138,348 139,345 Z',
+    d: 'M141,348 L168,348 L162,418 L138,418 C137,400 137,380 138,365 Z',
   },
   // LEFT SHIN
   {
     id: 'left-shin',
     label: 'Tibia gauche',
-    d: 'M219,345 L179,345 L179,425 L218,425 C219,405 220,385 221,365 C221,355 220,348 219,345 Z',
+    d: 'M217,348 L190,348 L196,418 L220,418 C221,400 221,380 220,365 Z',
   },
-  // RIGHT ANKLE
+  // RIGHT ANKLE (centre 148, 430)
   {
     id: 'right-ankle',
     label: 'Cheville droite',
-    d: 'M137,436 A8,8 0 1,1 153,436 A8,8 0 1,1 137,436 Z',
+    d: 'M137,430 A11,9 0 1,1 159,430 A11,9 0 1,1 137,430 Z',
   },
-  // LEFT ANKLE
+  // LEFT ANKLE (centre 210, 430)
   {
     id: 'left-ankle',
     label: 'Cheville gauche',
-    d: 'M205,436 A8,8 0 1,1 221,436 A8,8 0 1,1 205,436 Z',
+    d: 'M199,430 A11,9 0 1,1 221,430 A11,9 0 1,1 199,430 Z',
   },
-  // RIGHT FOOT
+  // RIGHT FOOT (centre 146, 449)
   {
     id: 'right-foot',
     label: 'Pied droit',
-    d: 'M128,460 A12,12 0 1,1 152,460 A12,12 0 1,1 128,460 Z',
+    d: 'M128,449 A18,11 0 1,1 164,449 A18,11 0 1,1 128,449 Z',
   },
-  // LEFT FOOT
+  // LEFT FOOT (centre 212, 449)
   {
     id: 'left-foot',
     label: 'Pied gauche',
-    d: 'M206,460 A12,12 0 1,1 230,460 A12,12 0 1,1 206,460 Z',
+    d: 'M194,449 A18,11 0 1,1 230,449 A18,11 0 1,1 194,449 Z',
   },
 ];
 
+// Vue dorsale — superposable à la vue face (mêmes coordonnées)
 export const BACK_PATHS: ZonePath[] = [
+  // HEAD (back)
+  {
+    id: 'head',
+    label: 'Tête',
+    d: 'M179,29 C194,29 207,38 211,53 C213,62 213,70 211,76 C209,82 205,86 200,89 C194,91 188,92 179,92 C170,92 164,91 158,89 C153,86 149,82 147,76 C145,70 145,62 147,53 C151,38 164,29 179,29 Z',
+  },
   // NECK BACK
   {
     id: 'neck-back',
     label: 'Nuque',
-    d: 'M171,64 C174,65 176,65 179,65 C182,65 184,65 187,64 L189,68 C189,72 188,76 187,78 C184,79 181,80 179,80 C177,80 174,79 171,78 C170,76 169,72 169,68 Z',
+    d: 'M170,89 C173,90 176,90 179,90 C182,90 185,90 188,89 L191,98 C191,104 190,108 188,112 C185,114 182,115 179,115 C176,115 173,114 170,112 C168,108 167,104 167,98 Z',
   },
-  // HEAD (back view — same silhouette)
-  {
-    id: 'head',
-    label: 'Tête',
-    d: 'M179,6 C191,6 201,14 204,26 C206,34 206,42 204,48 C201,54 197,58 192,61 C188,63 184,64 179,64 C174,64 170,63 166,61 C161,58 157,54 154,48 C152,42 152,34 154,26 C157,14 167,6 179,6 Z',
-  },
-  // LEFT SHOULDER BLADE (patient left = screen left on back)
+  // LEFT SHOULDER BLADE (patient left = screen right on back view, but we keep label-side consistency)
   {
     id: 'left-shoulder-blade',
     label: 'Omoplate gauche',
-    d: 'M171,78 C165,76 157,74 149,74 C141,74 135,76 129,80 C125,84 122,88 121,94 L127,96 C129,104 131,112 133,120 L137,140 L179,140 L179,80 L171,78 Z',
+    d: 'M188,112 C198,113 213,116 226,121 C235,125 241,131 243,140 L238,144 C235,148 232,156 230,165 L226,180 L179,180 L179,128 L186,128 Z',
   },
   // RIGHT SHOULDER BLADE
   {
     id: 'right-shoulder-blade',
     label: 'Omoplate droite',
-    d: 'M187,78 C193,76 201,74 209,74 C217,74 223,76 229,80 C233,84 236,88 237,94 L231,96 C229,104 227,112 225,120 L221,140 L179,140 L179,80 L187,78 Z',
+    d: 'M170,112 C160,113 145,116 132,121 C123,125 117,131 115,140 L120,144 C123,148 126,156 128,165 L132,180 L179,180 L179,128 L172,128 Z',
   },
   // UPPER BACK
   {
     id: 'upper-back',
     label: 'Haut du dos',
-    d: 'M137,140 L179,140 L221,140 L219,170 L179,170 L139,170 Z',
+    d: 'M132,180 L179,180 L226,180 L223,202 L179,202 L135,202 Z',
   },
   // MIDDLE BACK
   {
     id: 'middle-back',
     label: 'Milieu du dos',
-    d: 'M139,170 L179,170 L219,170 L217,200 L179,200 L141,200 Z',
+    d: 'M135,202 L179,202 L223,202 L221,222 L179,222 L137,222 Z',
   },
   // LOWER BACK
   {
     id: 'lower-back',
     label: 'Bas du dos',
-    d: 'M141,200 L179,200 L217,200 L215,218 L179,218 L143,218 Z',
+    d: 'M137,222 L179,222 L221,222 L218,240 L179,240 L140,240 Z',
   },
-  // LEFT BUTTOCK
+  // LEFT BUTTOCK (patient left = screen right on back; keep right-of-center)
   {
     id: 'left-buttock',
     label: 'Fessier gauche',
-    d: 'M143,218 L179,218 L179,230 C153,228 139,222 133,210 L135,204 Z',
+    d: 'M179,240 L218,240 L230,256 C223,266 205,272 179,272 Z',
   },
   // RIGHT BUTTOCK
   {
     id: 'right-buttock',
     label: 'Fessier droit',
-    d: 'M215,218 L179,218 L179,230 C205,228 219,222 225,210 L223,204 Z',
+    d: 'M179,240 L140,240 L128,256 C135,266 153,272 179,272 Z',
   },
-  // LEFT ARM BACK
+  // LEFT ARM BACK (screen right)
   {
     id: 'left-arm-back',
     label: 'Bras gauche (arrière)',
-    d: 'M127,96 C121,110 117,125 114,140 L112,160 L130,155 L126,180 L108,180 L94,225 L114,220 L105,240 C95,252 82,260 70,258 C62,255 60,248 64,240 C68,234 78,228 88,226 L94,225 L108,180 L112,160 C115,154 116,142 118,130 C120,118 123,106 127,96 Z',
+    d: 'M243,140 L226,138 L230,170 L256,165 L260,188 L274,235 L246,235 L234,190 L230,170 Z',
   },
-  // RIGHT ARM BACK
+  // RIGHT ARM BACK (screen left)
   {
     id: 'right-arm-back',
     label: 'Bras droit (arrière)',
-    d: 'M231,96 C237,110 241,125 244,140 L246,160 L228,155 L232,180 L250,180 L264,225 L244,220 L253,240 C263,252 276,260 288,258 C296,255 298,248 294,240 C290,234 280,228 270,226 L264,225 L250,180 L246,160 C243,154 242,142 240,130 C238,118 235,106 231,96 Z',
+    d: 'M115,140 L132,138 L128,170 L102,165 L98,188 L84,235 L112,235 L124,190 L128,170 Z',
   },
-  // LEFT HAMSTRING
+  // LEFT HAMSTRING (screen right)
   {
     id: 'left-hamstring',
     label: 'Ischio-jambier gauche',
-    d: 'M133,210 C139,222 153,228 179,230 L179,315 L140,315 C137,295 136,275 135,255 C134,240 133,225 133,215 Z',
+    d: 'M230,256 C223,266 205,272 179,272 L179,325 L215,325 C218,310 220,295 223,280 C225,272 228,265 230,256 Z',
   },
-  // RIGHT HAMSTRING
+  // RIGHT HAMSTRING (screen left)
   {
     id: 'right-hamstring',
     label: 'Ischio-jambier droit',
-    d: 'M225,210 C219,222 205,228 179,230 L179,315 L218,315 C221,295 222,275 223,255 C224,240 225,225 225,215 Z',
+    d: 'M128,256 C135,266 153,272 179,272 L179,325 L143,325 C140,310 138,295 135,280 C133,272 130,265 128,256 Z',
   },
   // LEFT CALF
   {
     id: 'left-calf',
     label: 'Mollet gauche',
-    d: 'M140,315 L179,315 L179,425 L140,425 C139,405 138,385 137,365 C137,355 138,348 140,315 Z',
+    d: 'M217,348 L190,348 L196,418 L220,418 C221,400 221,380 220,365 Z',
   },
   // RIGHT CALF
   {
     id: 'right-calf',
     label: 'Mollet droit',
-    d: 'M218,315 L179,315 L179,425 L218,425 C219,405 220,385 221,365 C221,355 220,348 218,315 Z',
+    d: 'M141,348 L168,348 L162,418 L138,418 C137,400 137,380 138,365 Z',
   },
   // LEFT ANKLE BACK
   {
     id: 'left-ankle-back',
     label: 'Cheville gauche (arrière)',
-    d: 'M140,425 L179,425 L179,442 L139,442 Z',
+    d: 'M199,430 A11,9 0 1,1 221,430 A11,9 0 1,1 199,430 Z',
   },
   // RIGHT ANKLE BACK
   {
     id: 'right-ankle-back',
     label: 'Cheville droite (arrière)',
-    d: 'M218,425 L179,425 L179,442 L219,442 Z',
+    d: 'M137,430 A11,9 0 1,1 159,430 A11,9 0 1,1 137,430 Z',
   },
 ];

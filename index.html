@@ -1,25 +1,42 @@
 <!doctype html>
-<html lang="en">
+<html lang="fr">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
     <title>Pain Mapper</title>
-    <meta name="description" content="Application de suivi et cartographie de la douleur">
+    <meta name="description" content="Application de suivi et cartographie de la douleur" />
     <meta name="author" content="Pain Mapper" />
+    <meta name="theme-color" content="#0ea5e9" />
 
+    <!-- PWA / Installability -->
+    <link rel="manifest" href="/manifest.json" />
+    <link rel="icon" type="image/png" sizes="192x192" href="/icons/icon-192.png" />
+    <link rel="icon" type="image/png" sizes="512x512" href="/icons/icon-512.png" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+    <meta name="apple-mobile-web-app-title" content="Pain Mapper" />
+    <meta name="mobile-web-app-capable" content="yes" />
+
+    <!-- iOS splash screens -->
+    <link rel="apple-touch-startup-image" href="/splash/splash-iphone.png"
+      media="(device-width: 390px) and (device-height: 844px) and (-webkit-device-pixel-ratio: 3)" />
+    <link rel="apple-touch-startup-image" href="/splash/splash-iphone-pro-max.png"
+      media="(device-width: 430px) and (device-height: 932px) and (-webkit-device-pixel-ratio: 3)" />
+    <link rel="apple-touch-startup-image" href="/splash/splash-ipad.png"
+      media="(min-device-width: 768px) and (max-device-width: 1024px)" />
+
+    <!-- Open Graph / social sharing -->
     <meta property="og:type" content="website" />
-    <meta property="og:image" content="/icons/icon-512.png">
+    <meta property="og:title" content="Pain Mapper" />
+    <meta property="og:description" content="Application de suivi et cartographie de la douleur" />
+    <meta property="og:image" content="/og-image.png" />
 
     <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:site" content="@PainMapper" />
-    <meta name="twitter:image" content="/icons/icon-512.png">
-    <meta property="og:title" content="Pain Mapper">
-    <meta name="twitter:title" content="Pain Mapper">
-    <meta property="og:description" content="Application de suivi et cartographie de la douleur">
-    <meta name="twitter:description" content="Application de suivi et cartographie de la douleur">
-  <link rel="icon" type="image/png" href="/icons/icon-192.png">
-  <link rel="apple-touch-icon" href="/apple-touch-icon.png">
-</head>
+    <meta name="twitter:title" content="Pain Mapper" />
+    <meta name="twitter:description" content="Application de suivi et cartographie de la douleur" />
+    <meta name="twitter:image" content="/og-image.png" />
+  </head>
 
   <body>
     <div id="root"></div>

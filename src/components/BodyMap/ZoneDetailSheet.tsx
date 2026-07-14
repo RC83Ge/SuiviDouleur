@@ -1,5 +1,5 @@
 import React from 'react';
-import { X, ChevronDown } from 'lucide-react';
+import { ArrowLeft, X, ChevronDown } from 'lucide-react';
 import { Drawer, DrawerContent, DrawerHeader, DrawerTitle } from '@/components/ui/drawer';
 import { Slider } from '@/components/ui/slider';
 import {
@@ -51,6 +51,13 @@ export function ZoneDetailSheet({
       <DrawerContent className="max-h-[85vh]">
         <DrawerHeader className="flex items-center justify-between border-b border-border/50 pb-3">
           <div className="flex items-center gap-2">
+            <button
+              onClick={onClose}
+              aria-label="Retour"
+              className="rounded-full p-1.5 text-muted-foreground hover:bg-muted"
+            >
+              <ArrowLeft className="h-4 w-4" />
+            </button>
             <div
               className="h-3 w-3 rounded-full"
               style={{ background: intensityTone(details.intensity) }}
@@ -61,6 +68,7 @@ export function ZoneDetailSheet({
           </div>
           <button
             onClick={onClose}
+            aria-label="Fermer"
             className="rounded-full p-1.5 text-muted-foreground hover:bg-muted"
           >
             <X className="h-4 w-4" />
@@ -178,6 +186,15 @@ export function ZoneDetailSheet({
               <ChevronDown className="pointer-events-none absolute right-2.5 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
             </div>
           </div>
+
+          <button
+            type="button"
+            onClick={onClose}
+            className="btn-medical h-10 w-full bg-secondary px-3 text-sm text-secondary-foreground"
+          >
+            <ArrowLeft className="h-4 w-4" />
+            Retour
+          </button>
         </div>
       </DrawerContent>
     </Drawer>

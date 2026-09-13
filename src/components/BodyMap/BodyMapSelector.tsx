@@ -157,6 +157,7 @@ export function BodyMapSelector({
               setActiveZone(zoneId);
               setSheetZone(zoneId);
             }}
+            onRemoveZone={handleRemoveZone}
           />
         </div>
       </div>

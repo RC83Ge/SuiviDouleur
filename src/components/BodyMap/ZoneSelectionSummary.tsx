@@ -10,6 +10,7 @@ interface ZoneSelectionSummaryProps {
   zoneIntensities: Record<string, number>;
   onClear: () => void;
   onSelectZone: (zoneId: string) => void;
+  onRemoveZone: (zoneId: string) => void;
 }
 
 export function ZoneSelectionSummary({
@@ -19,6 +20,7 @@ export function ZoneSelectionSummary({
   zoneIntensities,
   onClear,
   onSelectZone,
+  onRemoveZone,
 }: ZoneSelectionSummaryProps) {
   return (
     <div className="rounded-[1rem] border border-border/70 bg-card/95 p-2 shadow-medical-sm backdrop-blur-sm sm:rounded-[1.5rem] sm:p-4">
@@ -57,6 +59,29 @@ export function ZoneSelectionSummary({
                 }`}
               >
                 {zoneIntensities[zoneId] ?? draftIntensity}/10
+              </span>
+              <span
+                role="button"
+                tabIndex={0}
+                aria-label={`Retirer ${ZONE_LABELS[zoneId] ?? zoneId}`}
+                onClick={(event) => {
+                  event.stopPropagation();
+                  onRemoveZone(zoneId);
+                }}
+                onKeyDown={(event) => {
+                  if (event.key === 'Enter' || event.key === ' ') {
+                    event.preventDefault();
+                    event.stopPropagation();
+                    onRemoveZone(zoneId);
+                  }
+                }}
+                className={`rounded-full p-0.5 transition-colors ${
+                  activeZone === zoneId
+                    ? 'text-primary-foreground/70 hover:bg-primary-foreground/20 hover:text-primary-foreground'
+                    : 'text-muted-foreground hover:bg-muted hover:text-foreground'
+                }`}
+              >
+                <X className="h-2.5 w-2.5 sm:h-3 sm:w-3" />
               </span>
             </button>
           ))}
